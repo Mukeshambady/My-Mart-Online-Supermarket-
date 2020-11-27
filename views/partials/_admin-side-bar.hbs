@@ -1,40 +1,86 @@
-<!-- left side start-->
-<div class="left-side sticky-left-side">
+<!-- Main Navigation -->
+<header>
 
-	<!--logo and iconic logo start-->
-	<div class="logo">
-		<h1><a href="/admin">MY Mart <span>Admin</span></a></h1>
-	</div>
-	<div class="logo-icon text-center">
-		<a href="/admin"><i class="lnr lnr-home"></i> </a>
-	</div>
+	<!-- Sidebar navigation -->
+	<div id="slide-out" class="side-nav mdb-color lighten-3 fixed">
+		<ul class="custom-scrollbar">
 
-	<!--logo and iconic logo end-->
-	<div class="left-side-inner">
+			<!-- Logo -->
+			<li class="logo-sn waves-effect py-3">
+				<div class="text-center">
+					<a href="#" class="pl-0"><img
+							src="https://mdbootstrap.com/img/logo/mdb-transaprent-noshadows.png"></a>
+				</div>
+			</li>
 
-		<!--sidebar nav start-->
-		<ul class="nav nav-pills nav-stacked custom-nav">
-			<li><a href="/admin/all-dealers"><i class="lnr lnr-power-switch"></i><span>Dashboard</span></a></li>
-			<li class="menu-list">
-				<a href="#"><i class="lnr lnr-cog"></i>
-					<span>Dealers</span></a>
-				<ul class="sub-menu-list">
-					<li><a href="/admin/new-dealer">Add Dealer</a> </li>
-					<li><a href="/admin/all-dealers">View Dealers</a></li>
-					<li><a href="/admin/ban-list-dealers">Ban List</a></li>
+			<!-- Search Form -->
+			<!-- <li>
+          <form class="search-form" role="search">
+            <div class="md-form mt-0 waves-light">
+              <input type="text" class="form-control py-2" placeholder="Search">
+            </div>
+          </form>
+        </li> -->
+
+			<!-- Side navigation links -->
+			<li>
+				<ul class="collapsible collapsible-accordion">
+
+					<li>
+						<a href="/admin" class="collapsible-header waves-effect"> <i
+								class="w-fa fas fa-tachometer-alt"></i>Dashboards</a>
+					</li>
+					<li>
+						<a class="collapsible-header waves-effect arrow-r">
+							<i class="w-fa fas fa-user"></i>Dealer<i class="fas fa-angle-down rotate-icon"></i>
+						</a>
+						<div class="collapsible-body">
+							<ul>
+								<li>
+									<a href="/admin/new-dealer" class="waves-effect">Add Dealer</a>
+								</li>
+								<li>
+									<a href="/admin" class="waves-effect">View Dealer</a>
+								</li>
+								<li>
+									<a href="/admin/ban-list-dealers" class="waves-effect">Ban List</a>
+								</li>
+							</ul>
+						</div>
+					</li>
+
+
+
+					<li>
+						<a class="collapsible-header waves-effect arrow-r">
+							<i class="w-fa fas fa-user"></i>Profile<i class="fas fa-angle-down rotate-icon"></i>
+						</a>
+						<div class="collapsible-body">
+							<ul>
+								<li>
+									<a href="../profile/basic-1.html" class="waves-effect">Basic 1</a>
+								</li>
+								<li>
+									<a href="../profile/basic-2.html" class="waves-effect">Basic 2</a>
+								</li>
+								<li>
+									<a href="../profile/extended.html" class="waves-effect">Extended</a>
+								</li>
+							</ul>
+						</div>
+					</li>
+
+					<!-- Simple link -->
+					<li>
+						<a href="" class="collapsible-header waves-effect"><i class="w-fa far fa-bell"></i>Alerts</a>
+					</li>
+
+
 				</ul>
 			</li>
-			<li><a href="/admin/new-dealer"><i class="lnr lnr-spell-check"></i> <span>Add Dealer</span></a></li>
-			
-			<li class="menu-list act"><a href="#"><i class="lnr lnr-book"></i> <span>Pages</span></a>
-				<ul class="sub-menu-list">
-					<li><a href="sign-in.html">Sign In</a> </li>
-					<li><a href="sign-up.html">Sign Up</a></li>
-					<li><a href="blank_page.html">Blank Page</a></li>
-				</ul>
-			</li>
+			<!-- Side navigation links -->
+
 		</ul>
-		<!--sidebar nav end-->
+		<div class="sidenav-bg mask-strong"></div>
 	</div>
-</div>
-<!-- left side end-->
+	<!-- Sidebar navigation -->

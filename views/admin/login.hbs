@@ -1,95 +1,92 @@
-<!--
-Author: W3layouts
-Author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://creativecommons.org/licenses/by/3.0/
--->
-<!DOCTYPE HTML>
-<html>
-<head>
-<title>Mymart | Sign In </title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="keywords" content="Easy Admin Panel Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
-Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
-<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
- <!-- Bootstrap Core CSS -->
-<link href="css/bootstrap.min.css" rel='stylesheet' type='text/css' />
-<!-- Custom CSS -->
-<link href="css/style.css" rel='stylesheet' type='text/css' />
-<!-- Graph CSS -->
-<link href="css/font-awesome.css" rel="stylesheet"> 
-<!-- jQuery -->
-<!-- lined-icons -->
-<link rel="stylesheet" href="css/icon-font.min.css" type='text/css' />
-<!-- //lined-icons -->
-<!-- chart -->
-<script src="js/Chart.js"></script>
-<!-- //chart -->
-<!--animate-->
-<link href="css/animate.css" rel="stylesheet" type="text/css" media="all">
-<script src="js/wow.min.js"></script>
-	<script>
-		 new WOW().init();
-	</script>
-<!--//end-animate-->
-<!----webfonts--->
-<link href='//fonts.googleapis.com/css?family=Cabin:400,400italic,500,500italic,600,600italic,700,700italic' rel='stylesheet' type='text/css'>
-<!---//webfonts---> 
- <!-- Meters graphs -->
-<script src="js/jquery-1.10.2.min.js"></script>
-<!-- Placed js at the end of the document so the pages load faster -->
+<!DOCTYPE html>
+<html lang="en">
 
-</head> 
-   
- <body class="sign-in-up">
-    <section>
-			<div id="page-wrapper" class="sign-in-wrapper">
-				<div class="graphs">
-					<div class="sign-in-form">
-						<div class="sign-in-form-top">
-							<p><span>Sign In to</span> <a href="index.html">Admin</a></p>
-						</div>
-						<div class="signin">
-							{{!-- <div class="signin-rit">
-								<span class="checkbox1">
-									 <label class="checkbox"><input type="checkbox" name="checkbox" checked="">Forgot Password ?</label>
-								</span>
-								<p><a href="#">Click Here</a> </p>
-								<div class="clearfix"> </div>
-							</div> --}}
-							<form>
-							<div class="log-input">
-								<div class="log-input-left">
-								   <input type="text" class="user" name="username" placeholder="place your username"/>
-								</div>
-								
-							
-							</div>
-							<div class="log-input">
-								<div class="log-input-left">
-								   <input type="password" class="lock" name="password" placeholder="******" />
-								</div>
-							
-						
-							</div>
-							<input type="submit" value="Login to your account">
-						</form>	 
-						</div>
-					
-					</div>
-				</div>
-			</div>
-		<!--footer section start-->
-			<footer>
-			   <p>&copy 2020 Mycart | Design by <a href="https://w3layouts.com/" target="_blank">Mycart.</a></p>
-			</footer>
-        <!--footer section end-->
-	</section>
-	
-<script src="js/jquery.nicescroll.js"></script>
-<script src="js/scripts.js"></script>
-<!-- Bootstrap Core JavaScript -->
-   <script src="js/bootstrap.min.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <title>Bootstrap Tutorial: Admin dashboard &#x2013; lesson 10</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+    <link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/releases/v5.11.0/css/all.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css"
+        href="https://mdbootstrap.com/api/snippets/static/download/MDB-Pro_4.19.1/css/mdb.min.css">
+    <link rel="stylesheet" type="text/css"
+        href="https://mdbootstrap.com/wp-content/themes/mdbootstrap4/css/compiled-addons-4.19.1.min.css">
+    <style>
+        body {
+            background-color: #eee;
+        }
+    </style>
+</head>
+
+<body class=" light-blue-skin pb-5">
+
+    <!--Main layout-->
+    <!--Grid row-->
+    <div class="row d-flex justify-content-center">
+
+        <!--Grid column-->
+        <div class="col-md-4 mt-5">
+
+            <form action="/admin/login" method="POST">
+
+                <div class="card">
+
+                    <div class="card-header">Admin Login Page</div>
+                    <div class="card-body">
+                        {{#if loginError}}
+
+                        <div class="alert alert-danger  fade show" role="alert">
+                            <strong>{{loginError}}</strong>
+                        </div>
+                        {{/if}}
+
+                        <div class="form-group">
+                            <label for="username">Username:</label>
+                            <input type="text" class="form-control" placeholder="User Name" name="username"
+                                value="admin">
+                        </div>
+                        <div class="form-group">
+                            <label for="pwd">Password:</label>
+                            <input type="password" class="form-control" placeholder="Enter password" name="password"
+                                value="1234">
+                        </div>
+                        <div class="form-group form-check">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" id="materialUnchecked">
+                                <label class="form-check-label" for="materialUnchecked">Remember me</label>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-rounded btn-outline-success btn-lg float-right"><i
+                                class="fas fa-sign-in-alt"></i>&nbsp; Login</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+        <!--Grid column-->
+
+    </div>
+
+
+
+
 </body>
+<!-- Footer -->
+<footer class="page-footer font-small fixed-bottom">
+
+    <!-- Copyright -->
+    <div class="footer-copyright text-center py-3">&#xA9; 2018 Copyright:
+        <a href="https://mdbootstrap.com/bootstrap-tutorial/"> MDBootstrap.com</a>
+    </div>
+    <!-- Copyright -->
+
+</footer>
+
 </html>

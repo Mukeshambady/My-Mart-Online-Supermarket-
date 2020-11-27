@@ -51,7 +51,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(fileUpload())
 app.use(session({
   secret: "Key",
-  cookie: { maxAge: 60000 },
+  cookie: { maxAge: (60000 * 2) },
   resave: true,
   saveUninitialized: true
 }))//session settings

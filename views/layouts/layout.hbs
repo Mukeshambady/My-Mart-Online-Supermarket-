@@ -1,69 +1,76 @@
-<!--
-Author: W3layouts
-Author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://creativecommons.org/licenses/by/3.0/
--->
-<!DOCTYPE HTML>
-<html>
+
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-  <title>Mycart | Dashboard :: Mycart</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta name="keywords" content="Easy Admin Panel Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
-Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
-  <script
-    type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
-  <!-- Bootstrap Core CSS -->
-  <link href="../css/bootstrap.min.css" rel='stylesheet' type='text/css' />
-  <!-- Custom CSS -->
-  <link href="../css/style.css" rel='stylesheet' type='text/css' />
-  <!-- Graph CSS -->
-  <link href="../css/font-awesome.css" rel="stylesheet">
-  <!-- jQuery -->
-  <!-- lined-icons -->
-  <link rel="stylesheet" href="../css/icon-font.min.css" type='text/css' />
-  <!-- //lined-icons -->
-  <!-- chart -->
-  <script src="../js/Chart.js"></script>
-  <!-- //chart -->
-  <!--animate-->
-  <link href="../css/animate.css" rel="stylesheet" type="text/css" media="all">
-  <script src="../js/wow.min.js"></script>
-  <script>
-    new WOW().init();
-  </script>
-  <!--//end-animate-->
-  <!----webfonts--->
-  <link href='//fonts.googleapis.com/css?family=Cabin:400,400italic,500,500italic,600,600italic,700,700italic'
-    rel='stylesheet' type='text/css'>
-  <!---//webfonts--->
-  <!-- Meters graphs -->
-  <script src="../js/jquery-1.10.2.min.js"></script>
-  <!-- Placed js at the end of the document so the pages load faster -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Material Design Bootstrap</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/releases/v5.11.0/css/all.css">
 
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" type="text/css" href="https://mdbootstrap.com/api/snippets/static/download/MDB-Pro_4.19.1/css/bootstrap.min.css">
+  <!-- Material Design Bootstrap -->
+  <link rel="stylesheet" type="text/css" href="https://mdbootstrap.com/api/snippets/static/download/MDB-Pro_4.19.1/css/mdb.min.css">
+
+  <!-- Your custom styles (optional) -->
+  <style>
+    .card.card-cascade .view.gradient-card-header {
+            padding: 1.1rem 1rem;
+        }
+
+        .card.card-cascade .view {
+            box-shadow: 0 5px 12px 0 rgba(0, 0, 0, 0.2), 0 2px 8px 0 rgba(0, 0, 0, 0.19);
+        }
+       
+    </style>
 </head>
 
-<body class="sticky-header">
+<body class="fixed-sn white-skin">
+{{>_admin-side-bar}}
+{{>_admin-header-top}}
+  
 
-  {{>_admin-side-bar}}
-  {{>_admin-header-top}}
-
-  <div id="page-wrapper">
+  <main class="mb-5">
     {{{body}}}
-  </div>
-  <!--footer section start-->
-  <footer>
-    <p>&copy 2020 Mycart | Design by <a href="https://w3layouts.com/" target="_blank">Mycart.</a></p>
-  </footer>
-  <!--footer section end-->
-  </section>
+  </main>
+<!--Main layout-->
+ <!-- Footer -->
+ <footer class="page-footer fixed-bottom font-small mdb-color lighten-3">
 
-  <script src="../js/jquery.nicescroll.js"></script>
-  <script src="../js/scripts.js"></script>
-  <!-- Bootstrap Core JavaScript -->
-  <script src="../js/bootstrap.min.js"></script>
+    <!-- Copyright -->
+    <div class="footer-copyright text-center py-3 ">&#xA9; 2018 Copyright:
+        <a href="https://mdbootstrap.com/bootstrap-tutorial/"> MDBootstrap.com</a>
+    </div>
+    <!-- Copyright -->
+
+</footer>
+<!-- Footer -->
+
+  <!-- SCRIPTS -->
+  <!-- JQuery -->
+  <script src="https://mdbootstrap.com/api/snippets/static/download/MDB-Pro_4.19.1/js/jquery.min.js"></script>
+  <!-- Bootstrap tooltips -->
+  <script type="text/javascript" src="https://mdbootstrap.com/previews/templates/admin-dashboard/js/popper.min.js"></script>
+  <!-- Bootstrap core JavaScript -->
+  <script src="https://mdbootstrap.com/api/snippets/static/download/MDB-Pro_4.19.1/js/bootstrap.min.js"></script>
+  <!-- MDB core JavaScript -->
+  <script type="text/javascript" src="https://mdbootstrap.com/previews/templates/admin-dashboard/js/mdb.min.js"></script>
+  <!-- Custom scripts -->
+  <script>
+    // SideNav Initialization
+    $(".button-collapse").sideNav();
+
+    var container = document.querySelector('.custom-scrollbar');
+    Ps.initialize(container, {
+      wheelSpeed: 2,
+      wheelPropagation: true,
+      minScrollbarLength: 20
+    });
+
+  </script>
 </body>
 
 </html>

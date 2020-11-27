@@ -1,91 +1,153 @@
-<div class="graphs">
-    {{!-- widget --}}
-    
-    <div class="col_3">
-        <div class="col-md-3 widget widget1">
-            <div class="r3_counter_box">
-                <i class="fa fa-mail-forward"></i>
-                <div class="stats">
-                    <h5>4</h5>
-                    <div class="grow">
-                        <p>Total</p>
+<div class="container-fluid">
+    <!--Section: Main panel-->
+    <!-- Section: Block Content -->
+    <section>
+
+        <!--Grid row-->
+        <div class="row">
+
+            <!--Grid column-->
+            <div class="col-lg-3 col-md-6 mb-4">
+
+                <div class="media white z-depth-1 rounded">
+                    <i class="far fa-money-bill-alt fa-lg blue z-depth-1 p-4 rounded-left text-white mr-3"></i>
+                    <div class="media-body p-1">
+                        <p class="text-uppercase text-muted mb-1"><small>Total</small></p>
+                        <h5 class="font-weight-bold mb-0">2</h5>
                     </div>
                 </div>
+
+
             </div>
-        </div>
-        <div class="col-md-3 widget widget1">
-            <div class="r3_counter_box"> 
-                <i class="fa fa-users"></i>
-                <div class="stats">
-                    <h5>2</h5>
-                    <div class="grow grow1">
-                        <p>Open</p>
+            <!--Grid column-->
+
+            <!--Grid column-->
+            <div class="col-lg-3 col-md-6 mb-4">
+
+                <div class="media white z-depth-1 rounded">
+                    <i class="fas fa-chart-bar fa-lg deep-purple z-depth-1 p-4 rounded-left text-white mr-3"></i>
+                    <div class="media-body p-1">
+                        <p class="text-uppercase text-muted mb-1"><small>Open</small></p>
+                        <h5 class="font-weight-bold mb-0">1</h5>
                     </div>
                 </div>
+
+
             </div>
-        </div>
-        <div class="col-md-3 widget widget1">
-            <div class="r3_counter_box">
-                <i class="fa fa-eye"></i>
-                <div class="stats">
-                    <h5>2</h5>
-                    <div class="grow grow3">
-                        <p>Close</p>
+            <!--Grid column-->
+
+            <!--Grid column-->
+            <div class="col-lg-3 col-md-6 mb-4">
+
+                <div class="media white z-depth-1 rounded">
+                    <i class="fas fa-chart-pie fa-lg teal z-depth-1 p-4 rounded-left text-white mr-3"></i>
+                    <div class="media-body p-1">
+                        <p class="text-uppercase text-muted mb-1"><small>Close</small></p>
+                        <h5 class="font-weight-bold mb-0">1</h5>
                     </div>
                 </div>
+
             </div>
-        </div>
-        <div class="col-md-3 widget">
-            <div class="r3_counter_box">
-               
-                <div class="stats">
-                    <a href="" class="btn btn-info">Add Vender</a>
+            <!--Grid column-->
+
+            <!--Grid column-->
+            <div class="col-lg-3 col-md-6 mb-4">
+
+                <div class="media  text-center">
+                    <!-- <i class="fas fa-download fa-lg pink z-depth-1 p-4 rounded-left text-white mr-3"></i> -->
+                    <div class="media-body p-1">
+                        <a href="/admin" class="btn btn-info btn-rounded">Add Vender
+                        </a>
+                    </div>
                 </div>
+
             </div>
-        </div>
-        <div class="clearfix"> </div>
-    </div>
-
-    {{!-- widget end --}}
-    {{!-- Table --}}
-    <divclass="switches">
-        <br>
-
-
-        <div class="xs tabls">
-            <h3 class="blank1">All Dealers</h3>
-            <div class="bs-example4" data-example-id="contextual-table">
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Dealer Address</th>
-                                <th>Dealer Name</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th scope="row">{{numbering 1}}</th>
-                                <td>Bismi Hyper Market</td>
-                                <td>Tom Cruise</td>
-                                <td>Open <small> 6:30 pm </small></td>
-                                <td>
-                                    <a href="" title="Edit"><i class="fa fa-pencil-square-o "></i></a>
-                                    <a href="" title="Delete"><i class="fa fa-trash-o text-danger"
-                                            aria-hidden="true"></i></a>
-                                    <a href="" title="Ban"><i class="fa fa-ban text-warning"></i></a>
-                                </td>
-                            </tr>
-
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
+            <!--Grid column-->
 
         </div>
+        <!--Grid row-->
+
+    </section>
+    <!-- Section: Block Content -->
 </div>
+
+<div class="container  py-3 z-depth-1 rounded">
+
+
+    <!--Section: Content-->
+    <section class="dark-grey-text">
+
+        <!-- Shopping Cart table -->
+        <div class="table-responsive">
+
+            <table class="table product-table mb-0">
+
+                <!-- Table head -->
+                <thead class="mdb-color lighten-5">
+                    <tr>
+                        <th class="font-weight-bold">
+                            <strong>#</strong>
+                        </th>
+                        <th class="font-weight-bold">
+                            <strong>Vender Address</strong>
+                        </th>
+                        <th class="font-weight-bold">
+                            <strong>Vender Name</strong>
+                        </th>
+                        <th class="font-weight-bold">
+                            <strong>Status</strong>
+                        </th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <!-- /.Table head -->
+
+                <!-- Table body -->
+                <tbody>
+
+                    <!--  row -->
+                    {{#each dealerDetails}}
+                    <tr>
+                        <th scope="row">{{numbering @index}}</th>
+                        <td>
+                            <h5 class="mt-1">
+                                <strong>{{this.storeName}}</strong>
+                            </h5>
+                            <p class="text-muted">{{this.address}}</p>
+                        </td>
+                        <td><strong>Ambili </strong></td>
+                        <td>
+                            <strong>Open</strong>
+                            <p class="text-muted">6:30 Am</p>
+                        </td>
+
+                        <td>
+                            <a href="{{_id}}" class="btn btn-sm btn-info" data-toggle="tooltip" data-placement="top"
+                                title="Edit Dealer"><i class="fas fa-user-edit"></i>
+                            </a>
+                            <a href="" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top"
+                                title="Delete Dealer"><i class="fas fa-trash-alt"></i>
+                            </a>
+                            <a href="" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="top"
+                                title="Block Dealer"><i class="fas fa-ban"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {{/each}}
+                    <!-- /. row -->
+
+
+                </tbody>
+                <!-- /.Table body -->
+
+            </table>
+
+        </div>
+        <!-- /.Shopping Cart table -->
+
+    </section>
+    <!--Section: Content-->
+
+
 </div>
+<!--Section: Main panel-->

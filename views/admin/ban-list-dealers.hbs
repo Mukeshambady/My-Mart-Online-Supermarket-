@@ -1,47 +1,74 @@
-<div class="graphs">
-    {{!-- widget --}}
-    
-  
-    {{!-- widget end --}}
-    {{!-- Table --}}
-    <divclass="switches">
-        <br>
+
+<div class="container  py-3 z-depth-1 rounded">
 
 
-        <div class="xs tabls">
-            <h3 class="blank1"> Dealer's Ban List </h3>
-            <div class="bs-example4" data-example-id="contextual-table">
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Dealer Address</th>
-                                <th>Dealer Name</th>
-                                
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th scope="row">{{numbering 1}}</th>
-                                <td>Bismi Hyper Market</td>
-                                <td>Tom Cruise</td>
-                              
-                                <td>
-                                    <a href="" class="btn btn-success" title="Unban">Unban</i></a>
-                                    <a href=""  class="btn btn-danger" title="Ban">Ban</i></a>
-                                 
-                                
-                                </td>
-                            </tr>
+    <!--Section: Content-->
+    <section class="dark-grey-text">
 
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+        <!-- Shopping Cart table -->
+        <div class="table-responsive">
+            <h4>Dealer's Ban List</h4>
+            <table class="table product-table mb-0">
 
+                <!-- Table head -->
+                <thead class="mdb-color lighten-5">
+                    <tr>
+                        <th class="font-weight-bold">
+                            <strong>#</strong>
+                        </th>
+                        <th class="font-weight-bold">
+                            <strong>Dealer Address</strong>
+                        </th>
+                        <th class="font-weight-bold">
+                            <strong>Dealer Name</strong>
+                        </th>
+                       
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <!-- /.Table head -->
+
+                <!-- Table body -->
+                <tbody>
+
+                    <!--  row -->
+                    {{#each dealerDetails}}
+                    <tr>
+                        <th scope="row">{{numbering @index}}</th>
+                        <td>
+                            <h5 class="mt-1">
+                                <strong>{{this.storeName}}</strong>
+                            </h5>
+                            <p class="text-muted">{{this.address}}</p>
+                        </td>
+                        <td><strong>Ambili </strong></td>
+                      
+
+                        <td>
+                            <a href="{{_id}}" class="btn btn-sm btn-info" data-toggle="tooltip" data-placement="top"
+                                title="Unban"><i class="fas fa-check"></i>
+                            </a>
+                          
+                            <a href="" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top"
+                                title="Ban"><i class="fas fa-ban"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {{/each}}
+                    <!-- /. row -->
+
+
+                </tbody>
+                <!-- /.Table body -->
+
+            </table>
 
         </div>
+        <!-- /.Shopping Cart table -->
+
+    </section>
+    <!--Section: Content-->
+
+
 </div>
-</div>
+<!--Section: Main panel-->
