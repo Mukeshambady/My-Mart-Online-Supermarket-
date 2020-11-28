@@ -48,6 +48,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //middleware
 //new middilewares
+// app.use((req, res, next) => {
+//   res.header('Cache-Control', 'max-age=2592000000');
+//   // res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
+//   // res.setHeader("Pragma", "no-cache"); // HTTP 1.0.
+//   // res.setHeader("Expires", "0"); // Proxies.
+//   next();
+// });
+
 app.use(fileUpload())
 app.use(session({
   secret: "Key",

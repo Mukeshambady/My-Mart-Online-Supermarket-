@@ -1,3 +1,4 @@
+const { NetworkAuthenticationRequire } = require("http-errors")
 
 
 
@@ -9,12 +10,12 @@ module.exports.TABLE_COLLECTIONs = {
 },
 
     module.exports.LOGIN_DOC = {
-        username: 'username',
-        password: 'password',
-        createdBy: 'createdby',
-        state: 'state', //0 admin, 1 suser, 2 dealer 
-        status: 'status',
-        date: 'date'
+        username: '',
+        password: '',
+        createdBy: '',
+        state: '', //0 admin, 1 suser, 2 dealer 
+        status: 1,
+        date: new Date()
     },
 
     module.exports.LOGIN_STATES = {
@@ -24,12 +25,12 @@ module.exports.TABLE_COLLECTIONs = {
     }
 
 module.exports.DEALER_DOC = {
-    id: "_id",
+    _id: "_id",
     storeName: 'storename',
     email: 'email',
     phoneNumber: 'phone',
     address: 'address',
     extraInFormation: 'extrainfo',
     profilePicture: 'picture',
-    date: 'date'
+    date: new Date()
 }

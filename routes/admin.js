@@ -10,9 +10,11 @@ let reqest_path = null
 //middileware useed to check lgged In or Not
 
 const verifyLogin = (req, res, next) => {
-  if (req.session.adminLoggidIn) {
+ 
+  if (req.session.loggedIn) {
     next()
   } else {
+   
     res.redirect('/admin/login')
   }
 }
@@ -30,7 +32,7 @@ router.get('/', verifyLogin,async function (req, res, next) {
 /* GET Login page. */
 router.get('/login', function (req, res, next) {
 
-  if (req.session.userLoggedIn) {
+  if (req.session.loggedIn) {
     res.redirect('/admin')
   } else {
     res.render('admin/login', { layout: false, 'loginError': req.session.loginError });
@@ -41,13 +43,14 @@ router.get('/login', function (req, res, next) {
 /* Post Login page. */
 router.post('/login', function (req, res, next) {
   commonHelpers.doLogin(req.body).then((response) => {
+    
     if (response.status) {
-      req.session.adminLoggidIn = true
+      req.session.loggedIn = true
       req.session.admin = response.user
       res.redirect('/admin')
     } else {
       req.session.loginError = 'Invalid Username or Password'
-      req.session.adminLoggidIn = true
+      req.session.loggedIn = false
       res.redirect('/admin/login')
     }
   })
@@ -55,7 +58,7 @@ router.post('/login', function (req, res, next) {
 
 /* GET Logout page. and session distroy*/
 router.get('/logout', (req, res) => {
-  req.session.loggiedIn = false
+  req.session.loggedIn = false
   req.session.destroy()
   res.redirect('/admin/login')
 })
@@ -66,7 +69,8 @@ router.get('/all-dealers', verifyLogin,  function (req, res, next) {
 });
 
 /* GET New-dealers page. */
-router.get('/new-dealer', verifyLogin, function (req, res, next) {
+router.get('/new-dealer',verifyLogin, function (req, res, next) {
+
   res.render('admin/new-dealer',{
     usenameExistError:req.session.usenameExistError,
     registrationStatus: req.session.registrationStatus

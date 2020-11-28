@@ -2,70 +2,74 @@
 
 	<!-- Section: Edit Account -->
 	<section class="section">
-			<form class="form-horizontal" method="POST" action="/admin/new-dealer"
-							enctype="multipart/form-data">
-		<!-- First row -->
-		<div class="row">
-			{{!-- Form start --}}
-			
-			<!-- First column -->
-			<div class="col-lg-4 mb-4">
+		<form class="form-horizontal" method="POST" action="/admin/new-dealer" enctype="multipart/form-data">
+			<!-- First row -->
+			<div class="row">
+				{{!-- Form start --}}
 
-				<!-- Card -->
-				<div class="card card-cascade narrower">
+				<!-- First column -->
+				<div class="col-lg-4 mb-4">
 
-					<!-- Card image -->
-					<div class="view view-cascade gradient-card-header mdb-color lighten-3">
-						<h5 class="mb-0 font-weight-bold">Profile</h5>
-					</div>
-					<!-- Card image -->
+					<!-- Card -->
+					<div class="card card-cascade narrower">
 
-					<!-- Card content -->
-					<div class="card-body card-body-cascade text-center overflow-auto">
-						<img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg" alt="User Photo"
-							class="z-depth-1 mb-3 mx-auto" id="imageView" />
-
-						<p class="text-muted"><small>Profile photo will be changed automatically</small></p>
-						<div class="row flex-center">
-							<input type="file" class="btn  btn-outline-info btn-rounded btn-sm" name="image"
-								onchange="viewImage(event)">
-							{{!-- <button class="btn btn-info btn-rounded btn-sm">Upload New Photo</button><br> --}}
-							{{!-- <button class="btn btn-danger btn-rounded btn-sm">Delete</button> --}}
+						<!-- Card image -->
+						<div class="view view-cascade gradient-card-header mdb-color lighten-3">
+							<h5 class="mb-0 font-weight-bold">Add Photo</h5>
 						</div>
+						<!-- Card image -->
+
+						<!-- Card content -->
+						<div class="card-body card-body-cascade text-center">
+							<img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg" alt="User Photo"
+								class="z-depth-1 mb-3 mx-auto" alt="User Photo" id="imageView">
+
+							<p class="text-muted"><small>Profile photo will be changed automatically</small></p>
+							<div class="row flex-center">
+								<input type="file" id="FileUpload" name="image" onchange="viewImage(event)"
+									style="display: none;">
+								{{!-- <input id="uploadButton" type="button" value="Upload" onclick='$("#FileUpload").click()'> --}}
+								<a class="btn btn-info btn-rounded btn-sm waves-effect waves-light"
+									onclick='$("#FileUpload").click()'>Upload New
+									Photo</a>
+								{{!--<button
+									class="btn btn-danger btn-rounded btn-sm waves-effect waves-light">Delete</button> --}}
+							</div>
+						</div>
+						<!-- Card content -->
+
 					</div>
-					<!-- Card content -->
+					<!-- Card -->
 
 				</div>
-				<!-- Card -->
 
-			</div>
-			<!-- First column -->
+				<!-- First column -->
 
-			<!-- Second column -->
-			<div class="col-lg-8 mb-4">
+				<!-- Second column -->
+				<div class="col-lg-8 mb-4">
 
-				<!-- Card -->
-				<div class="card card-cascade narrower">
+					<!-- Card -->
+					<div class="card card-cascade narrower">
 
-					<!-- Card image -->
-					<div class="view view-cascade gradient-card-header mdb-color lighten-3">
-						<h5 class="mb-0 font-weight-bold">Dealer Account Creation</h5>
-					</div>
-					<!-- Card image -->
-
-					<!-- Card content -->
-					<div class="card-body card-body-cascade text-center">
-						{{#if registrationStatus}}
-
-						<div class="alert alert-success alert-dismissible fade show" role="alert">
-							<strong>{{registrationStatus}}</strong>
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
+						<!-- Card image -->
+						<div class="view view-cascade gradient-card-header mdb-color lighten-3">
+							<h5 class="mb-0 font-weight-bold">Dealer Account Creation</h5>
 						</div>
-						{{/if}}
-					
-					
+						<!-- Card image -->
+
+						<!-- Card content -->
+						<div class="card-body card-body-cascade text-center">
+							{{#if registrationStatus}}
+
+							<div class="alert alert-success alert-dismissible fade show" role="alert">
+								<strong>{{registrationStatus}}</strong>
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							{{/if}}
+
+
 
 							<!-- First row -->
 
@@ -165,19 +169,19 @@
 							</div>
 							<!-- Fourth row -->
 
-					
+
+
+						</div>
+						<!-- Card content -->
 
 					</div>
-					<!-- Card content -->
+					<!-- Card -->
 
 				</div>
-				<!-- Card -->
+				<!-- Second column -->
 
 			</div>
-			<!-- Second column -->
-
-		</div>
-		<!-- First row -->
+			<!-- First row -->
 
 	</section>
 	<!-- Section: Edit Account -->
@@ -188,4 +192,6 @@
 	function viewImage(event) {
 		document.getElementById('imageView').src = URL.createObjectURL(event.target.files[0])
 	}
+
+
 </script>
