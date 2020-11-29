@@ -14,8 +14,7 @@ const verifyLogin = (req, res, next) => {
   if (req.session.loggedIn) {
     next()
   } else {
-   
-    res.redirect('/admin/login')
+    res.redirect('/login')
   }
 }
 
@@ -26,42 +25,10 @@ const verifyLogin = (req, res, next) => {
 router.get('/', verifyLogin,async function (req, res, next) {
   let dealerDetails = await dealerHelper.dealerDetails()
   //console.log(dealerDetails);
-  res.render('admin/all-dealers', {dealerDetails});
+  res.render('admin/all-dealers', {dealerDetails,title:'Admin Home'});
 });
 
-/* GET Login page. */
-router.get('/login', function (req, res, next) {
 
-  if (req.session.loggedIn) {
-    res.redirect('/admin')
-  } else {
-    res.render('admin/login', { layout: false, 'loginError': req.session.loginError });
-    req.session.loginError = false
-  }
-});
-
-/* Post Login page. */
-router.post('/login', function (req, res, next) {
-  commonHelpers.doLogin(req.body).then((response) => {
-    
-    if (response.status) {
-      req.session.loggedIn = true
-      req.session.admin = response.user
-      res.redirect('/admin')
-    } else {
-      req.session.loginError = 'Invalid Username or Password'
-      req.session.loggedIn = false
-      res.redirect('/admin/login')
-    }
-  })
-});
-
-/* GET Logout page. and session distroy*/
-router.get('/logout', (req, res) => {
-  req.session.loggedIn = false
-  req.session.destroy()
-  res.redirect('/admin/login')
-})
 
 /* GET all-dealers page. */
 router.get('/all-dealers', verifyLogin,  function (req, res, next) {
@@ -73,14 +40,15 @@ router.get('/new-dealer',verifyLogin, function (req, res, next) {
 
   res.render('admin/new-dealer',{
     usenameExistError:req.session.usenameExistError,
-    registrationStatus: req.session.registrationStatus
+    registrationStatus: req.session.registrationStatus,
+    title:'Add New Dealer'
   });
   req.session.usenameExistError=null
 });
 
 /* POST New-dealers page. */
 router.post('/new-dealer', verifyLogin, function (req, res, next) {
-  req.body.createdBy=req.session.admin._id
+  req.body.createdBy=req.session.user._id
   dealerHelper.doInsert(req.body).then((result) => {
     
     if (result.status) {
@@ -106,7 +74,7 @@ router.post('/new-dealer', verifyLogin, function (req, res, next) {
 /* GET ban-list-dealers page. */
 router.get('/ban-list-dealers', verifyLogin, async function (req, res, next) {
   let dealerDetails = await dealerHelper.dealerDetails()
-  res.render('admin/ban-list-dealers',{dealerDetails});
+  res.render('admin/ban-list-dealers',{dealerDetails, title:'Ban list of Dealer'});
 });
 
 module.exports = router;

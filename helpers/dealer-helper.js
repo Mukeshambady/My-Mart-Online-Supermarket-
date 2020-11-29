@@ -66,8 +66,6 @@ module.exports = {
                     console.log('Signeup Fail', err);
                 })
             }
-
-
         })
     },
     dealerDetails: function () {
