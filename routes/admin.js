@@ -80,7 +80,6 @@ router.get('/new-dealer',verifyLogin, function (req, res, next) {
 
 /* POST New-dealers page. */
 router.post('/new-dealer', verifyLogin, function (req, res, next) {
-  console.log(req.body);
   req.body.createdBy=req.session.admin._id
   dealerHelper.doInsert(req.body).then((result) => {
     
@@ -98,7 +97,7 @@ router.post('/new-dealer', verifyLogin, function (req, res, next) {
         //get image file from Form
         let image = req.files.image
         //move image into public/profile-pic with image name as _id
-        image.mv('./public/profile-pic/' + result + '.jpg')
+        image.mv('./public/profile-pic/' + result)
       }
     }
   })

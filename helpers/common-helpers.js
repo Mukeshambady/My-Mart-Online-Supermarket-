@@ -53,7 +53,7 @@ module.exports = {
     doInsertOne: (docName, colData) => {
         return new Promise(async (resolve, reject) => {
             await db.get().collection(docName).insertOne(colData).then((data) => {
-                resolve(data.ops[0]._id)
+                resolve(data.ops[0])
             })
         })
     },

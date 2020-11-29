@@ -32,7 +32,8 @@ module.exports = {
                 resolve(userIsExist)
             } else {
                 await commonHelpers.doSignup(loginDoc).then(async (id) => {
-
+                    const userId = objectId(id._id).toString()
+                    console.log("id", userId);
                     // string_collections.DEALER_DOC = {
                     //     _id: objectId(id._id),
                     //     storeName: data.storename,
@@ -44,18 +45,19 @@ module.exports = {
                     //     date: new Date()
                     // }
                     const dealerDoc = string_collections.DEALER_DOC
-                    dealerDoc._id = objectId(id._id)
+                    dealerDoc._id = objectId(userId)
                     dealerDoc.storeName = data.storename
                     dealerDoc.email = data.email
                     dealerDoc.phoneNumber = data.phoneNumber
                     dealerDoc.address = data.address
                     dealerDoc.extraInFormation = data.extrainfo
-                    dealerDoc.profilePicture = id._id + '.jpg'
+                    dealerDoc.profilePicture = userId + '.jpg'
+
 
                     await commonHelpers.doInsertOne(string_collections.TABLE_COLLECTIONs.dealer, dealerDoc).then((dealer) => {
                         if (dealer)
-                            result = string_collections.DEALER_DOC.id
-                        resolve({ result, userIsExist })
+                            result = dealer.profilePicture
+                        resolve(result )
                     }).catch((err) => {
                         console.log('Registration Fail', err);
                     })
