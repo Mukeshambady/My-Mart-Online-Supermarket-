@@ -3,7 +3,7 @@
 	<!-- Section: Edit Account -->
 	<section class="section">
 		{{#with userdata}}
-		<form class="form-horizontal" method="POST" action="/admin/edit-dealer/{{this._id}}" enctype="multipart/form-data">
+		<form class="form-horizontal" method="POST" action="/admin/new-dealer" enctype="multipart/form-data">
 			<!-- First row -->
 			<div class="row">
 				{{!-- Form start --}}
@@ -22,17 +22,17 @@
 
 						<!-- Card content -->
 						<div class="card-body card-body-cascade text-center">
-							<img src="../../profile-pic/{{profilePicture}}" alt="User Photo" class="z-depth-1 mb-3 mx-auto"
+							<img src="../profile-pic/{{profilePicture}}" alt="User Photo" class="z-depth-1 mb-3 mx-auto"
 								alt="User Photo" id="imageView">
 
 							<p class="text-muted"><small>Have a nice day</small></p>
 							<div class="row flex-center">
-								<input type="file" id="FileUpload" name="image" onchange="viewImage(event)"
-									style="display: none;">
+								{{!-- <input type="file" id="FileUpload" name="image" onchange="viewImage(event)"
+									style="display: none;"> --}}
 								{{!-- <input id="uploadButton" type="button" value="Upload" onclick='$("#FileUpload").click()'> --}}
-								<a class="btn btn-info btn-rounded btn-sm waves-effect waves-light"
-									onclick='$("#FileUpload").click()'>Change
-									Photo</a>
+								{{!-- <a class="btn btn-info btn-rounded btn-sm waves-effect waves-light"
+									onclick='$("#FileUpload").click()'>Upload New
+									Photo</a> --}}
 								{{!--<button
 									class="btn btn-danger btn-rounded btn-sm waves-effect waves-light">Delete</button> --}}
 							</div>
@@ -60,10 +60,10 @@
 
 						<!-- Card content -->
 						<div class="card-body card-body-cascade text-center">
-							{{#if ../registrationStatus}}
+							{{#if registrationStatus}}
 
 							<div class="alert alert-success alert-dismissible fade show" role="alert">
-								<strong>{{../registrationStatus}}</strong>
+								<strong>{{registrationStatus}}</strong>
 								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 									<span aria-hidden="true">&times;</span>
 								</button>
@@ -80,7 +80,7 @@
 								<div class="col-md-6">
 									<div class="md-form mb-0">
 										<input type="text" class="form-control validate" value="{{username}}" name="username"
-											 placeholder="Username" readonly>
+											required placeholder="Username">
 										<label for="form1" data-error="wrong" data-success="right">Username</label>
 									</div>
 									{{#if usenameExistError}}
@@ -93,8 +93,8 @@
 								<!-- Second column -->
 								<div class="col-md-6">
 									<div class="md-form mb-0">
-										<input type="password" name="password" class="form-control validate" 
-											placeholder="Password" value="">
+										<input type="password" name="password" class="form-control validate" required
+											placeholder="Password" value="......">
 										<label for="password" data-error="wrong" data-success="right">Password</label>
 									</div>
 								</div>
@@ -116,7 +116,7 @@
 								<div class="col-md-6">
 									<div class="md-form mb-0">
 										<input type="text" name="phoneNumber" placeholder="99999999"
-											class="form-control validate" value="{{this.phoneNumber}}">
+											class="form-control validate" value="{{phoneNumber}}">
 										<label for="phone Number" data-error="wrong" data-success="right">Phone
 											Number</label>
 									</div>
@@ -163,11 +163,11 @@
 							<!-- Third row -->
 
 							<!-- Fourth row -->
-							<div class="row">
+							{{!-- <div class="row">
 								<div class="col-md-12 text-center my-4">
-									<input type="submit" value="Update" class="btn btn-outline-success btn-rounded">
+									<input type="submit" value="Create" class="btn btn-outline-info btn-rounded">
 								</div>
-							</div>
+							</div> --}}
 							<!-- Fourth row -->
 
 
@@ -190,10 +190,10 @@
 {{/with}}
 </div>
 
-<script>
+{{!-- <script>
 	function viewImage(event) {
 		document.getElementById('imageView').src = URL.createObjectURL(event.target.files[0])
 	}
 
 
-</script>
+</script> --}}

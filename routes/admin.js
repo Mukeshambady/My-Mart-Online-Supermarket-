@@ -10,11 +10,11 @@ let reqest_path = null
 //middileware useed to check lgged In or Not
 
 const verifyLogin = (req, res, next) => {
- 
-  if (req.session.loggedIn) {
+
+  if (req.session.adminloggedIn) {
     next()
   } else {
-    res.redirect('/login')
+    res.redirect('/logout')
   }
 }
 
@@ -22,42 +22,41 @@ const verifyLogin = (req, res, next) => {
 // ************************************************************//
 
 /* GET home page. */
-router.get('/', verifyLogin,async function (req, res, next) {
-  let dealerDetails = await dealerHelper.dealerDetails()
+router.get('/', verifyLogin, async function (req, res, next) {
+  let dealerDetails = await dealerHelper.dealersAllDetail()
   //console.log(dealerDetails);
-  res.render('admin/all-dealers', {dealerDetails,title:'Admin Home'});
+  res.render('admin/all-dealers', { dealerDetails, title: 'Admin Home' });
 });
 
 
 
 /* GET all-dealers page. */
-router.get('/all-dealers', verifyLogin,  function (req, res, next) {
+router.get('/all-dealers', verifyLogin, function (req, res, next) {
   res.redirect('/admin');
 });
 
 /* GET New-dealers page. */
-router.get('/new-dealer',verifyLogin, function (req, res, next) {
-
-  res.render('admin/new-dealer',{
-    usenameExistError:req.session.usenameExistError,
+router.get('/new-dealer', verifyLogin, function (req, res, next) {
+  res.render('admin/new-dealer', {
+    usenameExistError: req.session.usenameExistError,
     registrationStatus: req.session.registrationStatus,
-    title:'Add New Dealer'
+    title: 'Add New Dealer'
   });
-  req.session.usenameExistError=null
+  req.session.usenameExistError = null
 });
 
 /* POST New-dealers page. */
 router.post('/new-dealer', verifyLogin, function (req, res, next) {
-  req.body.createdBy=req.session.user._id
+  req.body.createdBy = req.session.user._id
   dealerHelper.doInsert(req.body).then((result) => {
-    
+
     if (result.status) {
       req.session.usenameExistError = 'Username all ready Exist...';
       res.redirect('/admin/new-dealer')
     } else {
-      req.session.usenameExistError=''
-   
-      if(result){
+      req.session.usenameExistError = ''
+
+      if (result) {
         req.session.registrationStatus = "Dealer added successfully..";
       }
       res.redirect('/admin/new-dealer')
@@ -71,10 +70,45 @@ router.post('/new-dealer', verifyLogin, function (req, res, next) {
   })
 });
 
+/* GET edit-dealer with out param page. */
+router.get('/edit-dealer', verifyLogin, async function (req, res, next) {
+  res.redirect('/admin');
+});
+/* GET edit-dealer with  param page. */
+router.get('/edit-dealer/:id', verifyLogin, async function (req, res, next) {
+  let userdata = await dealerHelper.dealerProfile(req.params.id)
+  if (req.session.dealerUpdate) {
+   
+    res.render('admin/edit-dealer', { title: 'Dealer | Profile Update', userdata, registrationStatus: "Dealer Updated" });
+    req.session.dealerUpdate=false
+  } else {
+    res.render('admin/edit-dealer', { title: 'Dealer | Profile Edit', userdata });
+  }
+  
+});
+/* GET edit-dealer with  param page. */
+router.post('/edit-dealer/:id', verifyLogin, async function (req, res, next) {
+  delete req.body.username
+  id = req.params.id
+  let result = await dealerHelper.updateDealer(id, req.body)
+    if (req.files) {
+    //get image file from Form
+    let image = req.files.image
+    //move image into public/profile-pic with image name as _id
+    image.mv('./public/profile-pic/' + id+'.jpg')
+  }
+  if (result) {
+    req.session.dealerUpdate = true
+    res.redirect('/admin/edit-dealer/' + id)
+  } else {
+
+  }
+  // res.render('admin/edit-dealer', { title: 'Dealer | Profile Edit', userdata });
+});
 /* GET ban-list-dealers page. */
 router.get('/ban-list-dealers', verifyLogin, async function (req, res, next) {
-  let dealerDetails = await dealerHelper.dealerDetails()
-  res.render('admin/ban-list-dealers',{dealerDetails, title:'Ban list of Dealer'});
+  let dealerDetails = await dealerHelper.dealersAllDetail()
+  res.render('admin/ban-list-dealers', { dealerDetails, title: 'Ban list of Dealer' });
 });
 
 module.exports = router;

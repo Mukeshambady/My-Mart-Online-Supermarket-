@@ -1,1 +1,95 @@
 <h1>Index Page</h1>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#centralModalWarning">Launch
+    modal
+</button>
+
+<!-- Central Modal Medium Warning -->
+<div class="modal fade" id="centralModalWarning" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-notify modal-warning" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <p class="heading lead">Modal Warning</p>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
+            </div>
+
+            <!--Body-->
+            <div class="modal-body">
+                <div class="text-center">
+                    <i class="fas fa-ban fa-4x mb-3 animated rotateIn"></i>
+                    <p>Are you sure..?</p>
+                    <p>Do you wand to ban <b>name</b></p>
+                </div>
+            </div>
+
+            <!--Footer-->
+            <div class="modal-footer justify-content-center">
+                <a type="button" class="btn btn-danger">Ban now <i class="fas fa-ban ml-1 text-white"></i></a>
+                <a type="button" class="btn btn-outline-warning waves-effect" data-dismiss="modal">No, thanks</a>
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!-- Central Modal Medium Warning-->
+
+
+<!-- Central Modal Medium Info -->
+<div class="modal fade left" id="sideModalTLInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-notify modal-info modal-side modal-top-left" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <p class="heading lead">Modal Info</p>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
+            </div>
+
+            <!--Body-->
+            <div class="modal-body">
+
+                <img src="https://mdbootstrap.com/wp-content/uploads/2016/11/admin-dashboard-bootstrap.jpg" alt=""
+                    class="img-fluid">
+
+                <div class="text-center">
+                    <p id="mytext">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nesciunt vero illo error
+                        eveniet cum.</p>
+                </div>
+            </div>
+
+            <!--Footer-->
+            <div class="modal-footer justify-content-center">
+                <a type="button" class="btn btn-info">Get it now <i class="far fa-gem ml-1 white-text"></i></a>
+                <a type="button" class="btn btn-outline-info waves-effect" data-dismiss="modal">No, thanks</a>
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!-- Central Modal Medium Info-->
+
+<div class="text-center">
+    <a href=""  class="btn btn-default btn-rounded" data-toggle="modal" data-target="#sideModalTLInfo">Launch
+        Modal Info <i class="far fa-eye ml-1"></i></a>
+</div>
+
+
+<script>
+    $("#sideModalTLInfo").on('show.bs.modal', function () {
+        alert("Hello World!");
+        $('#mytext').html('Mytext')
+    });
+    $("#centralModalWarning").on('show.bs.modal', function () {
+        alert("Hello World!");
+        $('#mytext').html('Mytext')
+    });
+</script>

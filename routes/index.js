@@ -7,6 +7,10 @@ const commonHelpers = require('../helpers/common-helpers')
 router.get('/',  function(req, res, next) {
   res.render('index', { title: 'Home' });
 });
+/* GET home page. */
+router.get('/index',  function(req, res, next) {
+  res.redirect('/');
+});
 /* GET Login page. */
 router.get('/login', function (req, res, next) {
 
@@ -22,16 +26,24 @@ router.get('/login', function (req, res, next) {
 router.post('/login', function (req, res, next) {
   commonHelpers.doLogin(req.body).then((response) => {
     if (response.status) {
-      req.session.loggedIn = true
+     
       req.session.user = response.user
       if( req.session.user.state===0){
+        req.session.adminloggedIn = true
          res.redirect('/admin')
+      }
+      if( req.session.user.state===2){
+        req.session.dealerloggedIn = true
+         res.redirect('/dealer')
       }
      
     } else {
       req.session.loginError = 'Invalid Username or Password'
-      req.session.loggedIn = false
-      res.redirect('/login')     
+      req.session.adminloggedIn = false
+      req.session.dealerloggedIn = false
+      req.session.user=null
+      res.redirect('/login') 
+         
     }
   })
 });
