@@ -3,7 +3,8 @@
 	<!-- Section: Edit Account -->
 	<section class="section">
 		{{#with userdata}}
-		<form class="form-horizontal" method="POST" action="/admin/edit-dealer/{{this._id}}" enctype="multipart/form-data">
+		<form class="form-horizontal" method="POST" action="/admin/edit-dealer/{{this._id}}"
+			enctype="multipart/form-data">
 			<!-- First row -->
 			<div class="row">
 				{{!-- Form start --}}
@@ -22,8 +23,8 @@
 
 						<!-- Card content -->
 						<div class="card-body card-body-cascade text-center">
-							<img src="../../profile-pic/{{profilePicture}}" alt="User Photo" class="z-depth-1 mb-3 mx-auto"
-								alt="User Photo" id="imageView">
+							<img src="../../profile-pic/{{profilePicture}}" alt="User Photo"
+								class="z-depth-1 mb-3 mx-auto" alt="User Photo" id="imageView">
 
 							<p class="text-muted"><small>Have a nice day</small></p>
 							<div class="row flex-center">
@@ -79,8 +80,8 @@
 								<!-- First column -->
 								<div class="col-md-6">
 									<div class="md-form mb-0">
-										<input type="text" class="form-control validate" value="{{username}}" name="username"
-											 placeholder="Username" readonly>
+										<input type="text" class="form-control validate" value="{{username}}"
+											name="username" placeholder="Username" readonly>
 										<label for="form1" data-error="wrong" data-success="right">Username</label>
 									</div>
 									{{#if usenameExistError}}
@@ -93,7 +94,7 @@
 								<!-- Second column -->
 								<div class="col-md-6">
 									<div class="md-form mb-0">
-										<input type="password" name="password" class="form-control validate" 
+										<input type="password" name="password" class="form-control validate"
 											placeholder="Password" value="">
 										<label for="password" data-error="wrong" data-success="right">Password</label>
 									</div>
@@ -115,10 +116,10 @@
 								<!-- Second column -->
 								<div class="col-md-6">
 									<div class="md-form mb-0">
-										<input type="text" name="phoneNumber" placeholder="99999999"
-											class="form-control validate" value="{{this.phoneNumber}}">
-										<label for="phone Number" data-error="wrong" data-success="right">Phone
-											Number</label>
+										<input type="text" name="name" placeholder="Dealer Name"
+											class="form-control validate" value="{{this.name}}">
+										<label for="Dealer Name" data-error="wrong" data-success="right">Dealer
+											Name</label>
 									</div>
 								</div>
 							</div>
@@ -136,12 +137,12 @@
 									</div>
 								</div>
 								<!-- Second column -->
-
 								<div class="col-md-6">
 									<div class="md-form mb-0">
-										<textarea type="text" name="address" class="md-textarea form-control"
-											rows="3">{{address}}</textarea>
-										<label for="form78">Address</label>
+										<input type="text" name="phoneNumber" placeholder="99999999"
+											class="form-control validate" value="{{this.phoneNumber}}">
+										<label for="phone Number" data-error="wrong" data-success="right">Phone
+											Number</label>
 									</div>
 								</div>
 							</div>
@@ -151,7 +152,16 @@
 							<div class="row">
 
 								<!-- First column -->
-								<div class="col-md-12">
+
+								<div class="col-md-6">
+									<div class="md-form mb-0">
+										<textarea type="text" name="address" class="md-textarea form-control"
+											rows="3">{{address}}</textarea>
+										<label for="form78">Address</label>
+									</div>
+								</div>
+								<!-- Second column -->
+								<div class="col-md-6">
 									<div class="md-form mb-0">
 										<textarea type="text" name="extrainfo" class="md-textarea form-control"
 											rows="3">{{extraInFormation}}</textarea>
@@ -187,7 +197,7 @@
 	</section>
 	<!-- Section: Edit Account -->
 	</form>
-{{/with}}
+	{{/with}}
 </div>
 
 <script>

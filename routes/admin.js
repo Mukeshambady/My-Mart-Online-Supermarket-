@@ -43,6 +43,7 @@ router.get('/new-dealer', verifyLogin, function (req, res, next) {
     title: 'Add New Dealer'
   });
   req.session.usenameExistError = null
+  req.session.registrationStatus=null
 });
 
 
@@ -53,12 +54,14 @@ router.post('/new-dealer', verifyLogin, function (req, res, next) {
     if (result.status) {
       req.session.usenameExistError = 'Username all ready Exist...';
       res.redirect('/admin/new-dealer')
+      req.session.usenameExistError=null
     } else {
       req.session.usenameExistError = ''
       if (result) {
         req.session.registrationStatus = "Dealer added successfully..";
       }
       res.redirect('/admin/new-dealer')
+      req.session.registrationStatus=null
       if (req.files) {
         //get image file from Form
         let image = req.files.image

@@ -1,9 +1,3 @@
-const { NetworkAuthenticationRequire } = require("http-errors")
-
-
-
-
-
 module.exports.TABLE_COLLECTIONs = {
     login: 'login',
     dealer:'dealer'
@@ -24,13 +18,15 @@ module.exports.TABLE_COLLECTIONs = {
         dealer: 2
     }
 
+
 module.exports.DEALER_DOC = {
-    _id: "_id",
-    storeName: 'storename',
-    email: 'email',
-    phoneNumber: 'phone',
-    address: 'address',
-    extraInFormation: 'extrainfo',
-    profilePicture: 'picture',
+    _id: "",
+    storeName: '',
+    name:'',
+    email: '',
+    phoneNumber: 0,
+    address: '',
+    extraInFormation: '',
+    profilePicture: '',
     date: new Date()
 }

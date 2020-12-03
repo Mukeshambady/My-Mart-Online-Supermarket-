@@ -1,10 +1,6 @@
 
 const commonHelpers = require("./common-helpers");
 const string_collections = require('../config/string-collections');
-const { response } = require("express");
-const { resolve, reject } = require("promise");
-const { NotExtended } = require("http-errors");
-const { log } = require("debug");
 //object id declaration to compare(string converted to object)
 var objectId = require('mongodb').ObjectID
 
@@ -24,8 +20,7 @@ module.exports = {
         //     status: 1,
         //     date: new Date()
         // }
-
-        loginDoc = string_collections.LOGIN_DOC
+        
         loginDoc.username = data.username
         loginDoc.password = data.password
         loginDoc.createdBy = objectId(data.createdBy)
@@ -39,7 +34,6 @@ module.exports = {
             } else {
                 await commonHelpers.doSignup(loginDoc).then(async (id) => {
                     const userId = await objectId(id._id).toString()
-                    console.log('userId',userId);
                     // string_collections.DEALER_DOC = {
                     //     _id: objectId(id._id),
                     //     storeName: data.storename,
@@ -54,6 +48,7 @@ module.exports = {
                     dealerDoc._id = objectId(userId)
                     dealerDoc.storeName = data.storename
                     dealerDoc.email = data.email
+                    dealerDoc.name = data.name
                     dealerDoc.phoneNumber = data.phoneNumber
                     dealerDoc.address = data.address
                     dealerDoc.extraInFormation = data.extrainfo
@@ -82,6 +77,7 @@ module.exports = {
                 _id: { _id: objectId(userId) }
                 , storeName: data.storename
                 , email: data.email
+                , name:data.name
                 , phoneNumber: data.phoneNumber
                 , address: data.address
                 , extraInFormation: data.extrainfo

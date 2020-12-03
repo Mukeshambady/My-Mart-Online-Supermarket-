@@ -1,19 +1,23 @@
 var db = require('../config/connection')
 var COLLECTION_DATA = require('../config/string-collections')
 const bcrypt = require('bcrypt')
-const { reject, resolve } = require('promise')
+
+
 
 
 module.exports = {
     doSignup: (userData) => {
+        delete userData._id //remove the _id field
         return new Promise(async (resolve, reject) => {
+
             userData.password = await bcrypt.hash(userData.password, 10)
             db.get().collection(COLLECTION_DATA.TABLE_COLLECTIONs.login).insertOne(userData).then((data) => {
                 resolve(data.ops[0])
-                console.log('data.ops[0]', data.ops[0]);
             }).catch((err) => {
+
                 reject(false)
                 console.log('doSignup Error', err);
+
             })
         })
     },
@@ -32,12 +36,12 @@ module.exports = {
                         resolve(response)
                     } else {
                         console.log("Fail to login");
-                        resolve({ status: false})
+                        resolve({ status: false })
                     }
                 })
-           
 
-            } else  {
+
+            } else {
                 console.log("Email Fail to login");
                 resolve({ status: false })
             }
@@ -125,8 +129,8 @@ module.exports = {
                 {
                     $replaceRoot: { newRoot: { $mergeObjects: [{ $arrayElemAt: ["$dealerDetails", 0] }, "$$ROOT"] } }
                 },
-                { 
-                    $project: { dealerDetails: 0, password: 0, createdBy: 0 } 
+                {
+                    $project: { dealerDetails: 0, password: 0, createdBy: 0 }
                 }
 
             ]).toArray().then((docDetails) => {
@@ -140,13 +144,13 @@ module.exports = {
     },
     //Insert Once 
     doUpdateOne: (docName, colData) => {
-        
+
         var id = colData._id
         delete colData._id
-       
+
         return new Promise(async (resolve, reject) => {
             await db.get().collection(docName).updateOne(id, { $set: colData }).then((result) => {
-               
+
                 if (result.matchedCount == 1) {
                     resolve(true)
                 }

@@ -125,18 +125,15 @@
     //ban deatails    
 
     $('.banClass').on('click', function (e) {
-
         var $row = $(this).closest('tr')
         var id = $(this).attr('id')
         var nameTxt = $row.find('.storeName').text().trim();
         $('#banName').html(nameTxt)
         $('.btn-ok', '#unBanDealerModal').data('recordId', id);
         $("#unBanDealerModal").modal('show')
-
     });
 
     $('#unBanDealerModal').on('click', '.btn-ok', function (e) {
-
         var $modalDiv = $(e.delegateTarget);
         var id = $(this).data('recordId');
         $.ajax({
@@ -150,7 +147,6 @@
                 }
             }
         });
-
         $modalDiv.modal('hide')
     });
 </script>
