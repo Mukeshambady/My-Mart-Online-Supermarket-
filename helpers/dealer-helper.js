@@ -4,11 +4,14 @@ const string_collections = require('../config/string-collections');
 const { response } = require("express");
 const { resolve, reject } = require("promise");
 const { NotExtended } = require("http-errors");
+const { log } = require("debug");
 //object id declaration to compare(string converted to object)
 var objectId = require('mongodb').ObjectID
 
-
+let dealerCollectionName=string_collections.TABLE_COLLECTIONs.dealer
+let loginCollectionName=string_collections.TABLE_COLLECTIONs.login;
 let dealerDoc = string_collections.DEALER_DOC
+let loginDoc = string_collections.LOGIN_DOC
 
 module.exports = {
 
@@ -35,7 +38,8 @@ module.exports = {
                 resolve(userIsExist)
             } else {
                 await commonHelpers.doSignup(loginDoc).then(async (id) => {
-                    const userId = objectId(id._id).toString()
+                    const userId = await objectId(id._id).toString()
+                    console.log('userId',userId);
                     // string_collections.DEALER_DOC = {
                     //     _id: objectId(id._id),
                     //     storeName: data.storename,
@@ -54,7 +58,8 @@ module.exports = {
                     dealerDoc.address = data.address
                     dealerDoc.extraInFormation = data.extrainfo
                     dealerDoc.profilePicture = userId + '.jpg'
-                    await commonHelpers.doInsertOne(string_collections.TABLE_COLLECTIONs.dealer, dealerDoc).then((dealer) => {
+
+                    await commonHelpers.doInsertOne(dealerCollectionName, dealerDoc).then((dealer) => {
                         if (dealer)
                             result = dealer.profilePicture
                         resolve(result)
@@ -83,7 +88,7 @@ module.exports = {
                 , profilePicture: userId + '.jpg'
                 , date: new Date()
             }
-            await commonHelpers.doUpdateOne(string_collections.TABLE_COLLECTIONs.dealer, dealerDoc).then((dealer) => {
+            await commonHelpers.doUpdateOne(dealerCollectionName, dealerDoc).then((dealer) => {
                resolve(dealer)
             }).catch((err) => {
                 console.log('Registration Fail', err);
@@ -91,10 +96,23 @@ module.exports = {
         })
     },
 
-    //All dealers
+    //All dealers--Active--UNBAN
     dealersAllDetail: function () {
         return new Promise(async (resolve, reject) => {
-            await commonHelpers.getFind(string_collections.TABLE_COLLECTIONs.dealer).then((data) => {
+            // getFindAllDetails: (docName, status,state)
+            await commonHelpers.getFindAllDetails(dealerCollectionName,1,2).then((data) => {
+                resolve(data)
+            }).catch((err) => {
+                console.log('Dealer Details Fetch error ', err)
+                reject()
+            })
+        })
+    },
+    //All dealers---BAN
+    dealersAllBanDetail: function () {
+        return new Promise(async (resolve, reject) => {
+            // getFindAllDetails: (docName, status,state)
+            await commonHelpers.getFindAllDetails(dealerCollectionName,0,2).then((data) => {
                 resolve(data)
             }).catch((err) => {
                 console.log('Dealer Details Fetch error ', err)
@@ -107,7 +125,7 @@ module.exports = {
 
         dealerDoc = { _id: objectId(userId) }
         return new Promise(async (resolve, reject) => {
-            await commonHelpers.getFindOne(string_collections.TABLE_COLLECTIONs.dealer, dealerDoc).then((data) => {
+            await commonHelpers.getFindOne(dealerCollectionName, dealerDoc).then((data) => {
                 resolve(data)
             }).catch((err) => {
                 console.log('Dealer Details Fetch error ', err)
@@ -115,4 +133,30 @@ module.exports = {
             })
         })
     },
+    //dealerDelete  by _id bot login and dealer
+    dealerDelete: function (userId) {
+        dealerDoc = { _id: objectId(userId) }
+        return new Promise(async (resolve, reject) => {
+            await commonHelpers.doFindOneAndDelete(string_collections.TABLE_COLLECTIONs.login, dealerDoc)
+            await commonHelpers.doFindOneAndDelete(dealerCollectionName, dealerDoc).then((data) => {
+                resolve(data)
+            }).catch((err) => {
+                console.log('Dealer Details findOneAndDelete error ', err)
+                reject()
+            })
+        })
+    },
+    //dealerBanOrUnban by _id
+    dealerBanOrUnban: function (userId,status) {
+        loginDoc ={ _id: { _id: objectId(userId) },status:status }   
+        return new Promise(async (resolve, reject) => {
+            await commonHelpers.doUpdateOne(loginCollectionName, loginDoc).then((data) => {
+            resolve(data)
+            }).catch((err) => {
+                console.log('Dealer Details dealerBan error ', err)
+                reject()
+            })
+        })
+    },
+
 }

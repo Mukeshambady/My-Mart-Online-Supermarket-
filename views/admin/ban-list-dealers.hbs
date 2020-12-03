@@ -1,4 +1,3 @@
-
 <div class="container  py-3 z-depth-1 rounded">
 
 
@@ -7,11 +6,11 @@
 
         <!-- Shopping Cart table -->
         <div class="table-responsive">
-            <h4>Dealer's Ban List</h4>
+            <h4 class="">Dealer's Ban List</h4>
             <table class="table product-table mb-0">
 
                 <!-- Table head -->
-                <thead class="mdb-color lighten-5">
+                <thead class="bg-warning lighten-5 text-white">
                     <tr>
                         <th class="font-weight-bold">
                             <strong>#</strong>
@@ -22,7 +21,7 @@
                         <th class="font-weight-bold">
                             <strong>Dealer Name</strong>
                         </th>
-                       
+
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -37,21 +36,24 @@
                         <th scope="row">{{numbering @index}}</th>
                         <td>
                             <h5 class="mt-1">
-                                <strong>{{this.storeName}}</strong>
+                                <strong class="storeName">{{this.storeName}}</strong>
                             </h5>
                             <p class="text-muted">{{this.address}}</p>
                         </td>
                         <td><strong>Ambili </strong></td>
-                      
+
 
                         <td>
-                            <a href="{{_id}}" class="btn btn-sm btn-info" data-toggle="tooltip" data-placement="top"
-                                title="Unban"><i class="fas fa-check"></i>
+
+
+                            <a href="javascript:void(0)" id="{{this._id}}" class="btn btn-sm btn-success banClass"
+                                data-toggle="Block Dealer" data-placement="top" data-toggle="Un ban Dealer"
+                                title="Un ban Dealer"><i class="fas fa-check"></i>
                             </a>
-                          
-                            <a href="" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top"
-                                title="Ban"><i class="fas fa-ban"></i>
-                            </a>
+
+
+
+
                         </td>
                     </tr>
                     {{/each}}
@@ -72,3 +74,83 @@
 
 </div>
 <!--Section: Main panel-->
+
+<section>
+    <!-- Ban deaer Modal -->
+    <div class="modal fade" id="unBanDealerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        aria-hidden="true" data-backdrop="static" >
+        <div class="modal-dialog modal-notify modal-success" role="document">
+            <!--Content-->
+            <div class="modal-content">
+                <!--Header-->
+                <div class="modal-header">
+                    <p class="heading lead">Un-Ban </p>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="white-text">&times;</span>
+                    </button>
+                </div>
+
+                <!--Body-->
+                <div class="modal-body">
+                    <div class="text-center">
+                        <i class="fas fa-check fa-4x mb-3 animated rotateIn"></i>
+                        <p>Click Active to Unban</p>
+                        <p>
+                        <h4 class="text-success" id="banName"></h4>
+                        </p>
+                    </div>
+                </div>
+
+                <!--Footer-->
+                <div class="modal-footer justify-content-center">
+                    <a type="button" data-record-id="24" class="btn btn-success btn-ok">Active <i
+                            class="fas fa-check ml-1 text-white"></i></a>
+                    <a type="button" class="btn btn-outline-success waves-effect" data-dismiss="modal">No,
+                        thanks</a>
+                </div>
+            </div>
+            <!--/.Content-->
+        </div>
+    </div>
+
+    <!-- Ban dealer Modal-->
+</section>
+
+
+
+
+
+<script>
+    //ban deatails    
+
+    $('.banClass').on('click', function (e) {
+
+        var $row = $(this).closest('tr')
+        var id = $(this).attr('id')
+        var nameTxt = $row.find('.storeName').text().trim();
+        $('#banName').html(nameTxt)
+        $('.btn-ok', '#unBanDealerModal').data('recordId', id);
+        $("#unBanDealerModal").modal('show')
+
+    });
+
+    $('#unBanDealerModal').on('click', '.btn-ok', function (e) {
+
+        var $modalDiv = $(e.delegateTarget);
+        var id = $(this).data('recordId');
+        $.ajax({
+            type: "post",
+            url: "/admin/unbanDealer",
+            data: { id: id },
+            success: function (response) {
+                if (response) {
+                    alert('Un-Banned')
+                    location.reload()
+                }
+            }
+        });
+
+        $modalDiv.modal('hide')
+    });
+</script>

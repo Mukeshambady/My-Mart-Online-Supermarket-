@@ -3,8 +3,6 @@ var COLLECTION_DATA = require('../config/string-collections')
 const bcrypt = require('bcrypt')
 const { reject, resolve } = require('promise')
 
-//object id declaration to compare(string converted to object)
-var object = require('mongodb').ObjectID
 
 module.exports = {
     doSignup: (userData) => {
@@ -12,7 +10,9 @@ module.exports = {
             userData.password = await bcrypt.hash(userData.password, 10)
             db.get().collection(COLLECTION_DATA.TABLE_COLLECTIONs.login).insertOne(userData).then((data) => {
                 resolve(data.ops[0])
+                console.log('data.ops[0]', data.ops[0]);
             }).catch((err) => {
+                reject(false)
                 console.log('doSignup Error', err);
             })
         })
@@ -26,15 +26,18 @@ module.exports = {
                 bcrypt.compare(userData.password, user.password).then((status) => {
                     if (status) {
                         console.log('login Success');
+                        delete user.password
                         response.user = user
                         response.status = true
                         resolve(response)
                     } else {
                         console.log("Fail to login");
-                        resolve({ status: false })
+                        resolve({ status: false})
                     }
                 })
-            } else {
+           
+
+            } else  {
                 console.log("Email Fail to login");
                 resolve({ status: false })
             }
@@ -105,22 +108,67 @@ module.exports = {
 
         })
     },
+    //Find all Data by active status
+    //using promise functionality
+    getFindAllDetails: (docName, status, state) => {
+        return new Promise(async (resolve, reject) => {
+            await db.get().collection('login').aggregate([
+                {
+                    $match: { "status": status, "state": state }
+                },
+                {
+                    $lookup: {
+                        from: docName, localField: '_id', foreignField: '_id', as: "dealerDetails"
+                    }
+                },
+
+                {
+                    $replaceRoot: { newRoot: { $mergeObjects: [{ $arrayElemAt: ["$dealerDetails", 0] }, "$$ROOT"] } }
+                },
+                { 
+                    $project: { dealerDetails: 0, password: 0, createdBy: 0 } 
+                }
+
+            ]).toArray().then((docDetails) => {
+                resolve(docDetails)
+            })
+
+        }).catch((err) => {
+            console.log('getFindOne Error', err);
+
+        })
+    },
     //Insert Once 
     doUpdateOne: (docName, colData) => {
-
-        let id = colData._id
-        delete colData._id        
+        
+        var id = colData._id
+        delete colData._id
+       
         return new Promise(async (resolve, reject) => {
             await db.get().collection(docName).updateOne(id, { $set: colData }).then((result) => {
-                if(result.matchedCount==1){
+               
+                if (result.matchedCount == 1) {
                     resolve(true)
                 }
             }).catch((err) => {
-                console.log('doUpdateError', err);
+                console.log('doUpdate-Error', err);
                 reject(false)
             })
         })
     },
-    
+
+    //do   find one and delete
+    doFindOneAndDelete: (colName, docData) => {
+
+        return new Promise((resolve, reject) => {
+            db.get().collection(colName).findOneAndDelete(docData).then((result) => {
+                resolve(result)
+            }).catch((err) => {
+                console.log('doFindOneAndDelete-Error ', err);
+                reject(false)
+            })
+        })
+    }
+
 
 }

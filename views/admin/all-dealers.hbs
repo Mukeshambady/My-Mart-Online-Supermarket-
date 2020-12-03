@@ -108,9 +108,9 @@
                     <!--  row -->
                     {{#each dealerDetails}}
                     <tr>
-                        <th scope="row">{{numbering @index}}</th>
+                        <th scope="row" id="{{this._id}}">{{numbering @index}}</th>
                         <td>
-                            <h5 class="mt-1">
+                            <h5 class="mt-1 storeName">
                                 <strong>{{this.storeName}}</strong>
                             </h5>
                             <p class="text-muted">{{this.address}}</p>
@@ -122,14 +122,17 @@
                         </td>
 
                         <td>
-                            <a href="admin/edit-dealer/{{this._id}}" class="btn btn-sm btn-info" data-toggle="tooltip" data-placement="top"
-                                title="Edit Dealer"><i class="fas fa-user-edit"></i>
+                            <a href="admin/edit-dealer/{{this._id}}" class="btn btn-sm btn-info" data-toggle="tooltip"
+                                data-placement="top" title="Edit Dealer"><i class="fas fa-user-edit"></i>
                             </a>
-                            <a href="" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top"
-                                title="Delete Dealer"><i class="fas fa-trash-alt"></i>
+                            <a href="javascript:void(0)" id="{{this._id}}" class="btn btn-sm btn-danger delClass"
+                                data-toggle="Delete Dealer" data-placement="top" title="Delete Dealer"><i
+                                    class="fas fa-trash-alt"></i>
                             </a>
-                            <a href="" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="top"
-                                title="Block Dealer"><i class="fas fa-ban"></i>
+
+                            <a href="javascript:void(0)" id="{{this._id}}" class="btn btn-sm btn-warning banClass"
+                                data-toggle="Block Dealer" data-placement="top" title="Block Dealer"><i
+                                    class="fas fa-ban"></i>
                             </a>
                         </td>
                     </tr>
@@ -147,7 +150,157 @@
 
     </section>
     <!--Section: Content-->
+    <!-- Session Modal -->
+    <section>
+        <!-- Ban deaer Modal -->
+        <div class="modal fade" id="banDealerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+            aria-hidden="true" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog modal-notify modal-warning" role="document">
+                <!--Content-->
+                <div class="modal-content">
+                    <!--Header-->
+                    <div class="modal-header">
+                        <p class="heading lead">Ban </p>
 
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" class="white-text">&times;</span>
+                        </button>
+                    </div>
 
+                    <!--Body-->
+                    <div class="modal-body">
+                        <div class="text-center">
+                            <i class="fas fa-ban fa-4x mb-3 animated rotateIn"></i>
+                            <p>Are you sure..?</p>
+                            <p>Ban :
+                            <h4 class="text-warning" id="banName"></h4>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!--Footer-->
+                    <div class="modal-footer justify-content-center">
+                        <a type="button" data-record-id="24" class="btn btn-warning btn-ok">Ban Dealer <i
+                                class="fas fa-ban ml-1 text-white"></i></a>
+                        <a type="button" class="btn btn-outline-warning waves-effect" data-dismiss="modal">No,
+                            thanks</a>
+                    </div>
+                </div>
+                <!--/.Content-->
+            </div>
+        </div>
+
+        <!-- Ban dealer Modal-->
+        <!-- Ban deaer Modal -->
+        <div class="modal fade" id="deleteDealerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+            aria-hidden="true" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog modal-notify modal-danger" role="document">
+                <!--Content-->
+                <div class="modal-content">
+                    <!--Header-->
+                    <div class="modal-header">
+                        <p class="heading lead">Delate Dealer </p>
+
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" class="white-text">&times;</span>
+                        </button>
+                    </div>
+
+                    <!--Body-->
+                    <div class="modal-body">
+                        <div class="text-center">
+                            <i class="fas fa-trash fa-4x mb-3 animated rotateIn"></i>
+                            <p>Are you sure..?</p>
+                            <p>Delete :
+                            <h4 class="text-danger" id="delName"></h4>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!--Footer-->
+                    <div class="modal-footer justify-content-center">
+                        <a type="button" data-record-id="23" class="btn btn-danger btn-ok">Delete Now <i
+                                class="fas fa-trash ml-1 text-white"></i></a>
+                        <a type="button" class="btn btn-outline-danger waves-effect" data-dismiss="modal">No,thanks</a>
+                    </div>
+                </div>
+                <!--/.Content-->
+            </div>
+        </div>
+        <!-- Ban dealer Modal-->
+    </section>
+    <!-- Session Modal End-->
 </div>
 <!--Section: Main panel-->
+
+<script>
+
+
+
+    $(document).ready(function () { });
+
+    $('.delClass').on('click', function (e) {
+
+        var $row = $(this).closest('tr')
+        var id = $(this).attr('id')
+        var nameTxt = $row.find('.storeName').text().trim();
+        $('#delName').html(nameTxt)
+        $('.btn-ok', '#deleteDealerModal').data('recordId', id);
+        $("#deleteDealerModal").modal('show')
+
+    });
+
+    $('#deleteDealerModal').on('click', '.btn-ok', function (e) {
+
+        var $modalDiv = $(e.delegateTarget);
+        var id = $(this).data('recordId');
+        $.ajax({
+            type: "post",
+            url: "/admin/deleteDealer",
+            data: { id: id },
+            success: function (response) {
+                if (response.ok) {
+                    alert('Deleted', response.value.storeName)
+                    location.reload()
+                }
+            }
+        });
+
+        $modalDiv.modal('hide')
+    });
+
+
+    //ban deatails    
+
+    $('.banClass').on('click', function (e) {
+
+        var $row = $(this).closest('tr')
+        var id = $(this).attr('id')
+        var nameTxt = $row.find('.storeName').text().trim();
+        $('#banName').html(nameTxt)
+        $('.btn-ok', '#banDealerModal').data('recordId', id);
+        $("#banDealerModal").modal('show')
+
+    });
+
+   $('#banDealerModal').on('click', '.btn-ok', function (e) {
+
+        var $modalDiv = $(e.delegateTarget);
+        var id = $(this).data('recordId');
+        $.ajax({
+            type: "post",
+            url: "/admin/banDealer",
+            data: { id: id },
+            success: function (response) {
+                if (response) {
+                    alert('Banned')
+                    location.reload()
+                }
+            }
+        });
+
+        $modalDiv.modal('hide')
+    });
+
+
+</script>

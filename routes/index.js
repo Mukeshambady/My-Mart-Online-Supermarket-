@@ -4,47 +4,68 @@ const commonHelpers = require('../helpers/common-helpers')
 
 
 /* GET home page. */
-router.get('/',  function(req, res, next) {
+router.get('/', function (req, res, next) {
   res.render('index', { title: 'Home' });
 });
 /* GET home page. */
-router.get('/index',  function(req, res, next) {
+router.get('/index', function (req, res, next) {
   res.redirect('/');
 });
 /* GET Login page. */
 router.get('/login', function (req, res, next) {
-
   if (req.session.loggedIn) {
-    res.redirect('/admin')
+
+    if (req.session.user.state === 0) {
+
+      res.redirect('/admin')
+    }
+    if (req.session.user.state === 2) {
+
+      res.redirect('/dealer')
+    }
   } else {
-    res.render('login', { layout: false, 'loginError': req.session.loginError,title:'Login' });
+    res.render('login', { layout: false, 'loginError': req.session.loginError, title: 'Login' });
     req.session.loginError = false
   }
 });
 
 /* Post Login page. */
-router.post('/login', function (req, res, next) {
-  commonHelpers.doLogin(req.body).then((response) => {
+router.post('/login', async function (req, res, next) {
+  await commonHelpers.doLogin(req.body).then((response) => {
+
     if (response.status) {
-     
-      req.session.user = response.user
-      if( req.session.user.state===0){
-        req.session.adminloggedIn = true
-         res.redirect('/admin')
+      if (response.user.status == 1) {
+
+        req.session.user = response.user
+        if (req.session.user.state === 0) {
+          req.session.adminloggedIn = true
+          req.session.loggedIn = true
+          res.redirect('/admin')
+        }
+        if (req.session.user.state === 2) {
+          req.session.dealerloggedIn = true
+          req.session.loggedIn = true
+          res.redirect('/dealer')
+        }
+      } else {
+        req.session.loginError = 'You are banned by admin'
+        req.session.adminloggedIn = false
+        req.session.dealerloggedIn = false
+        req.session.loggedIn = false
+        loignOrNot = false
+        req.session.user = null
+        res.redirect('/login')
       }
-      if( req.session.user.state===2){
-        req.session.dealerloggedIn = true
-         res.redirect('/dealer')
-      }
-     
     } else {
       req.session.loginError = 'Invalid Username or Password'
       req.session.adminloggedIn = false
       req.session.dealerloggedIn = false
-      req.session.user=null
-      res.redirect('/login') 
-         
+      req.session.loggedIn = false
+      req.session.user = null
+      res.redirect('/login')
+
     }
+
   })
 });
 

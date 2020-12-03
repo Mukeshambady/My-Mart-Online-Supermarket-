@@ -1,8 +1,11 @@
 <h1>Index Page</h1>
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#centralModalWarning">Launch
+{{!-- <button type="button" data-id="some_id" class="btn btn-primary" data-toggle="modal" data-target="#centralModalWarning">Launch
+    modal
+</button> --}}
+<button type="button" id="something" class="btn btn-primary mbutton">Launch
     modal
 </button>
-
+<button id="myid" onclick="test(this.id)">my button</button>
 <!-- Central Modal Medium Warning -->
 <div class="modal fade" id="centralModalWarning" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
     aria-hidden="true">
@@ -78,18 +81,34 @@
 <!-- Central Modal Medium Info-->
 
 <div class="text-center">
-    <a href=""  class="btn btn-default btn-rounded" data-toggle="modal" data-target="#sideModalTLInfo">Launch
+    <a href="" data-id="some_id" class="btn btn-default btn-rounded" data-toggle="modal"
+        data-target="#sideModalTLInfo">Launch
         Modal Info <i class="far fa-eye ml-1"></i></a>
 </div>
 
 
 <script>
-    $("#sideModalTLInfo").on('show.bs.modal', function () {
+    {{!-- $("#sideModalTLInfo").on('show.bs.modal', function () {
+        var ID = $(this).data('id');
+        alert("Hello World!");
+        alert('ID', ID)
+        $('#mytext').html('Mytext')
+    }); --}}
+
+    {{!-- $("#centralModalWarning").on('show.bs.modal', function () {
         alert("Hello World!");
         $('#mytext').html('Mytext')
+    }); --}}
+    function test(id) {
+        alert(id)
+        $("#centralModalWarning").modal('show')
+    }
+
+    $('.mbutton').on('click', async function () {
+        $("#centralModalWarning").modal('show')
+
+        alert("first", $(this).attr('id'))
+        alert('ID', $('.mbutton').id)
     });
-    $("#centralModalWarning").on('show.bs.modal', function () {
-        alert("Hello World!");
-        $('#mytext').html('Mytext')
-    });
+
 </script>
