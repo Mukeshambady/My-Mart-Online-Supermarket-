@@ -5,9 +5,10 @@ const bcrypt = require('bcrypt')
 
 
 
+
 module.exports = {
     doSignup: (userData) => {
-        delete userData._id //remove the _id field
+        // delete userData._id //remove the _id field
         return new Promise(async (resolve, reject) => {
 
             userData.password = await bcrypt.hash(userData.password, 10)
@@ -47,7 +48,7 @@ module.exports = {
             }
         })
     },
-    //Login 
+    //check username 
     doUsernameCheck: (userData) => {
         return new Promise(async (resolve, reject) => {
             let user = await db.get().collection(COLLECTION_DATA.TABLE_COLLECTIONs.login).findOne({ username: userData })
@@ -60,8 +61,23 @@ module.exports = {
             console.log('doUsernameCheck Error', err);
         })
     },
+    //get find One With Id 
+    getFindOnewithId: (collectionName,documentId) => {
+        return new Promise(async (resolve, reject) => {
+            let CollectionDetails = await db.get().collection(collectionName).findOne(documentId)
+            if (CollectionDetails) {
+                resolve(CollectionDetails )
+            } else {
+                resolve({ status: false })
+            }
+        }).catch((err) => {
+            console.log('getFindOnewithId Error', err);
+        })
+    },
+
     //Insert Once 
     doInsertOne: (docName, colData) => {
+       
         return new Promise(async (resolve, reject) => {
             await db.get().collection(docName).insertOne(colData).then((data) => {
                 resolve(data.ops[0])
@@ -73,14 +89,29 @@ module.exports = {
 
     //Find All
     //using promise functionality
-    getFind: (docName) => {
+    getFind: (docName,arg={}) => {
+        console.log(arg);
+        // return new Promise(async (resolve, reject) => {
+        //     let docDetails = await db.get().collection(docName).find(arg).toArray()
+        //     resolve(docDetails)
+        // }).catch((err) => {
+        //     console.log('getFind Error', err);
+        // })
+    },
+
+    //Find All
+    //using promise functionality
+    getFindWithId: (docName, id) => {
         return new Promise(async (resolve, reject) => {
-            let docDetails = await db.get().collection(docName).find().toArray()
+            let docDetails = await db.get().collection(docName).find(id).toArray()
             resolve(docDetails)
         }).catch((err) => {
             console.log('getFind Error', err);
         })
     },
+
+
+
     //Find One
     //using promise functionality
     getFindOne: (docName, id) => {
@@ -134,12 +165,12 @@ module.exports = {
                 }
 
             ]).toArray().then((docDetails) => {
+              
                 resolve(docDetails)
             })
 
         }).catch((err) => {
             console.log('getFindOne Error', err);
-
         })
     },
     //Insert Once 
@@ -149,10 +180,10 @@ module.exports = {
         delete colData._id
 
         return new Promise(async (resolve, reject) => {
-            await db.get().collection(docName).updateOne(id, { $set: colData }).then((result) => {
+            await db.get().collection(docName).updateOne(id, { $set: colData },{ upsert: true }).then((result) => {
 
                 if (result.matchedCount == 1) {
-                    resolve(true)
+                    resolve(result)
                 }
             }).catch((err) => {
                 console.log('doUpdate-Error', err);

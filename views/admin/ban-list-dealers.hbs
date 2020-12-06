@@ -40,7 +40,7 @@
                             </h5>
                             <p class="text-muted">{{this.address}}</p>
                         </td>
-                        <td><strong>Ambili </strong></td>
+                        <td><strong>{{this.name}} </strong></td>
 
 
                         <td>
@@ -142,8 +142,9 @@
             data: { id: id },
             success: function (response) {
                 if (response) {
-                    alert('Un-Banned')
-                    location.reload()
+                    
+                    $('#' + id).parents("tr").remove();
+                    toastr.success('Dealer Active');
                 }
             }
         });

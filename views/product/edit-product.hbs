@@ -1,0 +1,172 @@
+<div class="container-fluid">
+    <!-- Section: Edit Account -->
+   
+    <section class="section">
+        {{#if productSuccess}}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong id="registrationStatus">{{productSuccess}}</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {{/if}}
+         {{#with productDetails}}
+        <form class="form-horizontal" method="POST" id="product-form" action="/dealer/edit-product/{{_id}}"
+            enctype="multipart/form-data">
+            <!-- First row -->
+            <div class="row">
+                {{!-- Form start --}}
+
+                <!-- First column -->
+                <div class="col-lg-4 mb-4">
+
+                    <!-- Card -->
+                    <div class="card card-cascade narrower">
+
+                        <!-- Card image -->
+                        <div class="view view-cascade gradient-card-header mdb-color lighten-3">
+                            <h5 class="mb-0 font-weight-bold">Product</h5>
+                        </div>
+                        <!-- Card image -->
+
+                        <!-- Card content -->
+                        <div class="card-body card-body-cascade text-center">
+                            <img src="/products-pic/{{productImage}}" alt="User Photo"
+                                class="z-depth-1 mb-3 mx-auto img-fluid" alt="User Photo"  id="imageView">
+<input type="hidden" name="imageView" value="{{productImage}}">
+                            <p id="img-name" class="text-muted "><small>Click to add your product
+                                    image</small></p>
+                            <div class="row flex-center">
+                                <input type="file" id="FileUpload" name="image" onchange="viewImage(event)"
+                                    style="display: none;">
+                                {{!-- <input id="uploadButton" type="button" value="Upload" onclick='$("#FileUpload").click()'> --}}
+                                <a class="btn btn-info btn-rounded btn-sm waves-effect waves-light"
+                                    onclick='$("#FileUpload").click()'>Upload New
+                                    Product</a>
+                                {{!--<button
+									class="btn btn-danger btn-rounded btn-sm waves-effect waves-light">Delete</button> --}}
+                            </div>
+                        </div>
+                        <!-- Card content -->
+
+                    </div>
+                    <!-- Card -->
+
+                </div>
+
+                <!-- First column -->
+
+                <!-- Second column -->
+                <div class="col-lg-8 mb-4">
+
+                    <!-- Card -->
+                    <div class="card card-cascade narrower">
+
+                        <!-- Card image -->
+                        <div class="view view-cascade gradient-card-header mdb-color lighten-3">
+                            <h5 class="mb-0 font-weight-bold">Update Product Details</h5>
+                        </div>
+                        <!-- Card image -->
+
+                        <!-- Card content -->
+                        <div class="card-body card-body-cascade text-center">
+                            <!-- First row -->
+                            <div class="row">
+                                <!-- First column -->
+                                <div class="col-md-12">
+                                    <div class="md-form mb-0">
+                                        <input type="text" class="form-control validate" value="{{name}}" name="name"
+                                            required placeholder="Product Name">
+                                        <label for="form1" data-error="wrong" data-success="right">Product Name</label>
+                                    </div>
+                                    {{#if productNameExistError}}
+                                    <div class="alert alert-danger  alert-dismissible fade show" role="alert">
+                                        <strong>{{productNameExistError}}</strong>
+                                    </div>
+
+                                    {{/if}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Second column -->
+                                <div class="col-md-12">
+                                    <div class="md-form mb-0">
+                                        <input type="text" name="category" class="form-control validate" required
+                                            placeholder="Product Category" value="{{category}}">
+                                        <label for="product category" data-error="wrong" data-success="right">Product
+                                            Category</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- First row -->
+
+                            <!-- First row -->
+                            <div class="row">
+                                <!-- First column -->
+                                <div class="col-md-12">
+                                    <div class="md-form mb-0">
+                                        <input type="number" id="form81" name="stock" value="{{stock}}"
+                                            placeholder="number of qty" class="form-control validate" required>
+                                        <label for="Product stock" data-error="wrong" data-success="right">Product
+                                            Stock</label>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- First row -->
+                            <!-- First row -->
+                            <div class="row">
+                                <!-- First column -->
+                                <div class="col-md-12">
+                                    <div class="md-form mb-0">
+                                        <input type="number" id="form81" name="price" placeholder="Product Price"
+                                            class="form-control validate" required value="{{price}}">
+                                        <label for="Product Price" data-error="wrong" data-success="right">Product
+                                            Price</label>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- First row -->
+
+
+                            <!-- Fourth row -->
+                            <div class="row">
+                                <div class="col-md-12 text-center my-1">
+
+                                    <input type="submit" value="Update"
+                                        class="btn btn-outline-info btn-rounded btn-sm btn-ok">
+
+                                </div>
+                            </div>
+                            <!-- Fourth row -->
+
+
+
+                        </div>
+                        <!-- Card content -->
+
+                    </div>
+                    <!-- Card -->
+
+                </div>
+                <!-- Second column -->
+
+            </div>
+            <!-- First row -->
+        </form>
+    </section>
+    {{/with}}
+    <!-- Section: add Account -->
+
+
+</div>
+
+<script>
+    function viewImage(event) {
+        document.getElementById('imageView').src = URL.createObjectURL(event.target.files[0])
+        document.getElementById('img-name').innerHTML = event.target.files[0].name
+
+    }
+
+</script>

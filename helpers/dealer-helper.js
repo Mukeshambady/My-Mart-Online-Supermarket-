@@ -1,13 +1,16 @@
 
 const commonHelpers = require("./common-helpers");
 const string_collections = require('../config/string-collections');
+
 //object id declaration to compare(string converted to object)
 var objectId = require('mongodb').ObjectID
 
-let dealerCollectionName=string_collections.TABLE_COLLECTIONs.dealer
-let loginCollectionName=string_collections.TABLE_COLLECTIONs.login;
+let dealerCollectionName = string_collections.TABLE_COLLECTIONs.dealer
+let loginCollectionName = string_collections.TABLE_COLLECTIONs.login;
+let productCollectionName = string_collections.TABLE_COLLECTIONs.product;
 let dealerDoc = string_collections.DEALER_DOC
 let loginDoc = string_collections.LOGIN_DOC
+let productDoc = string_collections.PRODUCT_DOC
 
 module.exports = {
 
@@ -20,7 +23,7 @@ module.exports = {
         //     status: 1,
         //     date: new Date()
         // }
-        
+
         loginDoc.username = data.username
         loginDoc.password = data.password
         loginDoc.createdBy = objectId(data.createdBy)
@@ -32,7 +35,9 @@ module.exports = {
             if (userIsExist.status) {
                 resolve(userIsExist)
             } else {
+                delete loginDoc._id
                 await commonHelpers.doSignup(loginDoc).then(async (id) => {
+                  
                     const userId = await objectId(id._id).toString()
                     // string_collections.DEALER_DOC = {
                     //     _id: objectId(id._id),
@@ -77,7 +82,7 @@ module.exports = {
                 _id: { _id: objectId(userId) }
                 , storeName: data.storename
                 , email: data.email
-                , name:data.name
+                , name: data.name
                 , phoneNumber: data.phoneNumber
                 , address: data.address
                 , extraInFormation: data.extrainfo
@@ -85,9 +90,28 @@ module.exports = {
                 , date: new Date()
             }
             await commonHelpers.doUpdateOne(dealerCollectionName, dealerDoc).then((dealer) => {
-               resolve(dealer)
+                resolve(dealer)
             }).catch((err) => {
                 console.log('Registration Fail', err);
+            })
+        })
+    },
+    //update updateDealerProduct
+    updateDealerProduct: (id, data) => {
+        return new Promise(async (resolve, reject) => {
+
+            const userId = objectId(id).toString()
+            productDocDoc = {
+                _id: { _id: objectId(userId) },
+                name: data.name,
+                category: data.category,
+                price: data.price,
+                stock: data.stock
+            }
+            await commonHelpers.doUpdateOne(productCollectionName, productDocDoc).then((product) => {
+                resolve(product)
+            }).catch((err) => {
+                console.log('updateDealerProduct Fail', err);
             })
         })
     },
@@ -96,7 +120,7 @@ module.exports = {
     dealersAllDetail: function () {
         return new Promise(async (resolve, reject) => {
             // getFindAllDetails: (docName, status,state)
-            await commonHelpers.getFindAllDetails(dealerCollectionName,1,2).then((data) => {
+            await commonHelpers.getFindAllDetails(dealerCollectionName, 1, 2).then((data) => {
                 resolve(data)
             }).catch((err) => {
                 console.log('Dealer Details Fetch error ', err)
@@ -108,7 +132,7 @@ module.exports = {
     dealersAllBanDetail: function () {
         return new Promise(async (resolve, reject) => {
             // getFindAllDetails: (docName, status,state)
-            await commonHelpers.getFindAllDetails(dealerCollectionName,0,2).then((data) => {
+            await commonHelpers.getFindAllDetails(dealerCollectionName, 0, 2).then((data) => {
                 resolve(data)
             }).catch((err) => {
                 console.log('Dealer Details Fetch error ', err)
@@ -143,16 +167,109 @@ module.exports = {
         })
     },
     //dealerBanOrUnban by _id
-    dealerBanOrUnban: function (userId,status) {
-        loginDoc ={ _id: { _id: objectId(userId) },status:status }   
+    dealerBanOrUnban: function (userId, status) {
+        loginDoc = { _id: { _id: objectId(userId) }, status: status }
         return new Promise(async (resolve, reject) => {
             await commonHelpers.doUpdateOne(loginCollectionName, loginDoc).then((data) => {
-            resolve(data)
+                resolve(data)
             }).catch((err) => {
                 console.log('Dealer Details dealerBan error ', err)
                 reject()
             })
         })
     },
+   
+    //AdddealerProduct by dealer _id
+    AddDealerProduct: function (userId, productDeatils) {
+        user_Id = objectId(userId.trim())
+        pro_name = productDeatils.name.trim()
+        productDoc.name = pro_name
+        productDoc.category = productDeatils.category.trim()
+        productDoc.stock = productDeatils.stock.trim()
+        productDoc.price = productDeatils.price.trim()
+        productDoc.dealer_id = user_Id
+        productDoc.productImage = userId + pro_name + '.jpg'
 
+        delete productDoc._id
+        return new Promise(async (resolve, reject) => {
+            await commonHelpers.doInsertOne(productCollectionName, productDoc).then((product) => {
+                if (product)
+                    result = product.productImage
+                resolve(result)
+            }).catch((err) => {
+                console.log('AdddealerProduct Fail', err);
+            })
+        })
+    },
+    //find dealerProducts by _id
+    dealerProducts: function (userId) {
+
+        dealerFeatchdata = { dealer_id: objectId(userId),status:1 }
+        return new Promise(async (resolve, reject) => {
+            await commonHelpers.getFind(productCollectionName, dealerFeatchdata).then((data) => {
+                resolve(data)
+            }).catch((err) => {
+                console.log('Dealer Details Fetch error ', err)
+                reject()
+            })
+        })
+    },
+    //find dealerProducts by _id
+    getDealerProductOne: function (userId) {
+
+        product_id = { _id: objectId(userId) }
+        return new Promise(async (resolve, reject) => {
+            await commonHelpers.getFindOnewithId(productCollectionName, product_id).then((data) => {
+                resolve(data)
+            }).catch((err) => {
+                console.log('Dealer Details Fetch error ', err)
+                reject()
+            })
+        })
+    },
+
+    //Ajax
+    //productDelete  by _id bot login and dealer
+    productDelete: function (userId) {
+        productDoc = { _id: objectId(userId) }
+        return new Promise(async (resolve, reject) => {        
+            await commonHelpers.doFindOneAndDelete(productCollectionName, productDoc).then((data) => {
+                resolve(data)
+            }).catch((err) => {
+                console.log('productDelete error ', err)
+                reject()
+            })
+        })
+    },
+    
+     //productBanOrUnban by _id
+     productBanOrUnban: function (userId, status) {
+        productDoc = { _id: { _id: objectId(userId) }, status: status }
+        return new Promise(async (resolve, reject) => {
+            await commonHelpers.doUpdateOne(productCollectionName, productDoc).then((data) => {
+                resolve(data)
+            }).catch((err) => {
+                console.log('productBanOrUnban error ', err)
+                reject()
+            })
+        })
+    },
+
+     //All Product---BAN--Lists
+     productAllBanDetail: function (id) {
+        return new Promise(async (resolve, reject) => {
+            // getFindAllDetails: (docName, status,state)
+            productSearch={_id:objectId(id),status:0}
+            await commonHelpers.getFind(productCollectionName, productSearch).then((data) => {
+                resolve(data)
+            }).catch((err) => {
+                console.log('Dealer Details Fetch error ', err)
+                reject()
+            })
+        })
+    },
+
+//end export
 }
+
+

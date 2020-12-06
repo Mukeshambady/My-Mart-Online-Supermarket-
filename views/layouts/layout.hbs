@@ -1,11 +1,13 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="utf-8">
+  
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta http-equiv="cache-control" content="max-age=0" />
+  <meta http-equiv="cache-control" content="no-cache" />
   <title>My Mart Online Supermarket | {{title}}</title>
   <!-- Font Awesome -->
   <link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/releases/v5.11.0/css/all.css">
@@ -17,45 +19,44 @@
   <!-- Material Design Bootstrap -->
   {{!-- <link rel="stylesheet" type="text/css" href="https://mdbootstrap.com/api/snippets/static/download/MDB-Pro_4.19.1/css/mdb.min.css"> --}}
   <link rel="stylesheet" type="text/css" href="../../css/mdb.min.css">
- <!-- JQuery -->
+  <!-- JQuery -->
   {{!-- <script src="https://mdbootstrap.com/api/snippets/static/download/MDB-Pro_4.19.1/js/jquery.min.js"></script> --}}
   <script src="../../js/jquery.min.js"></script>
   <!-- Your custom styles (optional) -->
   <style>
     .card.card-cascade .view.gradient-card-header {
-            padding: 1.1rem 1rem;
-        }
+      padding: 1.1rem 1rem;
+    }
 
-        .card.card-cascade .view {
-            box-shadow: 0 5px 12px 0 rgba(0, 0, 0, 0.2), 0 2px 8px 0 rgba(0, 0, 0, 0.19);
-        }
-       
-    </style>
+    .card.card-cascade .view {
+      box-shadow: 0 5px 12px 0 rgba(0, 0, 0, 0.2), 0 2px 8px 0 rgba(0, 0, 0, 0.19);
+    }
+  </style>
 </head>
 
 <body class="fixed-sn white-skin">
-{{>_admin-side-bar}}
-{{>_admin-header-top}}
-  
+  {{>_admin-side-bar}}
+  {{>_admin-header-top}}
+
 
   <main class="mb-5 pb-5">
     {{{body}}}
   </main>
-<!--Main layout-->
- <!-- Footer -->
- <footer class="page-footer fixed-bottom font-small mdb-color lighten-3">
+  <!--Main layout-->
+  <!-- Footer -->
+  <footer class="page-footer fixed-bottom font-small mdb-color lighten-3">
 
     <!-- Copyright -->
     <div class="footer-copyright text-center py-3 ">&#xA9; 2018 Copyright:
-        <a href="https://mdbootstrap.com/bootstrap-tutorial/"> MDBootstrap.com</a>
+      <a href="https://mdbootstrap.com/bootstrap-tutorial/"> MDBootstrap.com</a>
     </div>
     <!-- Copyright -->
 
-</footer>
-<!-- Footer -->
+  </footer>
+  <!-- Footer -->
 
   <!-- SCRIPTS -->
- 
+
   <!-- Bootstrap tooltips -->
   {{!-- <script type="text/javascript" src="https://mdbootstrap.com/previews/templates/admin-dashboard/js/popper.min.js"></script> --}}
   <script type="text/javascript" src="../../js/popper.min.js"></script>

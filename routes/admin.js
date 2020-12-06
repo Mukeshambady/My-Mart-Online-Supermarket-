@@ -23,7 +23,7 @@ const verifyLogin = (req, res, next) => {
 /* GET home page. */
 router.get('/', verifyLogin, async function (req, res, next) {
   let dealerDetails = await dealerHelper.dealersAllDetail()
-  //console.log(dealerDetails);
+  // console.log(dealerDetails);
   res.render('admin/all-dealers', { dealerDetails, title: 'Admin Home' });
 });
 

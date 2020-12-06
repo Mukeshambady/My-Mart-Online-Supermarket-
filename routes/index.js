@@ -4,7 +4,7 @@ const commonHelpers = require('../helpers/common-helpers')
 
 
 /* GET home page. */
-router.get('/', function (req, res, next) {
+router.get('/', function (req, res, next) { 
   res.render('index', { title: 'Home' });
 });
 /* GET home page. */
@@ -71,8 +71,15 @@ router.post('/login', async function (req, res, next) {
 
 /* GET Logout page. and session distroy*/
 router.get('/logout', (req, res) => {
+ 
   req.session.loggedIn = false
   req.session.destroy()
+  
+  // if (req.session.user) {
+      // res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+      // res.header('Expires', '-1');
+      // res.header('Pragma', 'no-cache');
+  // }
   res.redirect('/login')
 })
 
