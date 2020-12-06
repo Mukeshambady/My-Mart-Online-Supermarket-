@@ -90,13 +90,13 @@ module.exports = {
     //Find All
     //using promise functionality
     getFind: (docName,arg={}) => {
-        console.log(arg);
-        // return new Promise(async (resolve, reject) => {
-        //     let docDetails = await db.get().collection(docName).find(arg).toArray()
-        //     resolve(docDetails)
-        // }).catch((err) => {
-        //     console.log('getFind Error', err);
-        // })
+        console.log('arg',arg);
+        return new Promise(async (resolve, reject) => {
+            let docDetails = await db.get().collection(docName).find(arg).toArray()
+            resolve(docDetails)
+        }).catch((err) => {
+            console.log('getFind Error', err);
+        })
     },
 
     //Find All

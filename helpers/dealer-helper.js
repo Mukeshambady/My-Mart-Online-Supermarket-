@@ -204,9 +204,9 @@ module.exports = {
     //find dealerProducts by _id
     dealerProducts: function (userId) {
 
-        dealerFeatchdata = { dealer_id: objectId(userId),status:1 }
+        productDoc = { dealer_id: objectId(userId),status:1 }
         return new Promise(async (resolve, reject) => {
-            await commonHelpers.getFind(productCollectionName, dealerFeatchdata).then((data) => {
+            await commonHelpers.getFind(productCollectionName, productDoc).then((data) => {
                 resolve(data)
             }).catch((err) => {
                 console.log('Dealer Details Fetch error ', err)
