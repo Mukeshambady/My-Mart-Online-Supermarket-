@@ -1,27 +1,61 @@
+<div class="container-fluid">
+    <!--Section: Main panel-->
+    <!-- Section: Block Content -->
+    <section>
+
+        <!--Grid row-->
+        <div class="row justify-content-between">
+
+            <!--Grid column-->
+            <div class="col-lg-12  ">
+                {{!-- <h3>Products</h3> --}}
+                <div class="media align-middle">
+                    <div class="media-body  p-4">
+                        <h3>Products Ban List</h3>
+                    </div>
+                </div>
+            </div>
+            <!--Grid column-->
+          
+        </div>
+        <!--Grid row-->
+    </section>
+    <!-- Section: Block Content -->
+</div>
+
 <div class="container  py-3 z-depth-1 rounded">
-
-
     <!--Section: Content-->
     <section class="dark-grey-text">
 
         <!-- Shopping Cart table -->
         <div class="table-responsive">
-            <h4 class="">Dealer's Ban List</h4>
+
             <table class="table product-table mb-0">
 
                 <!-- Table head -->
-                <thead class="bg-warning lighten-5 text-white">
+                <thead class="mdb-color lighten-5">
                     <tr>
                         <th class="font-weight-bold">
                             <strong>#</strong>
                         </th>
                         <th class="font-weight-bold">
-                            <strong>Dealer Address</strong>
+                            <strong>Image</strong>
                         </th>
                         <th class="font-weight-bold">
-                            <strong>Dealer Name</strong>
+                            <strong>Name</strong>
                         </th>
-
+                        <th class="font-weight-bold">
+                            <strong>Category</strong>
+                        </th>
+                        <th class="font-weight-bold">
+                            <strong>Price</strong>
+                        </th>
+                        <th class="font-weight-bold">
+                            <strong>Total</strong>
+                        </th>
+                        <th class="font-weight-bold">
+                            <strong>Left</strong>
+                        </th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -31,49 +65,65 @@
                 <tbody>
 
                     <!--  row -->
-                    {{#each dealerDetails}}
+                    {{#each productDetails}}
                     <tr>
-                        <th scope="row">{{numbering @index}}</th>
+                        <th class="align-middle" scope="row" id="{{this._id}}">{{numbering @index}}</th>
                         <td>
-                            <h5 class="mt-1">
-                                <strong class="storeName">{{this.storeName}}</strong>
-                            </h5>
-                            <p class="text-muted">{{this.address}}</p>
-                        </td>
-                        <td><strong>{{this.name}} </strong></td>
+                            <img src="/products-pic/{{this.productImage}}" alt="product's image"
+                                 style="width: 50px;height:50px;">
 
+                        </td>
+                        <td><strong class="productName">{{this.name}} </strong></td>
+                        <td>
+                            <strong>{{this.category}}</strong>
+
+                        </td>
+                        <td>
+                            <strong>{{this.price}}</strong>
+
+                        </td>
+                        <td>
+                            <strong>{{this.stock}}</strong>
+
+                        </td>
+                        <td>
+                            <strong>{{this.left}}</strong>
+
+                        </td>
 
                         <td>
                             <a href="javascript:void(0)" id="{{this._id}}" class="btn btn-sm btn-success banClass"
-                                data-toggle="Block Dealer" data-placement="top" data-toggle="Un ban Dealer"
-                                title="Un ban Dealer"><i class="fas fa-check"></i>
+                                data-toggle="Unban" data-placement="top" data-toggle="Un ban Product"
+                                title="Unban Product"><i class="fas fa-check"></i>
                             </a>
                         </td>
                     </tr>
                     {{/each}}
                     <!-- /. row -->
+
+
                 </tbody>
                 <!-- /.Table body -->
+
             </table>
+
         </div>
         <!-- /.Shopping Cart table -->
+
     </section>
-    <!--Section: Content-->
-
-
 </div>
 <!--Section: Main panel-->
 
 <section>
     <!-- Ban deaer Modal -->
-    <div class="modal fade" id="unBanDealerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    <div class="modal fade" id="unBanProductModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
         aria-hidden="true" data-backdrop="static" >
         <div class="modal-dialog modal-notify modal-success" role="document">
             <!--Content-->
             <div class="modal-content">
                 <!--Header-->
                 <div class="modal-header">
-                    <p class="heading lead">Un-Ban </p>
+                    <p class="heading lead">Un-Ban Product</p>
 
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true" class="white-text">&times;</span>
@@ -86,7 +136,7 @@
                         <i class="fas fa-check fa-4x mb-3 animated rotateIn"></i>
                         <p>Click Active to Unban</p>
                         <p>
-                        <h4 class="text-success" id="banName"></h4>
+                        <strong class="text-success" id="banName"></strong>
                         </p>
                     </div>
                 </div>
@@ -108,8 +158,6 @@
 
 
 
-
-
 <script>
     //ban deatails    
 
@@ -118,25 +166,26 @@
         var id = $(this).attr('id')
         var nameTxt = $row.find('.storeName').text().trim();
         $('#banName').html(nameTxt)
-        $('.btn-ok', '#unBanDealerModal').data('recordId', id);
-        $("#unBanDealerModal").modal('show')
+        $('.btn-ok', '#unBanProductModal').data('recordId', id);
+        $("#unBanProductModal").modal('show')
     });
 
-    $('#unBanDealerModal').on('click', '.btn-ok', function (e) {
+    $('#unBanProductModal').on('click', '.btn-ok', function (e) {
         var $modalDiv = $(e.delegateTarget);
         var id = $(this).data('recordId');
         $.ajax({
             type: "post",
-            url: "/admin/unbanDealer",
+            url: "/dealer/unbanProduct",
             data: { id: id },
             success: function (response) {
                 if (response) {
                     
                     $('#' + id).parents("tr").remove();
-                    toastr.success('Dealer Active');
+                    toastr.success('Product Unbanned');
                 }
             }
         });
         $modalDiv.modal('hide')
     });
+
 </script>

@@ -2,34 +2,18 @@
     <!--Section: Main panel-->
     <!-- Section: Block Content -->
     <section>
-
         <!--Grid row-->
         <div class="row justify-content-between">
-
             <!--Grid column-->
-            <div class="col-lg-3  col-sm-6  ">
-                {{!-- <h3>Products</h3> --}}
+            <div class="col ">
                 <div class="media text-center ">
                     <div class="media-body  p-3">
-                       <h3>Products</h3>
-                       
+                       <h3>User Ban List <i class="ml-1 far fa-user"></i></h3>
                     </div>
                 </div>
             </div>
             <!--Grid column-->
-            <!--Grid column-->
-            <div class="col-lg-3  col-sm-6 mb-4 ">
-                <div class="media  text-center">
-                    <!-- <i class="fas fa-download fa-lg pink z-depth-1 p-4 rounded-left text-white mr-3"></i> -->
-                    <div class="media-body p-1">
-                        <a href="/dealer/product" class="btn btn-info btn-rounded">
-                            Add Product
-                        </a>
-
-                    </div>
-                </div>
-            </div>
-            <!--Grid column-->
+            
         </div>
         <!--Grid row-->
     </section>
@@ -58,18 +42,9 @@
                             <strong>Name</strong>
                         </th>
                         <th class="font-weight-bold">
-                            <strong>Category</strong>
-                        </th>
-                        <th class="font-weight-bold">
-                            <strong>Price</strong>
-                        </th>
-                        <th class="font-weight-bold">
-                            <strong>Total</strong>
-                        </th>
-                        <th class="font-weight-bold">
-                            <strong>Left</strong>
-                        </th>
-                        <th>Action</th>
+                            <strong>Address</strong>
+                        </th>                        
+                        <th class="font-weight-bold">Action</th>
                     </tr>
                 </thead>
                 <!-- /.Table head -->
@@ -78,45 +53,26 @@
                 <tbody>
 
                     <!--  row -->
-                    {{#each productDetails}}
+                    {{#each userDetails}}
                     <tr>
                         <th class="align-middle" scope="row" id="{{this._id}}">{{numbering @index}}</th>
                         <td>
-                            <img src="/products-pic/{{this.productImage}}" alt="product's image" class="img-fluid"
+                            <img src="/user-profile-pic/{{this.profilePicture}}" alt="Profile Picture" class="img-fluid"
                                 style="width: 50px;height:50px;">
 
                         </td>
-                        <td><strong class="productName">{{this.name}} </strong></td>
-                        <td>
-                            <strong>{{this.category}}</strong>
-
+                        <td><strong class="productName">{{this.name}} </strong>
+                         <p class="text-muted">{{this.phoneNuumber}}</p>
                         </td>
                         <td>
-                            <strong>{{this.price}}</strong>
+                            <strong>{{this.address}}</strong>
 
-                        </td>
-                        <td>
-                            <strong>{{this.stock}}</strong>
-
-                        </td>
-                        <td>
-                            <strong>{{this.left}}</strong>
-
-                        </td>
+                        </td>             
 
                         <td>
-                            <a href="/dealer/edit-product/{{this._id}}" class="btn btn-sm btn-info"
-                                data-toggle="tooltip" data-placement="top" title="Edit Product"><i
-                                    class="fas fa-user-edit"></i>
-                            </a>
-                            <a href="javascript:void(0)" id="{{this._id}}" class="btn btn-sm btn-danger delClass"
-                                data-toggle="Delete Product" data-placement="top" title="Delete Product"><i
-                                    class="fas fa-trash-alt"></i>
-                            </a>
-
-                            <a href="javascript:void(0)" id="{{this._id}}" class="btn btn-sm btn-warning banClass"
-                                data-toggle="Block Product" data-placement="top" title="Block Product"><i
-                                    class="fas fa-ban"></i>
+                               <a href="javascript:void(0)" id="{{this._id}}" class="btn btn-sm btn-success banClass"
+                                data-toggle="Unban" data-placement="top" data-toggle="Un ban User"
+                                title="Unban User"><i class="fas fa-check"></i>
                             </a>
                         </td>
                     </tr>
@@ -139,14 +95,14 @@
 
 
         <!-- Ban deaer Modal -->
-        <div class="modal fade" id="banProductModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        <div class="modal fade" id="banUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
             aria-hidden="true" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog modal-notify modal-warning" role="document">
                 <!--Content-->
                 <div class="modal-content">
                     <!--Header-->
                     <div class="modal-header">
-                        <p class="heading lead">Ban Product </p>
+                        <p class="heading lead">Ban User </p>
 
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true" class="white-text">&times;</span>
@@ -166,7 +122,7 @@
 
                     <!--Footer-->
                     <div class="modal-footer justify-content-center">
-                        <a type="button" data-record-id="24" class="btn btn-warning btn-ok">Ban Product <i
+                        <a type="button" data-record-id="24" class="btn btn-warning btn-ok">Ban User <i
                                 class="fas fa-ban ml-1 text-white"></i></a>
                         <a type="button" class="btn btn-outline-warning waves-effect" data-dismiss="modal">No,
                             thanks</a>
@@ -178,14 +134,14 @@
 
         <!-- Ban dealer Modal-->
         <!-- Ban deaer Modal -->
-        <div class="modal fade" id="deleteProductModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        <div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
             aria-hidden="true" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog modal-notify modal-danger" role="document">
                 <!--Content-->
                 <div class="modal-content">
                     <!--Header-->
                     <div class="modal-header">
-                        <p class="heading lead">Delate Product </p>
+                        <p class="heading lead">Delate User </p>
 
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true" class="white-text">&times;</span>
@@ -219,64 +175,75 @@
 </div>
 <!--Section: Main panel-->
 
+<!--Section: modal-->
+<section>
+    <!-- Ban deaer Modal -->
+    <div class="modal fade" id="unBanUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        aria-hidden="true" data-backdrop="static" >
+        <div class="modal-dialog modal-notify modal-success" role="document">
+            <!--Content-->
+            <div class="modal-content">
+                <!--Header-->
+                <div class="modal-header">
+                    <p class="heading lead">Un-Ban Product</p>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="white-text">&times;</span>
+                    </button>
+                </div>
+
+                <!--Body-->
+                <div class="modal-body">
+                    <div class="text-center">
+                        <i class="fas fa-check fa-4x mb-3 animated rotateIn"></i>
+                        <p>Click Active to Unban</p>
+                        <p>
+                        <strong class="text-success" id="banName"></strong>
+                        </p>
+                    </div>
+                </div>
+
+                <!--Footer-->
+                <div class="modal-footer justify-content-center">
+                    <a type="button" data-record-id="24" class="btn btn-success btn-ok">Active <i
+                            class="fas fa-check ml-1 text-white"></i></a>
+                    <a type="button" class="btn btn-outline-success waves-effect" data-dismiss="modal">No,
+                        thanks</a>
+                </div>
+            </div>
+            <!--/.Content-->
+        </div>
+    </div>
+
+    <!-- Ban dealer Modal-->
+</section>
+
+
+
 <script>
-
-    //calling delte Modal 
-    $('.delClass').on('click', function (e) {
-        var $row = $(this).closest('tr')
-        var id = $(this).attr('id')
-        var nameTxt = $row.find('.productName').text().trim();
-        $('#delName').html(nameTxt)
-        $('.btn-ok', '#deleteProductModal').data('recordId', id);
-        $("#deleteProductModal").modal('show')
-
-    });
-
-    //click confirm delet button to delete product and remove row (tr) from the table
-    $('#deleteProductModal').on('click', '.btn-ok', function (e) {
-        var $modalDiv = $(e.delegateTarget);
-        var id = $(this).data('recordId');
-
-        $.ajax({
-            type: "post",
-            url: "/dealer/deleteProduct",
-            data: { id: id },
-            success: function (response) {
-                if (response.ok) {
-                    toastr.success('Product Deleted  Successfully..')
-                    $('#' + id).parents("tr").remove();
-                }
-            }
-        });
-
-        $modalDiv.modal('hide')
-    });
-
-
-    // calling ban deatails modal
+    //ban deatails    
 
     $('.banClass').on('click', function (e) {
         var $row = $(this).closest('tr')
         var id = $(this).attr('id')
-        var nameTxt = $row.find('.productName').text().trim();
+        var nameTxt = $row.find('.storeName').text().trim();
         $('#banName').html(nameTxt)
-        $('.btn-ok', '#banProductModal').data('recordId', id);
-        $("#banProductModal").modal('show')
-
+        $('.btn-ok', '#unBanUserModal').data('recordId', id);
+        $("#unBanUserModal").modal('show')
     });
-    //click to confirm ban button and ban the data and remove current tr from the table
-    $('#banProductModal').on('click', '.btn-ok', function (e) {
-        e.preventDefault()
+
+    $('#unBanUserModal').on('click', '.btn-ok', function (e) {
         var $modalDiv = $(e.delegateTarget);
         var id = $(this).data('recordId');
         $.ajax({
             type: "post",
-            url: "/dealer/banProduct",
+            url: "/dealer/unbanUser",
             data: { id: id },
             success: function (response) {
                 if (response) {
-                    toastr.success('Product Banned...')
+                    
                     $('#' + id).parents("tr").remove();
+                    toastr.success('User Unbanned');
                 }
             }
         });
@@ -284,3 +251,6 @@
     });
 
 </script>
+
+
+

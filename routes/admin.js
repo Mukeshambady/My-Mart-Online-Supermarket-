@@ -22,7 +22,7 @@ const verifyLogin = (req, res, next) => {
 
 /* GET home page. */
 router.get('/', verifyLogin, async function (req, res, next) {
-  let dealerDetails = await dealerHelper.dealersAllDetail()
+  let dealerDetails = await dealerHelper.dealersAllDetail(req.session.user._id)
   // console.log(dealerDetails);
   res.render('admin/all-dealers', { dealerDetails, title: 'Admin Home' });
 });
@@ -139,7 +139,7 @@ router.post('/unbanDealer', async function (req, res, next) {
 
 /* GET ban-list-dealers page. */
 router.get('/ban-list-dealers', verifyLogin, async function (req, res, next) {
-  let dealerDetails = await dealerHelper.dealersAllBanDetail()
+  let dealerDetails = await dealerHelper.dealersAllBanDetail(req.session.user._id)
   res.render('admin/ban-list-dealers', { dealerDetails, title: 'Dealers - Ban List ' });
 });
 

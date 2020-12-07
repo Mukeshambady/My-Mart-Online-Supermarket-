@@ -1,0 +1,175 @@
+<div class="container-fluid">
+    <!-- Section: Edit Account -->
+    <section class="section">
+        {{#if registrationStatus}}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong id="registrationStatus">{{registrationStatus}}</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {{/if}}
+        <form class="form-horizontal" method="POST" id="user-form" action="/dealer/add-user"
+            enctype="multipart/form-data">
+            <!-- First row -->
+            <div class="row">
+                {{!-- Form start --}}
+
+                <!-- First column -->
+                <div class="col-lg-4 mb-4">
+
+                    <!-- Card -->
+                    <div class="card card-cascade narrower">
+
+                        <!-- Card image -->
+                        <div class="view view-cascade gradient-card-header mdb-color lighten-3">
+                            <h5 class="mb-0 font-weight-bold">Profile Picture</h5>
+                        </div>
+                        <!-- Card image -->
+
+                        <!-- Card content -->
+                        <div class="card-body card-body-cascade text-center">
+                            <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg" alt="User Photo"
+                                class="z-depth-1 mb-3 mx-auto img-fluid" alt="User Photo" id="imageView">
+
+                            <p id="img-name" class="text-muted "><small>Click to add your Profile Picture</small></p>
+                            <div class="row flex-center">
+                                <input type="file" id="FileUpload" name="image" onchange="viewImage(event)"
+                                    style="display: none;">
+                                {{!-- <input id="uploadButton" type="button" value="Upload" onclick='$("#FileUpload").click()'> --}}
+                                <a class="btn btn-info btn-rounded btn-sm waves-effect waves-light"
+                                    onclick='$("#FileUpload").click()'>Upload New
+                                    Product</a>
+
+                            </div>
+                        </div>
+                        <!-- Card content -->
+
+                    </div>
+                    <!-- Card -->
+
+                </div>
+
+                <!-- First column -->
+
+                <!-- Second column -->
+                <div class="col-lg-8 mb-4">
+
+                    <!-- Card -->
+                    <div class="card card-cascade narrower">
+
+                        <!-- Card image -->
+                        <div class="view view-cascade gradient-card-header mdb-color lighten-3">
+                            <h5 class="mb-0 font-weight-bold">Add User Details</h5>
+                        </div>
+                        <!-- Card image -->
+
+                        <!-- Card content -->
+                        <div class="card-body card-body-cascade text-center">
+                            <!-- First row -->
+                            <div class="row">
+                                <!-- First column -->
+                                <div class="col-md-6">
+                                    <div class="md-form mb-0">
+                                        <input type="text" class="form-control validate" value="" name="username"
+                                            required placeholder="place your user-name here">
+                                        <label for="form1" data-error="wrong" data-success="right">User Name</label>
+                                    </div>
+                                    {{#if usenameExistError}}
+                                    <div class="alert alert-danger  alert-dismissible fade show" role="alert">
+                                        <strong>{{usenameExistError}}</strong>
+                                    </div>
+
+                                    {{/if}}
+                                </div>
+                                  <!-- Secound column -->
+                                <div class="col-md-6">
+                                   <div class="md-form mb-0">
+										<input type="password" name="password" class="form-control validate" required
+											placeholder="Password">
+										<label for="password" data-error="wrong" data-success="right">Password</label>
+									</div>
+                                </div>
+                            </div>
+                           
+
+                            <!-- First row -->
+                            <div class="row">
+                                <!-- First column -->
+                                <div class="col-md-6">
+                                    <div class="md-form mb-0">
+                                        <input type="text" class="form-control validate" value="" name="name" required
+                                            placeholder="Name">
+                                        <label for="Name" data-error="wrong" data-success="right">Name</label>
+                                    </div>
+                                </div>
+                                <!-- Secound column -->
+                                <div class="col-md-6">
+                                    <div class="md-form mb-0">
+                                        <input type="email" class="form-control validate" value="" name="email" 
+                                            placeholder="abc@mymart.in">
+                                        <label for="email" data-error="wrong" data-success="right">Email</label>
+                                    </div>
+                                </div>
+                            </div>
+                              <!-- First row -->
+                            <div class="row">
+                                <!-- First column -->
+                                <div class="col-md-6">
+                                    <div class="md-form mb-0">
+                                        <input type="text" name="phoneNumber" placeholder="99999999"
+                                            class="form-control validate" value="{{phoneNumber}}" >
+                                        <label for="phone Number" data-error="wrong" data-success="right">Phone
+                                            Number</label>
+                                    </div>
+                                </div>
+                                 <!-- Second column -->
+                                <div class="col-md-6">
+                                    <div class="md-form mb-0">
+                                        <textarea type="text" name="address" class="md-textarea form-control"
+                                            rows="3">{{address}}</textarea>
+                                        <label for="form78">Address</label>
+                                    </div>
+                                </div>
+                            </div>
+                           
+                            <!-- Fourth row -->
+                            <div class="row">
+                                <div class="col-md-12 text-center my-4">
+
+                                    <input type="submit" value="Save"
+                                        class="btn btn-outline-info btn-rounded btn-sm btn-ok">
+                                    {{!-- <button type="button" class="btn btn-outline-secondary btn-rounded btn-sm"
+                                                            data-dismiss="modal">Close</button> --}}
+                                </div>
+                            </div>
+                            <!-- Fourth row -->
+
+
+
+                        </div>
+                        <!-- Card content -->
+
+                    </div>
+                    <!-- Card -->
+
+                </div>
+                <!-- Second column -->
+
+            </div>
+            <!-- First row -->
+        </form>
+    </section>
+    <!-- Section: add Account -->
+
+
+</div>
+
+<script>
+    function viewImage(event) {
+        document.getElementById('imageView').src = URL.createObjectURL(event.target.files[0])
+        document.getElementById('img-name').innerHTML = event.target.files[0].name
+
+    }
+
+</script>

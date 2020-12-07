@@ -2,17 +2,13 @@
     <!--Section: Main panel-->
     <!-- Section: Block Content -->
     <section>
-
         <!--Grid row-->
         <div class="row justify-content-between">
-
             <!--Grid column-->
             <div class="col-lg-3  col-sm-6  ">
-                {{!-- <h3>Products</h3> --}}
                 <div class="media text-center ">
                     <div class="media-body  p-3">
-                       <h3>Products</h3>
-                       
+                       <h3>User Details <i class="ml-1 far fa-user"></i></h3>
                     </div>
                 </div>
             </div>
@@ -22,8 +18,8 @@
                 <div class="media  text-center">
                     <!-- <i class="fas fa-download fa-lg pink z-depth-1 p-4 rounded-left text-white mr-3"></i> -->
                     <div class="media-body p-1">
-                        <a href="/dealer/product" class="btn btn-info btn-rounded">
-                            Add Product
+                        <a href="/dealer/add-user" class="btn btn-info btn-rounded">
+                            Add User
                         </a>
 
                     </div>
@@ -58,17 +54,12 @@
                             <strong>Name</strong>
                         </th>
                         <th class="font-weight-bold">
-                            <strong>Category</strong>
+                            <strong>Address</strong>
                         </th>
                         <th class="font-weight-bold">
-                            <strong>Price</strong>
+                            <strong>Number of Orders</strong>
                         </th>
-                        <th class="font-weight-bold">
-                            <strong>Total</strong>
-                        </th>
-                        <th class="font-weight-bold">
-                            <strong>Left</strong>
-                        </th>
+                        
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -78,44 +69,39 @@
                 <tbody>
 
                     <!--  row -->
-                    {{#each productDetails}}
+                    {{#each userDetails}}
                     <tr>
                         <th class="align-middle" scope="row" id="{{this._id}}">{{numbering @index}}</th>
                         <td>
-                            <img src="/products-pic/{{this.productImage}}" alt="product's image" class="img-fluid"
+                            <img src="/user-profile-pic/{{this.profilePicture}}" alt="Profile Picture" class="img-fluid"
                                 style="width: 50px;height:50px;">
 
                         </td>
-                        <td><strong class="productName">{{this.name}} </strong></td>
+                        <td><strong class="productName">{{this.name}} </strong>
+                         <p class="text-muted">{{this.phoneNuumber}}</p>
+                        </td>
                         <td>
-                            <strong>{{this.category}}</strong>
+                            <strong>{{this.address}}</strong>
 
                         </td>
                         <td>
-                            <strong>{{this.price}}</strong>
+                            <strong>{{this.numberOfOrders}}</strong>
 
                         </td>
-                        <td>
-                            <strong>{{this.stock}}</strong>
-
-                        </td>
-                        <td>
-                            <strong>{{this.left}}</strong>
-
-                        </td>
+                       
 
                         <td>
-                            <a href="/dealer/edit-product/{{this._id}}" class="btn btn-sm btn-info"
-                                data-toggle="tooltip" data-placement="top" title="Edit Product"><i
+                            <a href="/dealer/edit-user/{{this._id}}" class="btn btn-sm btn-info"
+                                data-toggle="tooltip" data-placement="top" title="Edit User"><i
                                     class="fas fa-user-edit"></i>
                             </a>
                             <a href="javascript:void(0)" id="{{this._id}}" class="btn btn-sm btn-danger delClass"
-                                data-toggle="Delete Product" data-placement="top" title="Delete Product"><i
+                                data-toggle="Delete User" data-placement="top" title="Delete User"><i
                                     class="fas fa-trash-alt"></i>
                             </a>
 
                             <a href="javascript:void(0)" id="{{this._id}}" class="btn btn-sm btn-warning banClass"
-                                data-toggle="Block Product" data-placement="top" title="Block Product"><i
+                                data-toggle="Block User" data-placement="top" title="Block User"><i
                                     class="fas fa-ban"></i>
                             </a>
                         </td>
@@ -139,14 +125,14 @@
 
 
         <!-- Ban deaer Modal -->
-        <div class="modal fade" id="banProductModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        <div class="modal fade" id="banUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
             aria-hidden="true" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog modal-notify modal-warning" role="document">
                 <!--Content-->
                 <div class="modal-content">
                     <!--Header-->
                     <div class="modal-header">
-                        <p class="heading lead">Ban Product </p>
+                        <p class="heading lead">Ban User </p>
 
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true" class="white-text">&times;</span>
@@ -166,7 +152,7 @@
 
                     <!--Footer-->
                     <div class="modal-footer justify-content-center">
-                        <a type="button" data-record-id="24" class="btn btn-warning btn-ok">Ban Product <i
+                        <a type="button" data-record-id="24" class="btn btn-warning btn-ok">Ban User <i
                                 class="fas fa-ban ml-1 text-white"></i></a>
                         <a type="button" class="btn btn-outline-warning waves-effect" data-dismiss="modal">No,
                             thanks</a>
@@ -178,14 +164,14 @@
 
         <!-- Ban dealer Modal-->
         <!-- Ban deaer Modal -->
-        <div class="modal fade" id="deleteProductModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        <div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
             aria-hidden="true" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog modal-notify modal-danger" role="document">
                 <!--Content-->
                 <div class="modal-content">
                     <!--Header-->
                     <div class="modal-header">
-                        <p class="heading lead">Delate Product </p>
+                        <p class="heading lead">Delate User </p>
 
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true" class="white-text">&times;</span>
@@ -227,23 +213,23 @@
         var id = $(this).attr('id')
         var nameTxt = $row.find('.productName').text().trim();
         $('#delName').html(nameTxt)
-        $('.btn-ok', '#deleteProductModal').data('recordId', id);
-        $("#deleteProductModal").modal('show')
+        $('.btn-ok', '#deleteUserModal').data('recordId', id);
+        $("#deleteUserModal").modal('show')
 
     });
 
-    //click confirm delet button to delete product and remove row (tr) from the table
-    $('#deleteProductModal').on('click', '.btn-ok', function (e) {
+    //click confirm delet button to delete User and remove row (tr) from the table
+    $('#deleteUserModal').on('click', '.btn-ok', function (e) {
         var $modalDiv = $(e.delegateTarget);
         var id = $(this).data('recordId');
 
         $.ajax({
             type: "post",
-            url: "/dealer/deleteProduct",
+            url: "/dealer/deleteUser",
             data: { id: id },
             success: function (response) {
                 if (response.ok) {
-                    toastr.success('Product Deleted  Successfully..')
+                    toastr.success('User Deleted  Successfully..')
                     $('#' + id).parents("tr").remove();
                 }
             }
@@ -260,22 +246,22 @@
         var id = $(this).attr('id')
         var nameTxt = $row.find('.productName').text().trim();
         $('#banName').html(nameTxt)
-        $('.btn-ok', '#banProductModal').data('recordId', id);
-        $("#banProductModal").modal('show')
+        $('.btn-ok', '#banUserModal').data('recordId', id);
+        $("#banUserModal").modal('show')
 
     });
     //click to confirm ban button and ban the data and remove current tr from the table
-    $('#banProductModal').on('click', '.btn-ok', function (e) {
+    $('#banUserModal').on('click', '.btn-ok', function (e) {
         e.preventDefault()
         var $modalDiv = $(e.delegateTarget);
         var id = $(this).data('recordId');
         $.ajax({
             type: "post",
-            url: "/dealer/banProduct",
+            url: "/dealer/banUser",
             data: { id: id },
             success: function (response) {
                 if (response) {
-                    toastr.success('Product Banned...')
+                    toastr.success('User Banned...')
                     $('#' + id).parents("tr").remove();
                 }
             }

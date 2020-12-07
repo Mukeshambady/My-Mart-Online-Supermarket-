@@ -62,11 +62,11 @@ module.exports = {
         })
     },
     //get find One With Id 
-    getFindOnewithId: (collectionName,documentId) => {
+    getFindOnewithId: (collectionName, documentId) => {
         return new Promise(async (resolve, reject) => {
             let CollectionDetails = await db.get().collection(collectionName).findOne(documentId)
             if (CollectionDetails) {
-                resolve(CollectionDetails )
+                resolve(CollectionDetails)
             } else {
                 resolve({ status: false })
             }
@@ -77,7 +77,7 @@ module.exports = {
 
     //Insert Once 
     doInsertOne: (docName, colData) => {
-       
+
         return new Promise(async (resolve, reject) => {
             await db.get().collection(docName).insertOne(colData).then((data) => {
                 resolve(data.ops[0])
@@ -89,8 +89,7 @@ module.exports = {
 
     //Find All
     //using promise functionality
-    getFind: (docName,arg={}) => {
-        console.log('arg',arg);
+    getFind: (docName, arg = {}) => {
         return new Promise(async (resolve, reject) => {
             let docDetails = await db.get().collection(docName).find(arg).toArray()
             resolve(docDetails)
@@ -145,11 +144,11 @@ module.exports = {
     },
     //Find all Data by active status
     //using promise functionality
-    getFindAllDetails: (docName, status, state) => {
+    getFindAllDetails: (docName, matchItems) => {
         return new Promise(async (resolve, reject) => {
             await db.get().collection('login').aggregate([
                 {
-                    $match: { "status": status, "state": state }
+                    $match: matchItems
                 },
                 {
                     $lookup: {
@@ -165,7 +164,7 @@ module.exports = {
                 }
 
             ]).toArray().then((docDetails) => {
-              
+
                 resolve(docDetails)
             })
 
@@ -180,7 +179,7 @@ module.exports = {
         delete colData._id
 
         return new Promise(async (resolve, reject) => {
-            await db.get().collection(docName).updateOne(id, { $set: colData },{ upsert: true }).then((result) => {
+            await db.get().collection(docName).updateOne(id, { $set: colData }, { upsert: true }).then((result) => {
 
                 if (result.matchedCount == 1) {
                     resolve(result)
@@ -203,7 +202,9 @@ module.exports = {
                 reject(false)
             })
         })
-    }
+    },
+
+    
 
 
 }

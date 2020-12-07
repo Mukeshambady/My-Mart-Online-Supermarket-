@@ -1,7 +1,8 @@
 module.exports.TABLE_COLLECTIONs = {
     login: 'login',
     dealer: 'dealer',
-    product: 'product'
+    product: 'product',
+    user: 'user'
 },
 
     module.exports.LOGIN_DOC = {
@@ -34,10 +35,20 @@ module.exports.DEALER_DOC = {
 module.exports.PRODUCT_DOC = {
     name: '',
     category: '',
-    stock:'',
+    stock: '',
     price: '',
     dealer_id: '',
     productImage: '',
     date: new Date(),
     status: 1
+}
+
+module.exports.USER_DOC = {
+    _id: '',
+    name: '',
+    phoneNumber: '',
+    address: '',
+    email:'',
+    profilePicture: '',
+    date: new Date()
 }
