@@ -98,6 +98,19 @@ module.exports = {
     },
    
 
+    // Get All dealers--Active--UNBAN
+    getAllDealers: function () {
+        return new Promise(async (resolve, reject) => {
+            // getFindAllDetails: (docName, status,state)
+            loginDoc={status:1,state:userState}
+            await commonHelpers.getFindAllDetails(dealerCollectionName,loginDoc).then((data) => {
+                resolve(data)
+            }).catch((err) => {
+                console.log('Dealer Details Fetch error ', err)
+                reject()
+            })
+        })
+    },
     //All dealers--Active--UNBAN
     dealersAllDetail: function (userId) {
         return new Promise(async (resolve, reject) => {

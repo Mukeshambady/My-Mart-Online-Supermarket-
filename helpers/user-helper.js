@@ -137,6 +137,46 @@ BanOrUnban: function (userId, status) {
         })
     },
 
+    //Ajax
+    //diplay the user cart items
+    cartDetails: function (){
+       data= '<table class="table table-hover">'+
+        '<thead>'+
+        '  <tr>'+
+            '<th>#</th>'+
+           ' <th>Product name</th>'+
+           ' <th>Price</th>'+
+          '  <th>Remove</th>'+
+        '  </tr>'+
+      '  </thead>'+
+     ' <tbody>'+
+     ' <tr>'+
+      '  <th scope="row">1</th>'+
+       ' <td>Product 1</td>'+
+       ' <td>100$</td>'+
+     '   <td><a><i class="fas fa-times"></i></a></td>'+
+     ' </tr>'+
+     ' </tbody>'+
+       ' </table>'
+      
+        return data
+    },
+    //Ajax
+    //Order History
+    cartOrderHistory: function (){
+       data=  '<div class="row justify-content-between z-depth-1 mx-1 my-1">'+
+      ' <div class="col-md-6">'+
+       '  <p>1. Apple</p>'+
+       '  <p>1. Banana</p>'+
+     '  </div>'+
+     '  <div class="col-md-6 text-right">'+
+       '  <p>no1</p>'+
+      '   <p>Total: 123</p>'+
+    '   </div>'+
+ '  </div>'
+      
+        return data
+    }
 
 
     //end export

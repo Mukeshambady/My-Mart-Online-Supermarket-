@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  
+
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta http-equiv="cache-control" content="max-age=0" />
@@ -43,42 +43,153 @@
     {{{body}}}
   </main>
   <!--Main layout-->
-  <!-- Footer -->
-  <footer class="page-footer fixed-bottom font-small mdb-color lighten-3">
 
-    <!-- Copyright -->
-    <div class="footer-copyright text-center py-3 ">&#xA9; 2018 Copyright:
-      <a href="https://mdbootstrap.com/bootstrap-tutorial/"> MDBootstrap.com</a>
+  <!-- Modal: modalCart -->
+  <div class="modal fade" id="modalOredrHistory" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <!--Header-->
+        <div class="modal-header">
+          <h4 class="modal-title" id="myModalLabel">Order History</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <!--Body-->
+        <div class="modal-body">
+
+          <!--Modal Body Here -->
+
+        </div>
+        <!--Footer-->
+
+      </div>
     </div>
-    <!-- Copyright -->
+  </div>
+  <!-- Modal: modalCart -->
+  {{!-- modal --}}
 
-  </footer>
-  <!-- Footer -->
+  <!-- Modal: modalCart -->
+  <div class="modal fade" id="modalCart" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <!--Header-->
+        <div class="modal-header">
+          <h4 class="modal-title" id="myModalLabel">Cart Details</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <!--Body-->
+        <div class="modal-body">
+          <!--Grid row -->
+          <div class="row ">
 
-  <!-- SCRIPTS -->
+            <!--Grid column-->
+            <div class="col-6   ">
+              <div class="media rounded alert alert-primary alert-dismissible">
 
-  <!-- Bootstrap tooltips -->
-  {{!-- <script type="text/javascript" src="https://mdbootstrap.com/previews/templates/admin-dashboard/js/popper.min.js"></script> --}}
-  <script type="text/javascript" src="../../js/popper.min.js"></script>
-  <!-- Bootstrap core JavaScript -->
-  {{!-- <script src="https://mdbootstrap.com/api/snippets/static/download/MDB-Pro_4.19.1/js/bootstrap.min.js"></script> --}}
-  <script src="../../js/bootstrap.min.js"></script>
-  <!-- MDB core JavaScript -->
-  {{!-- <script type="text/javascript" src="https://mdbootstrap.com/previews/templates/admin-dashboard/js/mdb.min.js"></script> --}}
-  <script type="text/javascript" src="../../js/mdb.min.js"></script>
-  <!-- Custom scripts -->
-  <script>
-    // SideNav Initialization
-    $(".button-collapse").sideNav();
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <div class="media-body py-1 ">
+                  <div class="row">
+                    <div class="col-4">
+                      <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg" alt="Product Image"
+                        class="z-depth-1  " width="50px" height="50px">
+                    </div>
+                    <div class="col-4">
+                      <p><small>Bell Pepper Red fgfg fdf f</small></p>
+                      <p class="">
+                        <span class="float-left pt-2">1</span>
+                      <div class="btn-group btn-group-sm float-right" role="group" aria-label="Basic example">
+                        <button type="button" class="btn btn-primary btn-rounded waves-effect waves-light ">-</button>
 
-    var container = document.querySelector('.custom-scrollbar');
-    Ps.initialize(container, {
-      wheelSpeed: 2,
-      wheelPropagation: true,
-      minScrollbarLength: 20
-    });
+                        <button type="button" class="btn btn-primary  btn-rounded waves-effect waves-light ">+</button>
+                      </div>
+                      </p>
+                    </div>
+                    <div class="col-4 col align-self-end">
 
-  </script>
+                      <p class="text-uppercase  "><small>Total</small>400</p>
+                    </div>
+                  </div>
+
+                  {{!-- <h5 class="font-weight-bold mb-0">2</h5> --}}
+                </div>
+              </div>
+            </div>
+            <div class="col-6   ">
+              <div class="media text-center rounded alert alert-secondary">
+                <i class="fas fa-map-marker-alt  fa-3x   rounded-left text-white mx-1"></i>
+                <div class="media-body py-1 ">
+                  <p class="text-uppercase text-muted mb-1"><small>Flat No. 32</small></p>
+                  <p class="text-uppercase text-muted mb-1"><small>Hi-Light</small></p>
+                  {{!-- <h5 class="font-weight-bold mb-0">2</h5> --}}
+                </div>
+              </div>
+            </div>
+
+
+            <!--Grid column-->
+          </div>
+          <!--Grid row-->
+        </div>
+        {{!-- <div class="modal-footer">
+        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+        <button class="btn btn-primary">Checkout</button>
+      </div> --}}
+      </div>
+    </div>
+    <!-- Modal: modalCart -->
+    {{!-- modal --}}
+
+
+    <!-- Footer -->
+    <footer class="page-footer fixed-bottom font-small mdb-color lighten-3">
+
+      <!-- Copyright -->
+      <div class="footer-copyright text-center py-3 ">&#xA9; 2018 Copyright:
+        <a href="https://mdbootstrap.com/bootstrap-tutorial/"> MDBootstrap.com</a>
+      </div>
+      <!-- Copyright -->
+
+    </footer>
+    <!-- Footer -->
+
+    <!-- SCRIPTS -->
+
+    <!-- Bootstrap tooltips -->
+    {{!-- <script type="text/javascript" src="https://mdbootstrap.com/previews/templates/admin-dashboard/js/popper.min.js"></script> --}}
+    <script type="text/javascript" src="../../js/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    {{!-- <script src="https://mdbootstrap.com/api/snippets/static/download/MDB-Pro_4.19.1/js/bootstrap.min.js"></script> --}}
+    <script src="../../js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    {{!-- <script type="text/javascript" src="https://mdbootstrap.com/previews/templates/admin-dashboard/js/mdb.min.js"></script> --}}
+    <script type="text/javascript" src="../../js/mdb.min.js"></script>
+    <!-- Custom scripts -->
+    <script>
+      // SideNav Initialization
+      $(".button-collapse").sideNav();
+
+      var container = document.querySelector('.custom-scrollbar');
+      Ps.initialize(container, {
+        wheelSpeed: 2,
+        wheelPropagation: true,
+        minScrollbarLength: 20
+      });
+
+    </script>
+
+    <script type="text/javascript" src="../../js/myjs.js">   </script>
+
+    <script>
+      $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+      })
+    </script>
+
 </body>
 
 </html>

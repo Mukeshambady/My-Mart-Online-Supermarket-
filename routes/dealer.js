@@ -237,4 +237,13 @@ router.post('/unbanUser', async function (req, res, next) {
 
 
 //**********End**User****Functinality***************************************
+
+//**********Start**Order****Functinality***************************************
+router.get('/orders',function(req,res){
+  res.render('order/orders',{title:'Dealer | Order-Details'})
+})
+router.get('/settings',function(req,res){
+  res.render('settings/settings',{title:'Dealer | Order-Details'})
+})
+//**********End**Order****Functinality***************************************
 module.exports = router;

@@ -41,8 +41,11 @@ router.post('/login', async function (req, res, next) {
           req.session.adminloggedIn = true
           req.session.loggedIn = true
           res.redirect('/admin')
-        }
-        if (req.session.user.state === 2) {
+        }else if (req.session.user.state === 1) {
+          req.session.userloggedIn = true
+          req.session.loggedIn = true
+          res.redirect('/users')
+        }else if (req.session.user.state === 2) {
           req.session.dealerloggedIn = true
           req.session.loggedIn = true
           res.redirect('/dealer')
@@ -51,6 +54,7 @@ router.post('/login', async function (req, res, next) {
         req.session.loginError = 'You are banned by admin'
         req.session.adminloggedIn = false
         req.session.dealerloggedIn = false
+        req.session.userloggedIn = false
         req.session.loggedIn = false
         loignOrNot = false
         req.session.user = null
@@ -60,6 +64,7 @@ router.post('/login', async function (req, res, next) {
       req.session.loginError = 'Invalid Username or Password'
       req.session.adminloggedIn = false
       req.session.dealerloggedIn = false
+      req.session.userloggedIn = false
       req.session.loggedIn = false
       req.session.user = null
       res.redirect('/login')

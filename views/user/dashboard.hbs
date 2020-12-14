@@ -1,0 +1,57 @@
+<div class="container-fluid">
+  <div class="jumbotron card card-image blue-grey lighten-5" style="">
+    <div class="text-gray text-center py-5 px-4">
+      <div>
+        <h2 class="card-title h1-responsive pt-3 mb-5 font-bold"><strong>Order From Nearest
+            Suppermarket</strong></h2>
+        <p class="mx-5 mb-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat fugiat,
+          laboriosam, voluptatem,
+          optio vero odio nam sit officia accusamus minus error nisi architecto nulla ipsum dignissimos. Odit
+          sed qui, dolorum!
+        </p>
+        <a class="btn btn-outline-blue btn-md"><i class="fas fa-clone left"></i> View project</a>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row my-4">location</div>
+
+
+  <div class="row row-cols-1 row-cols-md-3">
+      {{#each alldealers}}
+    <div class="col mb-4">
+      <!-- Card -->
+      <div class="card">
+
+        <!--Card image-->
+        <div class="view overlay">
+          <img class="card-img-top" src="../../profile-pic/{{this.profilePicture}}" alt="Card image cap">
+          <a href="#!">
+            <div class="mask rgba-white-slight"></div>
+          </a>
+        </div>
+
+        <!--Card content-->
+        <div class="card-body">
+
+          <!--Title-->
+          <h4 class="card-title">{{this.storeName}}</h4>
+          <!--Text-->
+          <p class="card-text">{{this.extraInFormation}}</p>
+          <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+          <a href="/users/products/{{this._id}}" class="btn btn-light-blue btn-md">See More</a>
+
+        </div>
+
+      </div>
+      <!-- Card -->
+    </div>
+      {{/each}}
+
+  </div>
+
+
+
+
+</div>
