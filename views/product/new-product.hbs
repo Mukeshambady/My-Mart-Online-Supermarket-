@@ -29,7 +29,7 @@
 
                         <!-- Card content -->
                         <div class="card-body card-body-cascade text-center">
-                            <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg" 
+                            <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg"
                                 class="z-depth-1 mb-3 mx-auto img-fluid" alt="User Photo" id="imageView">
 
                             <p id="img-name" class="text-muted "><small>Click to add your product
@@ -37,12 +37,14 @@
                             <div class="row flex-center">
                                 <input type="file" id="FileUpload" name="image" onchange="viewImage(event)"
                                     style="display: none;">
-                                {{!-- <input id="uploadButton" type="button" value="Upload" onclick='$("#FileUpload").click()'> --}}
+                                {{!-- <input id="uploadButton" type="button" value="Upload"
+                                    onclick='$("#FileUpload").click()'> --}}
                                 <a class="btn btn-info btn-rounded btn-sm waves-effect waves-light"
                                     onclick='$("#FileUpload").click()'>Upload New
                                     Product</a>
                                 {{!--<button
-									class="btn btn-danger btn-rounded btn-sm waves-effect waves-light">Delete</button> --}}
+                                    class="btn btn-danger btn-rounded btn-sm waves-effect waves-light">Delete</button>
+                                --}}
                             </div>
                         </div>
                         <!-- Card content -->
@@ -98,12 +100,52 @@
                             </div>
                             <!-- First row -->
 
+
+                            <!-- First row -->
+                            <div class="row">
+                                <!-- First column -->
+                                <div class="col-md-6">
+                                    <div class="md-form mb-0">
+                                        <input type="number" id="form81" name="price" placeholder="Product Price"
+                                            class="form-control validate" required>
+                                        <label for="Product Price" data-error="wrong" data-success="right">Product
+                                            Price</label>
+                                    </div>
+                                </div>
+                                <!-- Secound column -->
+                                <div class="col-md-3">
+                                    <div class="md-form mb-0">
+                                        <input type="number" id="form81" name="weight" placeholder="Product Weight"
+                                            class="form-control validate" required value="1">
+                                        <label for="Product Weight" data-error="wrong" data-success="right">Product
+                                            Weight</label>
+
+                                    </div>
+                                </div>
+                                <!-- Thired column -->
+                                <div class="col-md-3">
+                                    <div class="md-form mb-0">
+
+                                        <select name="measure" class="mdb-select form-control validate" required>
+                                            <option value="">Select One Measure</option>
+                                            <option value="Kg" selected>Kg</option>
+                                            <option value="g">g</option>
+                                        </select>
+
+                                        <label for="Unit" data-error="wrong" data-success="right"></label>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- First row -->
+
                             <!-- First row -->
                             <div class="row">
                                 <!-- First column -->
                                 <div class="col-md-12">
                                     <div class="md-form mb-0">
-                                        <input type="number" id="form81" name="stock" placeholder="number of qty"
+                                        <input type="number" id="form81" name="stock" placeholder="Enter Your Stock"
                                             class="form-control validate" required>
                                         <label for="Product stock" data-error="wrong" data-success="right">Product
                                             Stock</label>
@@ -112,31 +154,14 @@
 
                             </div>
                             <!-- First row -->
-                            <!-- First row -->
-                            <div class="row">
-                                <!-- First column -->
-                                <div class="col-md-12">
-                                    <div class="md-form mb-0">
-                                        <input type="number" id="form81" name="price" placeholder="Product Price"
-                                            class="form-control validate" required>
-                                        <label for="Product Price" data-error="wrong" data-success="right">Product
-                                            Price</label>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <!-- First row -->
-
-
                             <!-- Fourth row -->
                             <div class="row">
                                 <div class="col-md-12 text-center my-4">
 
                                     <input type="submit" value="Save"
                                         class="btn btn-outline-info btn-rounded btn-sm btn-ok">
-                                    {{!-- <button type="button"
-                                                            class="btn btn-outline-secondary btn-rounded btn-sm"
-                                                            data-dismiss="modal">Close</button> --}}
+                                    {{!-- <button type="button" class="btn btn-outline-secondary btn-rounded btn-sm"
+                                        data-dismiss="modal">Close</button> --}}
                                 </div>
                             </div>
                             <!-- Fourth row -->

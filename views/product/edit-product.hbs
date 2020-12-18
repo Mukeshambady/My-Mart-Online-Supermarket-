@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <!-- Section: Edit Account -->
-   
+
     <section class="section">
         {{#if productSuccess}}
         <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -10,7 +10,7 @@
             </button>
         </div>
         {{/if}}
-         {{#with productDetails}}
+        {{#with productDetails}}
         <form class="form-horizontal" method="POST" id="product-form" action="/dealer/edit-product/{{_id}}"
             enctype="multipart/form-data">
             <!-- First row -->
@@ -32,19 +32,21 @@
                         <!-- Card content -->
                         <div class="card-body card-body-cascade text-center">
                             <img src="/products-pic/{{productImage}}" alt="User Photo"
-                                class="z-depth-1 mb-3 mx-auto img-fluid" alt="User Photo"  id="imageView">
-<input type="hidden" name="imageView" value="{{productImage}}">
+                                class="z-depth-1 mb-3 mx-auto img-fluid" alt="User Photo" id="imageView">
+                            <input type="hidden" name="imageView" value="{{productImage}}">
                             <p id="img-name" class="text-muted "><small>Click to add your product
                                     image</small></p>
                             <div class="row flex-center">
                                 <input type="file" id="FileUpload" name="image" onchange="viewImage(event)"
                                     style="display: none;">
-                                {{!-- <input id="uploadButton" type="button" value="Upload" onclick='$("#FileUpload").click()'> --}}
+                                {{!-- <input id="uploadButton" type="button" value="Upload"
+                                    onclick='$("#FileUpload").click()'> --}}
                                 <a class="btn btn-info btn-rounded btn-sm waves-effect waves-light"
                                     onclick='$("#FileUpload").click()'>Upload New
                                     Product</a>
                                 {{!--<button
-									class="btn btn-danger btn-rounded btn-sm waves-effect waves-light">Delete</button> --}}
+                                    class="btn btn-danger btn-rounded btn-sm waves-effect waves-light">Delete</button>
+                                --}}
                             </div>
                         </div>
                         <!-- Card content -->
@@ -100,6 +102,45 @@
                             </div>
                             <!-- First row -->
 
+
+                            <!-- First row -->
+                            <div class="row">
+                                <!-- First column -->
+                                <div class="col-md-6">
+                                    <div class="md-form mb-0">
+                                        <input type="number" id="form81" name="price" placeholder="Product Price"
+                                            class="form-control validate" required value="{{price}}">
+                                        <label for="Product Price" data-error="wrong" data-success="right">Product
+                                            Price</label>
+                                    </div>
+                                </div>
+                                 <!-- Secound column -->
+                                <div class="col-md-3">
+                                    <div class="md-form mb-0">
+                                        <input type="number" id="form81" name="weight" placeholder="Product Weight"
+                                            class="form-control validate" required value="{{weight}}">
+                                        <label for="Product Weight" data-error="wrong" data-success="right">Product
+                                            Weight</label>
+
+                                    </div>
+                                </div>
+                                <!-- Thired column -->
+                                <div class="col-md-3">
+                                    <div class="md-form mb-0">
+                                        <select name="measure" class="mdb-select form-control validate" required>
+                                            <option value="">Select One Measure</option>
+                                            <option value="Kg" {{#if (eqIf measure 'Kg' ) }}selected{{/if}}>Kg</option>
+                                            <option value="g" {{#if (eqIf measure 'g' ) }}selected{{/if}}>g</option>
+                                        </select>
+
+                                        <label for="Unit" data-error="wrong" data-success="right"></label>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- First row -->
+
                             <!-- First row -->
                             <div class="row">
                                 <!-- First column -->
@@ -114,22 +155,6 @@
 
                             </div>
                             <!-- First row -->
-                            <!-- First row -->
-                            <div class="row">
-                                <!-- First column -->
-                                <div class="col-md-12">
-                                    <div class="md-form mb-0">
-                                        <input type="number" id="form81" name="price" placeholder="Product Price"
-                                            class="form-control validate" required value="{{price}}">
-                                        <label for="Product Price" data-error="wrong" data-success="right">Product
-                                            Price</label>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <!-- First row -->
-
-
                             <!-- Fourth row -->
                             <div class="row">
                                 <div class="col-md-12 text-center my-1">

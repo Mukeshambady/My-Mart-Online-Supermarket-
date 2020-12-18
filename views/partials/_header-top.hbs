@@ -1,5 +1,8 @@
 <!-- Navbar -->
-<nav class="navbar fixed-top navbar-expand-md scrolling-navbar double-nav mdb-color lighten-3 text-white">
+
+
+
+<nav class="navbar fixed-top navbar-expand-md scrolling-navbar double-nav mdb-color lighten-3 text-white ">
 
 	<!-- SideNav slide-out button -->
 	<div class="float-left">
@@ -8,7 +11,9 @@
 
 	<!-- Breadcrumb -->
 	<div class="breadcrumb-dn mr-auto">
-		<p>My Mart Online Supermarket</p>
+		<p class="text-white"> <a href="{{ifUrl session.url}}">My Mart Online Supermarket</a> 
+		
+		</p>
 	</div>
 
 	<!-- Admin Navbar links -->
@@ -43,32 +48,42 @@
 			<a class="nav-link waves-effect"><i class="fas fa-envelope"></i> <span
 					class="clearfix d-none d-sm-inline-block">Contact</span></a>
 		</li> --}}
-		
+	{{#if session.userloggedIn}}
 		<li class="nav-item dropdown">
 			<a class="nav-link dropdown-toggle waves-effect" href="#" id="userDropdown" data-toggle="dropdown"
 				aria-haspopup="true" aria-expanded="false">
-				 Order
+				Order
 				<span class="clearfix d-none d-sm-inline-block"></span>
 			</a>
 			<div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-				<a class="dropdown-item orderHistory"  >Order History</a>
-				<a class="dropdown-item orderStatus" >Order Status</a>
-			
+				<a class="dropdown-item orderHistory">Order History</a>
+				<a class="dropdown-item orderStatus">Order Status</a>
+
 			</div>
 		</li>
 		<li class="nav-item">
-			<a class="modalCart nav-link waves-effect "  > <span
-					class="clearfix d-none d-sm-inline-block"   ><i class="fas fa-shopping-cart"></i></span></a>
+			<a class="modalCart nav-link waves-effect ">
+				<span class="clearfix d-none d-sm-inline-block">
+					<span id="cartcount" class="badge badge-danger ml-2 ">{{ cartCount}}</span>
+					<i class="fas fa-shopping-cart"></i>
+				</span>
+			</a>
 		</li>
+
+		{{/if}}
 		<li class="nav-item dropdown">
 			<a class="nav-link dropdown-toggle waves-effect" href="#" id="userDropdown" data-toggle="dropdown"
 				aria-haspopup="true" aria-expanded="false">
-				<i class="fas fa-user"></i> <span class="clearfix d-none d-sm-inline-block">Profile</span>
+				<i class="fas fa-user"></i> <span class="clearfix d-none d-sm-inline-block">{{session.user.username}}</span>
 			</a>
 			<div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-				<a class="dropdown-item" href="/login">Log In</a>
+				
+				{{#if session.user}}
 				<a class="dropdown-item" href="/logout">Log Out</a>
 				<a class="dropdown-item" href="#">My account</a>
+				{{else}}
+				<a class="dropdown-item" href="/login">Log In</a>
+				{{/if}}
 			</div>
 		</li>
 
@@ -76,6 +91,7 @@
 	<!-- Navbar links -->
 
 </nav>
+
 <!-- Navbar -->
 
 </header>

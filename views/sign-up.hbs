@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>My Mart Online Supermarket | {{title}}</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+    <link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/releases/v5.11.0/css/all.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css"
+        href="https://mdbootstrap.com/api/snippets/static/download/MDB-Pro_4.19.1/css/mdb.min.css">
+    <link rel="stylesheet" type="text/css"
+        href="https://mdbootstrap.com/wp-content/themes/mdbootstrap4/css/compiled-addons-4.19.1.min.css">
+    <style>
+        body {
+            background-color: #eee;
+        }
+    </style>
+</head>
+
+<body class=" light-blue-skin pb-5">
+
+    <!--Main layout-->
+    <!--Grid row-->
+    <div class="container-fluid">
+        <div class="row d-flex justify-content-center">
+
+            <!--Grid column-->
+            <div class="col-lg-6 mt-5 col-md-12">
+
+                <form action="/signup" method="POST">
+
+                    <div class="card">
+
+                        <div class="card-header"> Sign-Up</div>
+                        <div class="card-body">
+
+                            <div class="form-group">
+                                <label for="Name">Name:</label>
+                                <input type="text" class="form-control validate" value="" name="name"
+                                    placeholder="Your Name" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="Email">Email:</label>
+                                <input type="email" class="form-control validate" value="" name="email"
+                                    placeholder="abc@mymart.in" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="Phone Number">Phone Number:</label>
+                                <input type="text" name="phoneNumber" placeholder="99999999" class="form-control"
+                                    required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="Address">Address:</label>
+                                <textarea type="text" name="address" class="md-textarea form-control"
+                                    rows="3">{{address}}</textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="username">Username:</label>
+                                <input type="text" class="form-control" placeholder="User Name" name="username"
+                                    required>
+                                {{#if usenameExistError}}
+                                <div class="alert alert-danger  alert-dismissible fade show" role="alert">
+                                    <strong>{{usenameExistError}}</strong>
+                                </div>
+
+                                {{/if}}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="pwd">Password:</label>
+                                <input type="password" class="form-control" placeholder="Enter password" name="password"
+                                    id="password" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="re-pwd">Confirm Password:</label>
+                                <input type="password" class="form-control" placeholder="Enter Confirm Password"
+                                    id="confirmPassword" required>
+                            </div>
+
+
+
+
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-rounded btn-outline-success btn-lg float-right"><i
+                                    class="fas fa-sign-in-alt"></i>&nbsp; Sign Up</button>
+                            <a href="/login" class=" pt-3  float-left"><i class="fas fa-external-link-alt mr-1"></i>back
+                                to login</a>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <!--Grid column-->
+
+        </div>
+    </div>
+
+
+
+</body>
+<!-- Footer -->
+<footer class="page-footer font-small fixed-bottom">
+
+    <!-- Copyright -->
+    <div class="footer-copyright text-center py-3">&#xA9; 2018 Copyright:
+        <a href="https://mdbootstrap.com/bootstrap-tutorial/"> MDBootstrap.com</a>
+    </div>
+    <!-- Copyright -->
+
+</footer>
+
+</html>

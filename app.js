@@ -6,7 +6,7 @@ var logger = require('morgan');
 
 //new require
 const hbs = require('express-handlebars');
-
+var handlebarHelpers= require('./helpers/handlebar-helpers')
 var app = express();
 
 //new
@@ -29,14 +29,7 @@ const chbs = hbs.create({
   LayoutDir: __dirname + '/views/layout',
   partialsDir: __dirname + '/views/partials/',
   //create custom helper
-  helpers: {
-    numbering: (value) => {
-      return value + 1
-    },
-    nothing: () => {
-      return "nothing"
-    }
-  }
+  helpers: handlebarHelpers
 })
 app.engine('hbs', chbs.engine)
 app.set('view engine', '.hbs');
@@ -49,15 +42,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //middleware
 //new middilewares
-app.use(function(req, res, next) {
+// app.use(function(req, res, next) {
  
-  // if (!req.user) {
-  //     res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
-  //     res.header('Expires', '-1');
-  //     res.header('Pragma', 'no-cache');
-  // }
-  next();
-});
+//   // if (!req.user) {
+//   //     res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+//   //     res.header('Expires', '-1');
+//   //     res.header('Pragma', 'no-cache');
+//   // }
+//   next();
+// });
 
 app.use(fileUpload())
 app.use(session({
@@ -66,14 +59,21 @@ app.use(session({
   resave: true,
   saveUninitialized: true
 }))//session settings
+//global session to all handlebars
+app.use(function (req, res, next) {
+  res.locals.session = req.session;
+  next();
+});
 db.connect((err) => {
   if (err) console.log('Connection Error ' + err);
   else console.log('Database Connected succesffully');
 })//db connect
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+
+app.use('/', usersRouter);
+app.use('/index', indexRouter);
 app.use('/admin', adminRouter);
 app.use('/dealer', dealerRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

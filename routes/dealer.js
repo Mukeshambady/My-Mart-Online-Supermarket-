@@ -37,7 +37,7 @@ router.get('/profile', verifyLogin, async function (req, res, next) {
   res.render('dealer/profile', { title: 'Dealer | Profile', userdata });
 
 });
-// *******************Start*****Deler*******functinality*****************************//
+// *******************End*****Deler*******functinality*****************************//
 
 
 // ********Start*****product functionality**************************************

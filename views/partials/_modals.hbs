@@ -1,0 +1,152 @@
+<!-- Modal: modalCart -->
+<div class="modal fade" id="modalOredrHistory" tabindex="-1" role="dialog" aria-labelledby="modalOredrHistory"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <!--Header-->
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">Order History</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <!--Body-->
+      <div class="modal-body">
+
+        <!--Modal Body Here -->
+
+      </div>
+      <!--Footer-->
+
+    </div>
+  </div>
+</div>
+<!-- Modal: modalCart -->
+{{!-- modal --}}
+
+<!-- Modal: modalCart -->
+
+<!-- Quantity Style -->
+<style>
+  /* Product Quantity */
+  .quantity {
+    padding-top: 20px;
+    margin-right: 60px;
+  }
+
+  .quantity input {
+    -webkit-appearance: none;
+    border: none;
+    text-align: center;
+    width: 32px;
+    font-size: 16px;
+    color: #43484D;
+    font-weight: 300;
+  }
+
+  button[class*=btn] {
+    width: 30px;
+    height: 30px;
+    background-color: #E1E8EE;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+  }
+
+
+  /* .minus-btn img {
+    margin-bottom: 3px;
+  }
+
+  .plus-btn img {
+    margin-top: 2px;
+  } */
+
+
+
+  button:focus,
+  input:focus {
+    outline: 0;
+  }
+</style>
+<!-- Quantity Style  pt-2 ml-2 fluid-->
+
+<div class="modal fade" id="modalCartDetails" tabindex="-1" role="dialog" aria-labelledby="modalCart" aria-hidden="true">
+  <div class="modal-dialog modal-fluid" role="document">
+    <div class="modal-content">
+      <!--Header-->
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">Cart Details</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <!--Body-->
+      <div class="modal-body">
+        <!--Grid row -->
+        <div class="row ">
+
+          <!--Grid column-->
+          <div class="col-6">
+            <section class="modal-data">
+            <div class="media rounded alert alert-primary alert-dismissible">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+
+              <div class="media-body py-1 ">
+                <div class="row">
+                  <div class="col-md-2 d-flex  align-middle ">
+                    <img src="https://mdbootstrap.com/img/Photos/Others/placeholder7.jpg" height="50px" width="50px" alt="product cart Image"
+                      srcset="">
+
+                  </div>
+                 
+                  <div class="col-md-10  ">
+                    <div class="row">
+
+                      <div class="col-md-6  ">
+                        <h6 class="text-capitalize"> <strong id="pro-name"> Fantasy T-shirt </strong></h6>
+                        <div class="quantity">
+                          <button class="minus-btn " type="button" name="button"><i class="fas fa-minus"></i></button>
+                          <input type="text"  name="name" value="1" disabled>
+                          <button class="plus-btn" type="button" name="button"><i class="fas fa-plus"></i></button>
+                        </div>
+                      </div>
+                      <div class="col-md-6  ">
+                        <div class="d-flex justify-content-bottom">
+                          <h6 class="float-right ">Rs.<span id="price">00.00<span></h6>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+            </section>
+           
+          </div>
+          <div class="col-6   ">
+            <div class="media text-center rounded alert alert-secondary">
+              <i class="fas fa-map-marker-alt  fa-3x   rounded-left text-white mx-1"></i>
+              <div class="media-body py-1 ">
+                <p class="text-uppercase text-muted mb-1"><small>Flat No. 32</small></p>
+                <p class="text-uppercase text-muted mb-1"><small>Hi-Light</small></p>
+                {{!-- <h5 class="font-weight-bold mb-0">2</h5> --}}
+              </div>
+            </div>
+          </div>
+
+
+          <!--Grid column-->
+        </div>
+        <!--Grid row-->
+      </div>
+      {{!-- <div class="modal-footer">
+        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+        <button class="btn btn-primary">Checkout</button>
+      </div> --}}
+    </div>
+  </div>
+  

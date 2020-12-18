@@ -4,7 +4,7 @@ const commonHelpers = require('../helpers/common-helpers')
 
 
 /* GET home page. */
-router.get('/', function (req, res, next) { 
+router.get('/', function (req, res, next) {
   res.render('index', { title: 'Home' });
 });
 /* GET home page. */
@@ -13,6 +13,7 @@ router.get('/index', function (req, res, next) {
 });
 /* GET Login page. */
 router.get('/login', function (req, res, next) {
+
   if (req.session.loggedIn) {
 
     if (req.session.user.state === 0) {
@@ -31,6 +32,8 @@ router.get('/login', function (req, res, next) {
 
 /* Post Login page. */
 router.post('/login', async function (req, res, next) {
+
+
   await commonHelpers.doLogin(req.body).then((response) => {
 
     if (response.status) {
@@ -41,11 +44,17 @@ router.post('/login', async function (req, res, next) {
           req.session.adminloggedIn = true
           req.session.loggedIn = true
           res.redirect('/admin')
-        }else if (req.session.user.state === 1) {
+        } else if (req.session.user.state === 1) {
           req.session.userloggedIn = true
           req.session.loggedIn = true
-          res.redirect('/users')
-        }else if (req.session.user.state === 2) {
+          if (req.session.headerReferer) {
+            res.redirect(req.session.headerReferer)
+            req.session.headerReferer=null
+          } else {
+            res.redirect('/users')
+          }
+
+        } else if (req.session.user.state === 2) {
           req.session.dealerloggedIn = true
           req.session.loggedIn = true
           res.redirect('/dealer')
@@ -76,14 +85,14 @@ router.post('/login', async function (req, res, next) {
 
 /* GET Logout page. and session distroy*/
 router.get('/logout', (req, res) => {
- 
+
   req.session.loggedIn = false
   req.session.destroy()
-  
+
   // if (req.session.user) {
-      // res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
-      // res.header('Expires', '-1');
-      // res.header('Pragma', 'no-cache');
+  // res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+  // res.header('Expires', '-1');
+  // res.header('Pragma', 'no-cache');
   // }
   res.redirect('/login')
 })

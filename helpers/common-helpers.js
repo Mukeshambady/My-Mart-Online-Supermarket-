@@ -1,6 +1,7 @@
 var db = require('../config/connection')
 var COLLECTION_DATA = require('../config/string-collections')
 const bcrypt = require('bcrypt')
+const { resolve, reject } = require('promise')
 
 
 
@@ -108,6 +109,16 @@ module.exports = {
             console.log('getFind Error', err);
         })
     },
+    //Find All
+    //using promise functionality
+    getFindOneWithId: (docName, id) => {
+        return new Promise(async (resolve, reject) => {
+            let docDetails = await db.get().collection(docName).findOne(id)
+            resolve(docDetails)
+        }).catch((err) => {
+            console.log('getFind Error', err);
+        })
+    },
 
 
 
@@ -172,7 +183,7 @@ module.exports = {
             console.log('getFindOne Error', err);
         })
     },
-    //Insert Once 
+    //doUpdateOne
     doUpdateOne: (docName, colData) => {
 
         var id = colData._id
@@ -190,7 +201,31 @@ module.exports = {
             })
         })
     },
+    //doUpdateOneWithId with specific ID  
+    doUpdateOnePush: (docName,id, colData) => {
+        return new Promise(async (resolve, reject) => {
+            await db.get().collection(docName).updateOne(id, { $push: {products:colData} }, { upsert: true }).then((result) => {
 
+                if (result.matchedCount == 1) {
+                    resolve(result)
+                }
+            }).catch((err) => {
+                console.log('doUpdate-Error', err);
+                reject(false)
+            })
+        })
+    },
+    //doUpdateOneAndIncrement 
+    doUpdateOneAndIncrement: (docName, userId, productId, increment) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(docName)
+                .updateOne({ userId: userId, 'products.product_id': productId }, {
+                    $inc: { 'products.$.quantity': parseInt(increment) }
+                }).then((response) => {
+                    resolve()
+                })
+        })
+    },
     //do   find one and delete
     doFindOneAndDelete: (colName, docData) => {
 
@@ -203,8 +238,52 @@ module.exports = {
             })
         })
     },
+//get cart prodect depends up on a user
+ //select prodect from cart 
+ getCartProducts: (collection,userId) => {
 
-    
+    return new Promise(async (resolve, reject) => {
+        let cartItems = await db.get().collection(collection).aggregate([
+            {
+                $match:  userId 
+            },
+            {
+                $unwind: '$products'
+            },
+            {
+                $project: {
+                    item: '$products.product_id',
+                    quantity: '$products.quantity'
+                }
+            },
+            {
+                $lookup: {
+                    from: COLLECTION_DATA.TABLE_COLLECTIONs.product,
+                    localField: 'item',
+                    foreignField: '_id',
+                    as: 'product'
+                }
+            },
+            {
+                $project: {
+                    _id:0,cart_id:'$_id', quantity: 1, product: 1
+                }
+            },
+            {
+                $replaceRoot: { newRoot: { $mergeObjects: [{ $arrayElemAt: ["$product", 0] }, "$$ROOT"] } }
+            },
+            {
+                $project: {
+                     product: 0
+                }
+            },
+
+        ]).toArray()
+        // console.log('cartItems-----------',cartItems);
+        resolve(cartItems)
+    })
+},
+
 
 
 }

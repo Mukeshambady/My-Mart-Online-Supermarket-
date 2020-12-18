@@ -3,11 +3,15 @@ const commonHelpers = require("./common-helpers");
 const string_collections = require('../config/string-collections');
 
 //object id declaration to compare(string converted to object)
-var objectId = require('mongodb').ObjectID
+var objectId = require('mongodb').ObjectID;
+const { resolve, reject } = require("promise");
 
 
 let productCollectionName = string_collections.TABLE_COLLECTIONs.product;
 let productDoc = string_collections.PRODUCT_DOC
+
+let cartCollectionName = string_collections.TABLE_COLLECTIONs.cart;
+let cartDoc = string_collections.CART_DOC
 
 module.exports = {
 
@@ -21,6 +25,8 @@ module.exports = {
                 name: data.name,
                 category: data.category,
                 price: data.price,
+                weight: data.weight,
+                measure: data.measure,
                 stock: data.stock
             }
             await commonHelpers.doUpdateOne(productCollectionName, productDocDoc).then((product) => {
@@ -31,7 +37,7 @@ module.exports = {
         })
     },
 
-   
+
     //AdddealerProduct by dealer _id
     AddDealerProduct: function (userId, productDeatils) {
         user_Id = objectId(userId.trim())
@@ -40,7 +46,9 @@ module.exports = {
         productDoc.category = productDeatils.category.trim()
         productDoc.stock = productDeatils.stock.trim()
         productDoc.price = productDeatils.price.trim()
-        productDoc.dealer_id = user_Id
+        productDoc.weight = productDeatils.weight.trim(),
+            productDoc.measure = productDeatils.measure.trim(),
+            productDoc.dealer_id = user_Id
         productDoc.productImage = userId + pro_name + '.jpg'
 
         delete productDoc._id
@@ -57,7 +65,7 @@ module.exports = {
     //find dealerProducts by _id
     dealerProducts: function (userId) {
 
-        productDoc = { dealer_id: objectId(userId),status:1 }
+        productDoc = { dealer_id: objectId(userId), status: 1 }
         return new Promise(async (resolve, reject) => {
             await commonHelpers.getFind(productCollectionName, productDoc).then((data) => {
                 resolve(data)
@@ -85,7 +93,7 @@ module.exports = {
     //productDelete  by _id bot login and dealer
     productDelete: function (userId) {
         productDoc = { _id: objectId(userId) }
-        return new Promise(async (resolve, reject) => {        
+        return new Promise(async (resolve, reject) => {
             await commonHelpers.doFindOneAndDelete(productCollectionName, productDoc).then((data) => {
                 resolve(data)
             }).catch((err) => {
@@ -94,9 +102,9 @@ module.exports = {
             })
         })
     },
-    
-     //productBanOrUnban by _id
-     productBanOrUnban: function (userId, status) {
+
+    //productBanOrUnban by _id
+    productBanOrUnban: function (userId, status) {
         productDoc = { _id: { _id: objectId(userId) }, status: status }
         return new Promise(async (resolve, reject) => {
             await commonHelpers.doUpdateOne(productCollectionName, productDoc).then((data) => {
@@ -108,11 +116,11 @@ module.exports = {
         })
     },
 
-     //All Product---BAN--Lists
-     productAllBanDetail: function (dealerid) {
+    //All Product---BAN--Lists
+    productAllBanDetail: function (dealerid) {
         return new Promise(async (resolve, reject) => {
             // getFindAllDetails: (docName, status,state)
-            productSearch = { dealer_id: objectId(dealerid),status:0 }
+            productSearch = { dealer_id: objectId(dealerid), status: 0 }
             await commonHelpers.getFind(productCollectionName, productSearch).then((data) => {
                 resolve(data)
             }).catch((err) => {
@@ -121,8 +129,78 @@ module.exports = {
             })
         })
     },
+    // cart details
+    setCart: (data) => {
+        cartDoc = {}
+        cartDoc = {
+            userId: objectId(data.userId),
+            products: [{
+                product_id: objectId(data.productId),
+                quantity: parseInt(data.qty)
+            }]
+        }
+        let products = {}
+        products = {
+            product_id: objectId(data.productId),
+            quantity: parseInt(data.qty)
+        }
+        return new Promise(async (resolve, reject) => {
+            let userCart = await commonHelpers.getFindOneWithId(cartCollectionName, { userId: cartDoc.userId })
+            if (userCart) {
+                console.log(userCart);
+                let proExist = userCart.products.findIndex(product => product.product_id == data.productId)
+                if (proExist != -1) {
+                    commonHelpers.doUpdateOneAndIncrement(cartCollectionName, cartDoc.userId, products.product_id, products.quantity)
+                    resolve(true)
+                } else {
+                    commonHelpers.doUpdateOnePush(cartCollectionName, { userId: cartDoc.userId }, products)
+                    resolve(true)
+                }
 
-//end export
+            } else {
+                await commonHelpers.doInsertOne(cartCollectionName, cartDoc).then((result) => {
+                    resolve(true)
+                }).catch((err) => {
+                    console.log('SetCart Error : ', err);
+                })
+            }
+
+
+        })
+    },
+
+    getCartCount: (userId) => {
+        return new Promise(async (resolve, reject) => {
+            let count = 0
+            await commonHelpers.getFindOneWithId(cartCollectionName, { userId: objectId(userId) }).then((cart) => {
+                if (cart) {
+                    count = cart.products.length
+                }
+                resolve(count)
+            }).catch((err)=>{
+                console.log('getCartCount',err);
+            })
+
+        })
+    },
+//increment and decrement quantity
+    setCartQuantity:(data)=>{
+        
+        return new Promise(async (resolve, reject) => {
+            await  commonHelpers.doUpdateOneAndIncrement(cartCollectionName, objectId( data.userId),objectId(data.productId), data.quantity)
+        resolve(true)
+        })
+       
+    }
+
+
+
+
+
+    //end export
 }
+
+
+
 
 

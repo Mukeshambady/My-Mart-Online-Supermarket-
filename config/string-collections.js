@@ -2,7 +2,8 @@ module.exports.TABLE_COLLECTIONs = {
     login: 'login',
     dealer: 'dealer',
     product: 'product',
-    user: 'user'
+    user: 'user',
+    cart: 'cart'
 },
 
     module.exports.LOGIN_DOC = {
@@ -37,6 +38,8 @@ module.exports.PRODUCT_DOC = {
     category: '',
     stock: '',
     price: '',
+    weight: '',
+    measure: '',
     dealer_id: '',
     productImage: '',
     date: new Date(),
@@ -48,7 +51,12 @@ module.exports.USER_DOC = {
     name: '',
     phoneNumber: '',
     address: '',
-    email:'',
+    email: '',
     profilePicture: '',
     date: new Date()
+}
+
+module.exports.CART_DOC = {
+    userId: '',
+    products: { productId: '', quantity: 0 }
 }
