@@ -10,69 +10,52 @@
           <span aria-hidden="true">×</span>
         </button>
       </div>
-      <!--Body-->
-      <div class="modal-body">
+      <!-- Card -->
+      <div class="card card-cascade narrower">
+        <!-- Card content -->
+        <div class="card-body card-body-cascade ">
+          <!-- first row -->
+          <section class="modal-data">
+            <h1>No Data -----</h1>
+            {{!-- <div class="row  z-depth-1 mx-2 my-2 py-2  ">
+              <div class="col-12 ">
+                <div class=" mb-0 ">
+                  <span class="float-right font-weight-bold " style="float: right;">Order Id.&nbsp; <span
+                      class=" text-truncate ">12345678910111213</span>
+                  </span>
+                  <p class="text-capitalize m-0">1 <span class="font-weight-bold"> my name </span></p>
+                  <hr>
+                  <span class="float-right font-weight-bold m-0 " style="float: right;">Total Amount.&nbsp;
+                    <span>0</span>
+                  </span>
+                </div>
+              </div>
+            </div> --}}
 
-        <!--Modal Body Here -->
+          </section>
+          <!--End first row -->
+
+        </div>
+        <!-- Card content -->
 
       </div>
+      <!-- Card -->
       <!--Footer-->
 
     </div>
   </div>
 </div>
+
+
+
 <!-- Modal: modalCart -->
-{{!-- modal --}}
-
-<!-- Modal: modalCart -->
-
-<!-- Quantity Style -->
-<style>
-  /* Product Quantity */
-  .quantity {
-    padding-top: 20px;
-    margin-right: 60px;
-  }
-
-  .quantity input {
-    -webkit-appearance: none;
-    border: none;
-    text-align: center;
-    width: 32px;
-    font-size: 16px;
-    color: #43484D;
-    font-weight: 300;
-  }
-
-  button[class*=btn] {
-    width: 30px;
-    height: 30px;
-    background-color: #E1E8EE;
-    border-radius: 6px;
-    border: none;
-    cursor: pointer;
-  }
 
 
-  /* .minus-btn img {
-    margin-bottom: 3px;
-  }
-
-  .plus-btn img {
-    margin-top: 2px;
-  } */
-
-
-
-  button:focus,
-  input:focus {
-    outline: 0;
-  }
-</style>
 <!-- Quantity Style  pt-2 ml-2 fluid-->
 
-<div class="modal fade" id="modalCartDetails" tabindex="-1" role="dialog" aria-labelledby="modalCart" aria-hidden="true">
-  <div class="modal-dialog modal-fluid" role="document">
+<div class="modal fade" id="modalCartDetails" tabindex="-1" role="dialog" aria-labelledby="modalCart"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <!--Header-->
       <div class="modal-header">
@@ -84,69 +67,177 @@
       <!--Body-->
       <div class="modal-body">
         <!--Grid row -->
-        <div class="row ">
+        <div class="row">
+          {{!-- Form start --}}
 
-          <!--Grid column-->
-          <div class="col-6">
-            <section class="modal-data">
-            <div class="media rounded alert alert-primary alert-dismissible">
-              <button type="button" class="close" data-dismiss="alert">&times;</button>
+          <!-- First column -->
+          <div class="col-lg-6 col-mb-6">
 
-              <div class="media-body py-1 ">
-                <div class="row">
-                  <div class="col-md-2 d-flex  align-middle ">
-                    <img src="https://mdbootstrap.com/img/Photos/Others/placeholder7.jpg" height="50px" width="50px" alt="product cart Image"
-                      srcset="">
-
-                  </div>
-                 
-                  <div class="col-md-10  ">
-                    <div class="row">
-
-                      <div class="col-md-6  ">
-                        <h6 class="text-capitalize"> <strong id="pro-name"> Fantasy T-shirt </strong></h6>
-                        <div class="quantity">
-                          <button class="minus-btn " type="button" name="button"><i class="fas fa-minus"></i></button>
-                          <input type="text"  name="name" value="1" disabled>
-                          <button class="plus-btn" type="button" name="button"><i class="fas fa-plus"></i></button>
-                        </div>
-                      </div>
-                      <div class="col-md-6  ">
-                        <div class="d-flex justify-content-bottom">
-                          <h6 class="float-right ">Rs.<span id="price">00.00<span></h6>
-                        </div>
+            <!-- Card -->
+            <div class="card card-cascade narrower">
+              <!-- Card content -->
+              <div class="card-body card-body-cascade ">
+                <!-- first row -->
+                <section class="modal-data">
+                  <div class="row  alert alert-info  alert-dismissible ">
+                    <button type="button" class="close remove-product" data-toggle="tooltip" data-placement="top"
+                      title="Remove Item"><i class="far fa-trash-alt red-text"></i></button>
+                    <div class="col-md-4">
+                      <div class="md-form mb-0">
+                        <img src="https://mdbootstrap.com/img/Photos/Others/placeholder7.jpg" height="50px" width="50px"
+                          alt="product cart Image" srcset="">
                       </div>
                     </div>
+                    <div class="col-md-5">
+                      <div class="md-form mb-0 ">
+                        <h6 class="text-capitalize"> <strong id="pro-name"> my name </strong></h6>
+                        <input type="hidden" name="productId" value="">
+                        <span class="quantity text-right">
 
+                          <a class="minus-btn"><i class="fas fa-minus "></i></a>
+                          <input type="text" name="name" value="1" disabled>
+                          <a class="plus-btn"><i class="fas fa-plus "></i></a>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="col-md-2 d-flex justify-content-between">
+
+                      <div class="md-form mb-0 mx-auto py-3">
+
+                        <h6>Rs.<span id="price ">00.00<span></h6>
+                      </div>
+                    </div>
+                  </div>
+
+                </section>
+                <!--End first row -->
+              </div>
+              <!-- Card content -->
+
+            </div>
+            <!-- Card -->
+
+          </div>
+
+          <!-- First column -->
+
+          <!-- Second column -->
+          <div class="col-lg-6 col-mb-6">
+
+            <!-- Card -->
+            <div class="card card-cascade narrower">
+
+              <!-- Card content -->
+              <div class="card-body card-body-cascade ">
+
+                <!-- First row -->
+                <div class="row rounded bg-light">
+                  <!-- First column -->
+                  <div class="col-12">
+                    <div class=" mb-0 pt-1">
+                      <div class="clearfix">
+                        <p class="float-left">Total</p>
+                        <p class="float-right font-weight-bold ">Rs.&nbsp; <span id="total">100</span> </p>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Secound column -->
+                  <div class="col-12">
+                    <div class=" mb-0">
+                      <div class="clearfix">
+                        <p class="float-left">Total Item</p>
+                        <p class="float-right font-weight-bold total-item">12</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Secound row -->
+                <div class="row pt-2">
+                  <div class="col-12">
+                    <div class="clearfix">
+
+                      <p class="float-left font-weight-bold ">non-contact-delivery</p>
+                      <span class="float-right">
+                        <fieldset id="buttonRoundedWrapper" class="switch">
+                          <label>
+                            <input value="true" name="buttonRounded" type="checkbox">
+                            <span class="lever"></span>
+                          </label>
+                        </fieldset>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- third row -->
+                <div class="row rounded bg-light pt-md-2">
+                  <!-- First column -->
+                  <div class="col-2">
+                    <div class=" mb-0">
+                      <i class="fas fa-map-marker-alt blue-text fa-3x"></i>
+                    </div>
+                  </div>
+                  <!-- Secound column -->
+                  <div class="col-6">
+                    <div class=" mb-0 pt-md-3">
+                      <p class="float-left font-weight-bold text-capitalize">adoor,adoor</p>
+                    </div>
+                  </div>
+                  <!-- third column -->
+                  <div class="col-4">
+                    <div class=" mb-0 pt-md-3 text-right">
+                      <p> <a href="">Change</a> </p>
+                    </div>
+                  </div>
+                </div>
+                <!-- Forth row -->
+                <div class="row rounded bg-light   mt-1 py-2">
+                  <div class="col-12 mt-3 ">
+                    <div class="clearfix">
+                      <p class="float-left  text-capitalize h4">Mode of payment</p>
+                      <p class="float-right"> <a href="">Change</a> </p>
+                    </div>
+                  </div>
+
+                  <!-- Secound column -->
+                  <div class="col-12 d-flex justify-content-center">
+                    <div class=" mb-0 ">
+                      <i class="fab fa-paypal blue-text fa-3x"></i>
+                    </div>
+                  </div>
+                  <div class="col-12 d-flex justify-content-center">
+                    <div class=" mb-0 ">
+                      <a href="" class="btn btn-outline-info btn-rounded waves-effect text-capitalize check-out">Check
+                        Out</a>
+                    </div>
                   </div>
 
                 </div>
 
-              </div>
-            </div>
-            </section>
-           
-          </div>
-          <div class="col-6   ">
-            <div class="media text-center rounded alert alert-secondary">
-              <i class="fas fa-map-marker-alt  fa-3x   rounded-left text-white mx-1"></i>
-              <div class="media-body py-1 ">
-                <p class="text-uppercase text-muted mb-1"><small>Flat No. 32</small></p>
-                <p class="text-uppercase text-muted mb-1"><small>Hi-Light</small></p>
-                {{!-- <h5 class="font-weight-bold mb-0">2</h5> --}}
-              </div>
-            </div>
-          </div>
 
+              </div>
+              <!-- Card content -->
 
-          <!--Grid column-->
+            </div>
+            <!-- Card -->
+
+          </div>
+          <!-- Second column -->
+
         </div>
         <!--Grid row-->
       </div>
-      {{!-- <div class="modal-footer">
-        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
-        <button class="btn btn-primary">Checkout</button>
-      </div> --}}
+
     </div>
   </div>
-  
+</div>
+
+
+
+
+
+
+
+
+

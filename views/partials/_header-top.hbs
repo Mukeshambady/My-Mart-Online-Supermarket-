@@ -11,8 +11,8 @@
 
 	<!-- Breadcrumb -->
 	<div class="breadcrumb-dn mr-auto">
-		<p class="text-white"> <a href="{{ifUrl session.url}}">My Mart Online Supermarket</a> 
-		
+		<p class="text-white"> <a href="{{ifUrl session.url}}">My Mart Online Supermarket</a>
+
 		</p>
 	</div>
 
@@ -48,7 +48,7 @@
 			<a class="nav-link waves-effect"><i class="fas fa-envelope"></i> <span
 					class="clearfix d-none d-sm-inline-block">Contact</span></a>
 		</li> --}}
-	{{#if session.userloggedIn}}
+		{{#if session.userloggedIn}}
 		<li class="nav-item dropdown">
 			<a class="nav-link dropdown-toggle waves-effect" href="#" id="userDropdown" data-toggle="dropdown"
 				aria-haspopup="true" aria-expanded="false">
@@ -63,7 +63,7 @@
 		</li>
 		<li class="nav-item">
 			<a class="modalCart nav-link waves-effect ">
-				<span class="clearfix d-none d-sm-inline-block">
+				<span class="clearfix "> {{!--  d-none d-sm-inline-block --}}
 					<span id="cartcount" class="badge badge-danger ml-2 ">{{ cartCount}}</span>
 					<i class="fas fa-shopping-cart"></i>
 				</span>
@@ -74,10 +74,12 @@
 		<li class="nav-item dropdown">
 			<a class="nav-link dropdown-toggle waves-effect" href="#" id="userDropdown" data-toggle="dropdown"
 				aria-haspopup="true" aria-expanded="false">
-				<i class="fas fa-user"></i> <span class="clearfix d-none d-sm-inline-block">{{session.user.username}}</span>
+				<i class="fas fa-user"></i> <span class="clearfix d-none d-sm-inline-block">
+					{{#if session.user.username}} {{session.user.username}} {{else}} Profile{{/if}}
+				</span>
 			</a>
 			<div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-				
+
 				{{#if session.user}}
 				<a class="dropdown-item" href="/logout">Log Out</a>
 				<a class="dropdown-item" href="#">My account</a>

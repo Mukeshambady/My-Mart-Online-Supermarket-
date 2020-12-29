@@ -1,5 +1,5 @@
 <div class="container pt-5">
-  <div class="jumbotron card card-image blue-grey lighten-5 mt-5" style="">
+  <div class="jumbotron card card-image blue-grey lighten-5 mt-5 d-none d-lg-block " >
     <div class="text-gray text-center py-5 px-4">
       <div>
         <h2 class="card-title h1-responsive pt-3 mb-5 font-bold"><strong>Order From Nearest
@@ -15,23 +15,23 @@
   </div>
 
 
-  <div class="row my-4">location</div>
+  <div class="row my-4">location  name:{{localname}}</div>
 
 
-  <div class="row row-cols-1 row-cols-md-3">
+  <div class="row row-cols-1 row-cols-md-3 ">
       {{#each alldealers}}
-    <div class="col mb-4">
+    <div class="col mb-4  " >
       <!-- Card -->
       <div class="card">
 
         <!--Card image-->
         <div class="view overlay">
-          <img class="card-img-top" src="../../profile-pic/{{this.profilePicture}}" alt="Card image cap">
+          <img class="card-img-top" src="../../profile-pic/{{this.profilePicture}}" height="350px" alt="Card image cap">
           <a href="#!">
             <div class="mask rgba-white-slight"></div>
           </a>
         </div>
-
+ 
         <!--Card content-->
         <div class="card-body">
 

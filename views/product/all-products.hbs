@@ -115,7 +115,7 @@
                             </a>
 
                             <a href="javascript:void(0)" id="{{this._id}}" class="btn btn-sm btn-warning banClass"
-                                data-toggle="tooltip" data-placement="top" title="Block Product"><i
+                               data-toggle="tooltip" data-placement="top"  title="Block Product"><i
                                     class="fas fa-ban"></i>
                             </a>
                         </td>
@@ -219,68 +219,3 @@
 </div>
 <!--Section: Main panel-->
 
-<script>
-
-    //calling delte Modal 
-    $('.delClass').on('click', function (e) {
-        var $row = $(this).closest('tr')
-        var id = $(this).attr('id')
-        var nameTxt = $row.find('.productName').text().trim();
-        $('#delName').html(nameTxt)
-        $('.btn-ok', '#deleteProductModal').data('recordId', id);
-        $("#deleteProductModal").modal('show')
-
-    });
-
-    //click confirm delet button to delete product and remove row (tr) from the table
-    $('#deleteProductModal').on('click', '.btn-ok', function (e) {
-        var $modalDiv = $(e.delegateTarget);
-        var id = $(this).data('recordId');
-
-        $.ajax({
-            type: "post",
-            url: "/dealer/deleteProduct",
-            data: { id: id },
-            success: function (response) {
-                if (response.ok) {
-                    toastr.success('Product Deleted  Successfully..')
-                    $('#' + id).parents("tr").remove();
-                }
-            }
-        });
-
-        $modalDiv.modal('hide')
-    });
-
-
-    // calling ban deatails modal
-
-    $('.banClass').on('click', function (e) {
-        var $row = $(this).closest('tr')
-        var id = $(this).attr('id')
-        var nameTxt = $row.find('.productName').text().trim();
-        $('#banName').html(nameTxt)
-        $('.btn-ok', '#banProductModal').data('recordId', id);
-        $("#banProductModal").modal('show')
-
-    });
-    //click to confirm ban button and ban the data and remove current tr from the table
-    $('#banProductModal').on('click', '.btn-ok', function (e) {
-        e.preventDefault()
-        var $modalDiv = $(e.delegateTarget);
-        var id = $(this).data('recordId');
-        $.ajax({
-            type: "post",
-            url: "/dealer/banProduct",
-            data: { id: id },
-            success: function (response) {
-                if (response) {
-                    toastr.success('Product Banned...')
-                    $('#' + id).parents("tr").remove();
-                }
-            }
-        });
-        $modalDiv.modal('hide')
-    });
-
-</script>

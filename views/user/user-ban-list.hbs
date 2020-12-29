@@ -224,6 +224,7 @@
     //ban deatails    
 
     $('.banClass').on('click', function (e) {
+        login_check()
         var $row = $(this).closest('tr')
         var id = $(this).attr('id')
         var nameTxt = $row.find('.storeName').text().trim();
@@ -233,6 +234,7 @@
     });
 
     $('#unBanUserModal').on('click', '.btn-ok', function (e) {
+        login_check()
         var $modalDiv = $(e.delegateTarget);
         var id = $(this).data('recordId');
         $.ajax({

@@ -7,11 +7,20 @@ module.exports={
       },
 
       eqIf: (str1,str2) => {
-        return(str1===str2)?true:false
+        return (str1==str2)?true:false   
       },
       ifUrl: (str) => {
         return(str)?str:'/'
       },
+
+    //  select: function( value, options ){
+    //     var $el = $('<select />').html( options.fn(this) );
+    //     $el.find('[value="' + value + '"]').attr({'selected':'selected'});
+    //     return $el.html();
+    // },
+
+
+
 
       // cartCount1: ()=>{
       //   return new Promise(async(resolve,reject)=>{
@@ -26,5 +35,15 @@ module.exports={
       //   // console.log('count', count);
       //   // return {count:count}
       // },
+
+      // placed: 1,
+      // confirmed: 2,
+      // pending: 3,
+      // delayed: 4,
+      // outOfDelivery: 5,
+      // rejected: 6,
+      // delivered: 7
+
+     
 
 }

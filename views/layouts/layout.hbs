@@ -37,85 +37,130 @@
     .card.card-cascade .view {
       box-shadow: 0 5px 12px 0 rgba(0, 0, 0, 0.2), 0 2px 8px 0 rgba(0, 0, 0, 0.19);
     }
+
+    /* Product Quantity */
+
+
+  .quantity input {
+    -webkit-appearance: none;
+    border: none;
+    text-align: center;
+    width: 32px;
+    font-size: 16px;
+    color: #43484D;
+    font-weight: 300;
+
+  }
+  
   </style>
+  
+
 </head>
 
 <body class="fixed-sn white-skin">
-<!-- Main Navigation -->
-<header>
-  {{#if session.user}}
-  {{#if (eqIf session.user.state 0)}}
-  {{>_admin-side-bar}}
-  {{/if}}
+  <!-- Main Navigation -->
+  <header>
+    {{#if session.user}}
+    {{#if (eqIf session.user.state 0)}}
+    {{>_admin-side-bar}}
+    {{/if}}
 
-  {{#if (eqIf session.user.state 2)}}
-  {{>_dealer-side-bar}}
-  {{/if}}
-{{/if}}
-  {{>_header-top}}
-
-
-  <main class="mb-5 pb-5">
-    {{{body}}}
-  </main>
-  <!--Main layout-->
-  {{>_modals}}
+    {{#if (eqIf session.user.state 2)}}
+    {{>_dealer-side-bar}}
+    {{/if}}
+    {{/if}}
+    {{>_header-top}}
 
 
-  <!-- Footer -->
-  <footer class="page-footer fixed-bottom font-small mdb-color lighten-3">
+    <main class="mb-5 pb-5">
+      {{{body}}}
 
-    <!-- Copyright -->
-    <div class="footer-copyright text-center py-3 ">&#xA9; 2018 Copyright:
-      <a href="https://mdbootstrap.com/bootstrap-tutorial/"> MDBootstrap.com</a>
-    </div>
-    <!-- Copyright -->
+      {{#if session.user}}
+      {{#if (eqIf session.user.state 1)}}
 
-  </footer>
-  <!-- Footer -->
+      {{>_modals}}
 
-  <!-- SCRIPTS -->
+      {{/if}}
+      {{/if}}
 
-  <!-- Bootstrap tooltips -->
-  {{!--
-  <script type="text/javascript"
-    src="https://mdbootstrap.com/previews/templates/admin-dashboard/js/popper.min.js"></script> --}}
-  <script type="text/javascript" src="../../js/popper.min.js"></script>
-  <!-- Bootstrap core JavaScript -->
-  {{!--
-  <script src="https://mdbootstrap.com/api/snippets/static/download/MDB-Pro_4.19.1/js/bootstrap.min.js"></script> --}}
-  <script src="../../js/bootstrap.min.js"></script>
-  <!-- MDB core JavaScript -->
-  {{!--
-  <script type="text/javascript"
-    src="https://mdbootstrap.com/previews/templates/admin-dashboard/js/mdb.min.js"></script> --}}
-  <script type="text/javascript" src="../../js/mdb.min.js"></script>
-  <!-- Custom scripts -->
-  <script>
-    // SideNav Initialization
-    $(".button-collapse").sideNav();
+    </main>
+    <!--Main layout-->
 
-    var container = document.querySelector('.custom-scrollbar');
-    
-    if(container){
-       $( "body" ).even().addClass( "fixed-sn" );
-    Ps.initialize(container, {
-      wheelSpeed: 2,
-      wheelPropagation: true,
-      minScrollbarLength: 20
-    });
-    }else{
-      $( "body" ).even().removeClass( "fixed-sn" );
-    }
-  </script>
 
-  <script type="text/javascript" src="../../js/myjs.js">   </script>
 
-  <script>
-    $(function () {
-      $('[data-toggle="tooltip"]').tooltip()
-    })
-  </script>
+    <!-- Footer -->
+    <footer class="page-footer fixed-bottom font-small mdb-color lighten-3">
+
+      <!-- Copyright -->
+      <div class="footer-copyright text-center py-3 ">&#xA9; 2018 Copyright:
+        <a href="https://mdbootstrap.com/bootstrap-tutorial/"> MDBootstrap.com</a>
+      </div>
+      <!-- Copyright -->
+
+    </footer>
+    <!-- Footer -->
+
+    <!-- SCRIPTS -->
+
+    <!-- Bootstrap tooltips -->
+    {{!--
+    <script type="text/javascript"
+      src="https://mdbootstrap.com/previews/templates/admin-dashboard/js/popper.min.js"></script> --}}
+    <script type="text/javascript" src="../../js/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    {{!--
+    <script src="https://mdbootstrap.com/api/snippets/static/download/MDB-Pro_4.19.1/js/bootstrap.min.js"></script> --}}
+    <script src="../../js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    {{!--
+    <script type="text/javascript"
+      src="https://mdbootstrap.com/previews/templates/admin-dashboard/js/mdb.min.js"></script> --}}
+    <script type="text/javascript" src="../../js/mdb.min.js"></script>
+    {{!-- jquery validate --}}
+ <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/jquery.validate.js"></script>
+
+    <!-- Custom scripts -->
+   
+    <script>
+      
+
+
+      var container = document.querySelector('.custom-scrollbar');
+
+      if (container) {
+        // SideNav Initialization
+        $(".button-collapse").sideNav();
+        $("body").even().addClass("fixed-sn");
+        Ps.initialize(container, {
+          wheelSpeed: 2,
+          wheelPropagation: true,
+          minScrollbarLength: 20
+        });
+      } else {
+        $("body").even().removeClass("fixed-sn");
+      }
+    </script>
+    {{#if session.user}}
+      {{#if (eqIf session.user.state 0)}}
+        <script type="text/javascript" src="../../js/adminjs.js">   </script>
+      {{/if}}
+
+      {{#if (eqIf session.user.state 1)}}
+       <script type="text/javascript" src="../../js/userjs.js">   </script>
+      {{/if}}
+      {{#if (eqIf session.user.state 2)}}
+       <script type="text/javascript" src="../../js/dealerjs.js">   </script>
+      {{/if}}
+    {{else}}
+      <script type="text/javascript" src="../../js/dealerjs.js">   </script>
+    {{/if}}
+
+
+    <script>
+      $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+      })
+    </script>
 
 </body>
 

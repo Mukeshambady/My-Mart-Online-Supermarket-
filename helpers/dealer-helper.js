@@ -175,7 +175,26 @@ module.exports = {
         })
     },
    
-
+ //openingAndClosingtime set
+ setTiming:function(data){
+    orderDoc={_id:{ _id: objectId(data.dealerId) },openingAndClosingtime:{ openingTime: data.openingtime, closingTime:data.closingtime }}
+    console.log(orderDoc);
+    return new Promise((resolve,reject)=>{
+        commonHelpers.doUpdateOne(dealerCollectionName,orderDoc).then((value)=>{
+            resolve(value)
+        })
+       
+    })
+},
+ //get openingAndClosingtime
+ getTiming:function(id){
+    return new Promise((resolve,reject)=>{
+        commonHelpers. getFindOnewithId(dealerCollectionName, {_id: objectId(id)}).then((value)=>{
+            resolve(value)
+        })
+       
+    })
+},
   
 //end export
 }

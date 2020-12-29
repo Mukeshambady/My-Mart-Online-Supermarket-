@@ -34,7 +34,7 @@
                             <img src="/products-pic/{{productImage}}" alt="User Photo"
                                 class="z-depth-1 mb-3 mx-auto img-fluid" alt="User Photo" id="imageView">
                             <input type="hidden" name="imageView" value="{{productImage}}">
-                            <p id="img-name" class="text-muted "><small>Click to add your product
+                            <p id="img-name" class="text-muted "><small>Click to change your product
                                     image</small></p>
                             <div class="row flex-center">
                                 <input type="file" id="FileUpload" name="image" onchange="viewImage(event)"
@@ -106,7 +106,7 @@
                             <!-- First row -->
                             <div class="row">
                                 <!-- First column -->
-                                <div class="col-md-6">
+                                <div class="col-md-3">
                                     <div class="md-form mb-0">
                                         <input type="number" id="form81" name="price" placeholder="Product Price"
                                             class="form-control validate" required value="{{price}}">
@@ -137,6 +137,14 @@
 
                                     </div>
                                 </div>
+                                 <div class="col-md-3">
+                                    <div class="md-form mb-0">
+                                        <input type="number" id="form81" name="stock" value="{{stock}}"
+                                            placeholder="number of qty" class="form-control validate" required>
+                                        <label for="Product stock" data-error="wrong" data-success="right">Product
+                                            Stock</label>
+                                    </div>
+                                </div>
 
                             </div>
                             <!-- First row -->
@@ -146,10 +154,9 @@
                                 <!-- First column -->
                                 <div class="col-md-12">
                                     <div class="md-form mb-0">
-                                        <input type="number" id="form81" name="stock" value="{{stock}}"
-                                            placeholder="number of qty" class="form-control validate" required>
-                                        <label for="Product stock" data-error="wrong" data-success="right">Product
-                                            Stock</label>
+                                        <textarea type="text" name="productInfo" class="md-textarea form-control"
+                                            rows="3">{{productInfo}}</textarea>
+                                        <label for="form78">Product Info</label>
                                     </div>
                                 </div>
 

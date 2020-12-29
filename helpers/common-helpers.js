@@ -101,19 +101,21 @@ module.exports = {
 
     //Find All
     //using promise functionality
-    getFindWithId: (docName, id) => {
-        return new Promise(async (resolve, reject) => {
-            let docDetails = await db.get().collection(docName).find(id).toArray()
-            resolve(docDetails)
-        }).catch((err) => {
-            console.log('getFind Error', err);
-        })
-    },
+    // getFindWithId: (docName, id) => {
+    //     return new Promise(async (resolve, reject) => {
+    //         let docDetails = await db.get().collection(docName).find(id).toArray()
+    //         resolve(docDetails)
+    //     }).catch((err) => {
+    //         console.log('getFind Error', err);
+    //     })
+    // },
     //Find All
     //using promise functionality
     getFindOneWithId: (docName, id) => {
+
         return new Promise(async (resolve, reject) => {
             let docDetails = await db.get().collection(docName).findOne(id)
+
             resolve(docDetails)
         }).catch((err) => {
             console.log('getFind Error', err);
@@ -202,9 +204,9 @@ module.exports = {
         })
     },
     //doUpdateOneWithId with specific ID  
-    doUpdateOnePush: (docName,id, colData) => {
+    doUpdateOnePush: (docName, id, colData) => {
         return new Promise(async (resolve, reject) => {
-            await db.get().collection(docName).updateOne(id, { $push: {products:colData} }, { upsert: true }).then((result) => {
+            await db.get().collection(docName).updateOne(id, { $push: { products: colData } }, { upsert: true }).then((result) => {
 
                 if (result.matchedCount == 1) {
                     resolve(result)
@@ -238,52 +240,192 @@ module.exports = {
             })
         })
     },
-//get cart prodect depends up on a user
- //select prodect from cart 
- getCartProducts: (collection,userId) => {
+    //get cart prodect depends up on a user
+    //select prodect from cart 
+    getCartProducts: (collection, matchIds) => {
 
-    return new Promise(async (resolve, reject) => {
-        let cartItems = await db.get().collection(collection).aggregate([
-            {
-                $match:  userId 
-            },
-            {
-                $unwind: '$products'
-            },
-            {
-                $project: {
-                    item: '$products.product_id',
-                    quantity: '$products.quantity'
+        return new Promise(async (resolve, reject) => {
+            let cartItems = await db.get().collection(collection).aggregate([
+                {
+                    $match: matchIds
+                },
+                {
+                    $unwind: '$products'
+                },
+                {
+                    $project: {
+                        item: '$products.product_id',
+                        quantity: '$products.quantity'
+                    }
+                },
+                {
+                    $lookup: {
+                        from: COLLECTION_DATA.TABLE_COLLECTIONs.product,
+                        localField: 'item',
+                        foreignField: '_id',
+                        as: 'product'
+                    }
+                },
+                {
+                    $project: {
+                        _id: 0, cart_id: '$_id', quantity: 1, product: 1
+                    }
+                },
+                {
+                    $replaceRoot: { newRoot: { $mergeObjects: [{ $arrayElemAt: ["$product", 0] }, "$$ROOT"] } }
+                },
+                {
+                    $project: {
+                        product: 0
+                    }
+                },
+
+            ]).toArray()
+            // console.log('cartItems-----------',cartItems);
+            resolve(cartItems)
+        })
+    },
+
+
+    //
+    //get Grand total amount of car by user id
+    getTotalAmount: (userId) => {
+        return new Promise(async (resolve, reject) => {
+            let total = await db.get().collection(COLLECTION_DATA.TABLE_COLLECTIONs.cart).aggregate([
+                {
+                    $match: userId
+                },
+                {
+                    $unwind: '$products'
+                },
+                {
+                    $project: {
+                        item: '$products.product_id',
+                        quantity: '$products.quantity'
+                    }
+                },
+                {
+                    $lookup: {
+                        from: COLLECTION_DATA.TABLE_COLLECTIONs.product,
+                        localField: 'item',
+                        foreignField: '_id',
+                        as: 'product'
+                    }
+                },
+                {
+                    $project: {
+                        item: 1, quantity: 1, product: { $arrayElemAt: ['$product', 0] }
+                    }
+                },
+                {
+                    $group: {
+                        _id: null,
+                        total: { $sum: { $multiply: [{ $toInt: '$quantity' }, { $toInt: '$product.price' }] } },
+                        total_qty: { $sum: { $toInt: '$quantity' } }
+                    }
+                },
+                {
+                    $project: { _id: 0 }
                 }
-            },
-            {
-                $lookup: {
-                    from: COLLECTION_DATA.TABLE_COLLECTIONs.product,
-                    localField: 'item',
-                    foreignField: '_id',
-                    as: 'product'
-                }
-            },
-            {
-                $project: {
-                    _id:0,cart_id:'$_id', quantity: 1, product: 1
-                }
-            },
-            {
-                $replaceRoot: { newRoot: { $mergeObjects: [{ $arrayElemAt: ["$product", 0] }, "$$ROOT"] } }
-            },
-            {
-                $project: {
-                     product: 0
-                }
-            },
+            ]).toArray()
+            //  console.log(total);
+            if (total[0]) {
+                resolve(total[0])
+            } else {
+                resolve({ total: 0, total_qty: 0 })
+            }
 
-        ]).toArray()
-        // console.log('cartItems-----------',cartItems);
-        resolve(cartItems)
-    })
-},
+        })
+    },
+    ///remove cart Item
+    removeCartProduct: (userId, proId) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(COLLECTION_DATA.TABLE_COLLECTIONs.cart)
+                .updateOne({ userId: userId },
+                    {
+                        $pull: { products: { product_id: proId } }
+                    }).then((response) => {
+                        resolve({ removeProduct: true })
+                    }).catch(() => {
+                        reject({ removeProduct: false })
+                    })
+        })
+    },
 
+    //get cart prodect depends up on a user
+    //select prodect from cart 
+    getOrderHistory: (collection, matchIds) => {
 
+        return new Promise(async (resolve, reject) => {
+            let cartItems = await db.get().collection(collection).aggregate([
+                {
+                    $match: matchIds
+                },
+                {
+                    $unwind: '$products'
+                },
 
+                {
+                    $lookup: {
+                        from: COLLECTION_DATA.TABLE_COLLECTIONs.product,
+                        localField: 'products.product_id',
+                        foreignField: '_id',
+                        as: 'product'
+                    }
+                },
+                {
+                    $lookup: {
+                        from: 'user',
+                        localField: 'userId',
+                        foreignField: '_id',
+                        as: 'user'
+                    }
+                },
+                {
+                    $unwind: '$user'
+                },
+
+                {
+                    $set: { "product.quantity": "$products.quantity" }
+                },
+                {
+                    $unwind: '$product'
+                },
+                {
+                    $group: {
+                        _id: {
+                            'id': '$_id', 'userId': '$userId',"name":"$user.name","address":"$user.address", 'paymentMethord': '$paymentMethord',
+                            'totalPrice': '$totalPrice', 'status': '$status', 'date': { $dateToString: { format: "%d-%m-%Y", date: "$date" } }
+                        },
+                        "totalQuantity": { $sum: "$product.quantity" },
+                        'products': {
+                            $push: {
+                                'productId': '$product._id',
+                                'name': '$product.name',
+                                'category': '$product.category',
+                                'price': '$product.price',
+                                'productImage': '$product.productImage',
+                                'quantity': '$product.quantity',
+                                "weight": '$product.weight',
+                                "measure": '$product.measure',
+                                'total': { $sum: { $multiply: [{ $toInt: '$product.quantity' }, { $toInt: '$product.price' }] } }
+
+                            }
+                        }
+                    }
+                },
+                {
+                    $replaceRoot: { newRoot: { $mergeObjects: ['$_id', "$$ROOT"] } }
+                },
+                {
+                    $project: { _id: 0 }
+                },
+                { $sort: { status: 1 } }
+
+            ]).toArray()
+            resolve(cartItems)
+        })
+    },
+
+    //end
 }

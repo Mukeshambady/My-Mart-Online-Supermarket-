@@ -9,6 +9,10 @@
             margin: 0;
             padding: 0;
         }
+
+        .error {
+            color: red;
+        }
     </style>
     <link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/releases/v5.11.0/css/all.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -33,7 +37,7 @@
             <!--Grid column-->
             <div class="col-lg-6 mt-5 col-md-12">
 
-                <form action="/signup" method="POST">
+                <form action="/signup" id="registration" method="POST">
 
                     <div class="card">
 
@@ -85,7 +89,7 @@
                             <div class="form-group">
                                 <label for="re-pwd">Confirm Password:</label>
                                 <input type="password" class="form-control" placeholder="Enter Confirm Password"
-                                    id="confirmPassword" required>
+                                    id="confirmPassword" required name="confirmPassword">
                             </div>
 
 
@@ -107,8 +111,72 @@
         </div>
     </div>
 
+    <script src="../js/jquery.min.js"></script>
+    {{!-- <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/jquery.validate.js"></script> --}}
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+<script>
+// just for the demos, avoids form submit
+jQuery.validator.setDefaults({
+  debug: true,
+  success: "valid"
+});
+$( "#registration" ).validate({
+  rules: {
+    password: "required",
+    confirmPassword: {
+      equalTo: "#password"
+    }
+  }
+});
+    {{!-- <script>
+        // Wait for the DOM to be ready
+        $(function () {
+            // Initialize form validation on the registration form.
+            // It has the name attribute "registration"
+            $("form[name='registration']").validate({
+                // Specify validation rules
+                rules: {
+                    // The key name on the left side is the name attribute
+                    // of an input field. Validation rules are defined
+                    // on the right side
+                    name: "required",
 
+                    email: {
+                        required: true,
+                        // Specify that email should be validated
+                        // by the built-in "email" rule
+                        email: true
+                    },
+                   password: {
+                            required: true,
+                            minlength: 4
+                        },
+                        confirmPassword: {
+                            minlength: 4,
+                            equalTo: "#password"
+                        }
+                      
+                    }
+                },
+                // Specify validation error messages
+                messages: {
+                    name: "Please enter your name",
 
+                    password: {
+                        required: "Please provide a password",
+                        minlength: "Your password must be at least 4 characters long"
+                    },
+                    email: "Please enter a valid email address"
+                },
+                // Make sure the form is submitted to the destination defined
+                // in the "action" attribute of the form when valid
+                submitHandler: function (form) {
+                    form.submit();
+                }
+            });
+        });
+    </script> --}}
 </body>
 <!-- Footer -->
 <footer class="page-footer font-small fixed-bottom">

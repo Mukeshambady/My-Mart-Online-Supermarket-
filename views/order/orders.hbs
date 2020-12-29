@@ -1,66 +1,76 @@
-<div class="container-fluid py-3 z-depth-1 ">
+{{#each orderDetails}}
+<div class="container-fluid mb-2 py-3 z-depth-1 order-details">
     <!--Section: Main panel-->
     <!-- Section: Block Content -->
     <section>
 
         <!--Grid row -->
-        <div class="row justify-content-between rounded alert alert-danger mx-1">
+        <div class="row justify-content-between rounded bg-light mx-1">
 
             <!--Grid column-->
             <div class="col-xs-6 col-sm-6 col-md-4 col-lg-2">
                 <div class="media text-center">
                     <i class="fas fa-map-marker-alt  fa-3x  p-1 rounded-left text-white mr-1"></i>
                     <div class="media-body py-1 ">
-                        <p class="text-uppercase text-muted mb-1"><small>Flat No. 32</small></p>
-                        <p class="text-uppercase text-muted mb-1"><small>Hi-Light</small></p>
+                        <p class="text-capitalize text-muted mb-1"><small>{{address}}</small></p>
+                        {{!-- <p class="text-uppercase text-muted mb-1"><small>Hi-Light</small></p> --}}
                         {{!-- <h5 class="font-weight-bold mb-0">2</h5> --}}
                     </div>
                 </div>
             </div>
 
 
-            <div class="col-xs-6 col-sm-6 col-md-4 col-lg-2">
+            <div class="col-xs-6 col-sm-3 col-md-4 col-lg-2">
                 <div class="media text-center ">
                     <div class="media-body py-3">
-                        <h6 class="text-uppercase ">Shibu Das</h6>
+                        <h6 class="text-uppercase ">{{name}}</h6>
                     </div>
                 </div>
             </div>
 
-            <div class="col-xs-6 col-sm-6 col-md-4 col-lg-2">
+            <div class="col-xs-6 col-sm-3 col-md-4 col-lg-2">
                 <div class="media text-center ">
                     <div class="media-body py-2">
                         <h6 class="text-uppercase ">Created On</h6>
-                        <p class="text-lowercase text-muted mb-0"><small>just now</small></p>
+                        <p class="text-lowercase text-muted mb-0"><small>{{date}}</small></p>
                     </div>
                 </div>
             </div>
-            <div class="col-xs-6 col-sm-6 col-md-4 col-lg-2">
+            <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
                 <div class="media  text-center">
                     <!-- <i class="fas fa-download fa-lg pink z-depth-1 p-4 rounded-left text-white mr-3"></i> -->
                     <div class="media-body p-3 text-center">
+
                         <select class="custom-select custom-select-sm">
-                            <option selected>Open this select menu</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
+
+                            <option value="">Select One</option>
+                            {{#each ../orderState as |value key|}}
+                            <option value="{{value}}" {{#if (eqIf value ../status) }} selected {{/if}}>{{key}}</option>
+                            {{/each}}
                         </select>
                     </div>
                 </div>
 
             </div>
-            <div class="col-xs-6 col-sm-6 col-md-4 col-lg-2 ">
+            {{!-- <div class="col-xs-6 col-sm-6 col-md-4 col-lg-2 ">
                 <div class="media  text-center">
                     <div class="media-body p-1">
                         <a href="" class="btn btn-success btn-rounded ">Submit
                         </a>
                     </div>
                 </div>
-            </div>
-            <div class="col-xs-6 col-sm-6 col-md-4 col-lg-2 ">
+            </div> --}}
+            <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3 ">
                 <div class="media  text-center">
+                    {{!-- <div class="media-body p-1">
+                        <a href="" class="btn btn-success btn-rounded ">Submit
+                        </a>
+                    </div> --}}
                     <div class="media-body p-1">
-                        <a href="" class="btn btn-info btn-rounded ">View
+                        <a id="{{id}}" class="btn btn-success btn-rounded btn-md py-2 btn-sub">Submit
+                        </a>
+                        <a id="{{id}}" data-userId="{{userId}}"
+                            class="btn btn-info btn-rounded btn-md py-2 btn-view">View
                         </a>
                     </div>
                 </div>
@@ -70,50 +80,253 @@
         <!--Grid row-->
     </section>
     <section>
-        <div class="row justify-content-between">
-              <div class="col-xs-12  col-md-8 ">
-                  <table class="table table-default">
-                      <tr>
-                          <th>Item</th>
-                          <th>Qty</th>
-                          <th>X</th>
-                          <th>Cunt</th>
-                      </tr>
-                      <tr>
-                          <td>Bell Papper red</td>
-                          <td>1kg</td>
-                          <td>X</td>
-                          <td>1</td>
-                      </tr>
-                      <tr>
-                          <td>apple</td>
-                          <td>3kg</td>
-                          <td>X</td>
-                          <td>1</td>
-                      </tr>
-                  </table>
-              </div>
-              <div class="col-xs-12  col-md-4  ">
-                  <div class="row">
-                      <div class="col-6">
-                          <p>Total Cost</p>
-                          
-                      </div>
-                      <div class="col-6">
-                         <p>Rs. 123</p>
-                      </div>
-                  </div>
-                  <div class="row">
-                      <div class="col-6">
-                          <p>Total Item</p>
-                          
-                      </div>
-                      <div class="col-6">
-                         <p>5</p>
-                      </div>
-                  </div>
-              </div>
+        <div class="row ">
+            <div class="col-xs-12  col-md-8 ">
+                <table class="table table-borderless ">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Unit</th>
+                            <th>X</th>
+                            <th>Qty</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each products}}
+
+                        <tr>
+                            <td class="py-0">{{name}}</td>
+                            <td class="py-0">{{weight}}.{{measure}}</td>
+                            <td class="py-0">X</td>
+                            <td class="py-0">{{quantity}}</td>
+
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-xs-12  col-md-4  ">
+                <div class="row">
+                    <div class="col-6">
+                        <p>Total Cost</p>
+
+                    </div>
+                    <div class="col-6">
+                        <p>Rs.&nbsp;{{totalPrice}}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p>Total Item</p>
+
+                    </div>
+                    <div class="col-6">
+                        <p>{{totalQuantity}}</p>
+                    </div>
+                </div>
+            </div>
         </div>
+
+
     </section>
     <!-- Section: Block Content -->
+</div>
+{{/each}}
+
+
+
+<!-- Modal: modalCart -->
+
+
+<!-- Quantity Style  pt-2 ml-2 fluid-->
+
+<div class="modal fade" id="modalOrderProductsDetails" tabindex="-1" role="dialog" aria-labelledby="modalCart"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Products Details</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <!--Body-->
+            <div class="modal-body">
+                <!--Grid row -->
+                <div class="row">
+                    {{!-- Form start --}}
+
+                    <!-- First column -->
+                    <div class="col-lg-6 col-mb-6">
+
+                        <!-- Card -->
+                        <div class="card card-cascade narrower">
+                            <!-- Card content -->
+                            <div class="card-body card-body-cascade ">
+                                <!-- first row -->
+                                <section class="modal-data">
+                                    <div class="row ">
+
+                                        {{!-- <div class="col-md-4">
+                                            <div class="md-form mb-0">
+                                                <img src="https://mdbootstrap.com/img/Photos/Others/placeholder7.jpg"
+                                                    height="50px" width="50px" alt="product cart Image" srcset="">
+                                            </div>
+                                        </div> --}}
+
+                                        <div class="col ">
+                                            <table class="table table-borderless ">
+
+                                                <tbody>
+                                                    {{!-- {{#each products}} --}}
+
+                                                    <tr>
+                                                        <td class="text-middle">1</td>
+                                                        <td class="text-middle"><img
+                                                                src="https://mdbootstrap.com/img/Photos/Others/placeholder7.jpg"
+                                                                height="50px" width="50px" alt="product cart Image"
+                                                                srcset=""></td>
+                                                        <td class="text-middle">{{name}}d</td>
+                                                        <td class="text-middle">{{weight}}.{{measure}}d</td>
+                                                        <td class="text-middle">X</td>
+                                                        <td class="text-middle">{{quantity}}d</td>
+                                                        <td class="text-middle">{{price}}d</td>
+
+                                                    </tr>
+                                                    {{!-- {{/each}} --}}
+                                                </tbody>
+                                            </table>
+
+
+                                        </div>
+                                    </div>
+                                    <div class="row rounded bg-light pt-2 ">
+                                        {{!-- <div class="row"> --}}
+                                            <div class="col-6">
+                                                <p>Total Cost</p>
+
+                                            </div>
+                                            <div class="col-6">
+                                                <p class="float-right font-weight-bold ">Rs.&nbsp; <span
+                                                        id="total">00.00</span> </p>
+                                            </div>
+                                            {{!--
+                                        </div>
+                                        <div class="row"> --}}
+                                            <div class="col-6">
+                                                <p>Total Item</p>
+
+                                            </div>
+                                            <div class="col-6">
+                                                 <p class="float-right font-weight-bold total-item">0</p>
+                                            </div>
+                                            {{!--
+                                        </div> --}}
+                                    </div>
+                                </section>
+                                <!--End first row -->
+                            </div>
+                            <!-- Card content -->
+
+
+                            <!-- Card -->
+
+                        </div>
+
+                    </div>
+
+                    <!-- First column -->
+
+                    <!-- Second column -->
+                    <div class="col-lg-6 col-mb-6">
+
+                        <!-- Card -->
+                        <div class="card card-cascade narrower">
+
+                            <!-- Card content -->
+                            <div class="card-body card-body-cascade ">
+
+                              
+
+                                <!-- Secound row -->
+                                <div class="row pt-2">
+                                    <div class="col-12">
+                                        <div class="clearfix">
+
+                                            <p class="float-left font-weight-bold ">non-contact-delivery</p>
+                                            <span class="float-right">
+                                                <fieldset id="buttonRoundedWrapper" class="switch">
+                                                    <label>
+                                                        <input value="true" name="buttonRounded" type="checkbox">
+                                                        <span class="lever"></span>
+                                                    </label>
+                                                </fieldset>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- third row -->
+                                <div class="row rounded bg-light pt-md-2">
+                                    <!-- First column -->
+                                    <div class="col-2">
+                                        <div class=" mb-0">
+                                            <i class="fas fa-map-marker-alt blue-text fa-3x"></i>
+                                        </div>
+                                    </div>
+                                    <!-- Secound column -->
+                                    <div class="col-8">
+                                        <div class=" mb-0 pt-md-3">
+                                            <p class="float-left font-weight-bold text-capitalize" id="address">adoor,adoor</p>
+                                        </div>
+                                    </div>
+                                    <!-- third column -->
+                                    {{!-- <div class="col-4">
+                                        <div class=" mb-0 pt-md-3 text-right">
+                                            <p> <a href="">Change</a> </p>
+                                        </div>
+                                    </div> --}}
+                                </div>
+                                <!-- Forth row -->
+                                <div class="row rounded bg-light   mt-1 py-2">
+                                    <div class="col-12 mt-3 text-center ">
+                                        
+                                            <p class="  text-capitalize h4 " >Mode of payment</p>
+                                            {{!-- <p class="float-right"> <a href="">Change</a> </p> --}}
+                                        
+                                    </div>
+
+                                    <!-- Secound column -->
+                                    <div class="col-12 d-flex justify-content-center">
+                                        <div class=" mb-0 ">
+                                            <i class="fab fa-paypal blue-text fa-3x"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 d-flex justify-content-center">
+                                        <div class=" mb-0 ">
+                                            <a href=""
+                                                class="btn btn-outline-info btn-rounded waves-effect text-capitalize print">Print</a>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                            <!-- Card content -->
+
+                        </div>
+                        <!-- Card -->
+
+                    </div>
+                    <!-- Second column -->
+
+                </div>
+                <!--Grid row-->
+            </div>
+
+        </div>
+    </div>
 </div>

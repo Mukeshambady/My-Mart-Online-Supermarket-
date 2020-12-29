@@ -3,6 +3,7 @@ var express = require('express');
 const commonHelpers = require('../helpers/common-helpers')
 const dealerHelper = require('../helpers/dealer-helper')
 const productHelper = require('../helpers/product-helper')
+const cartHelper = require('../helpers/cart-helper')
 const userHelper = require('../helpers/user-helper')
 var router = express.Router();
 
@@ -11,9 +12,11 @@ var router = express.Router();
 //POST login check by ajax
 
 router.post('/verifyLoginByAjax', (req, res, next) => {
-  if (req.session.userloggedIn) {
+   
+  if (req.session.userloggedIn ||req.session.adminloggedIn||req.session.dealerloggedIn) {
     res.json(true);
   } else {
+
     req.session.headerReferer = req.headers.referer
     res.json(false);
   }
@@ -24,7 +27,8 @@ router.get('/', async function (req, res, next) {
   alldealers = await dealerHelper.getAllDealers()
   let cart_count = ''
   if (req.session.user) {
-    cart_count = await productHelper.getCartCount(req.session.user._id)
+
+    cart_count = await cartHelper.getCartCount(req.session.user._id)
   }
 
   res.render('user/dashboard', { title: 'User | Dealers', alldealers, cartCount: cart_count })
@@ -35,7 +39,7 @@ router.get('/products/:id', async function (req, res, next) {
   products = await productHelper.dealerProducts(id)
   let cart_count = ''
   if (req.session.user) {
-    cart_count = await productHelper.getCartCount(req.session.user._id)
+    cart_count = await cartHelper.getCartCount(req.session.user._id)
   }
   res.render('user/products', { title: 'User | Products', products, cartCount: cart_count })
 });
@@ -48,12 +52,21 @@ router.get('/products', function (req, res, next) {
 /* Posr users Modal cart data. */
 router.post('/cart-modal', async function (req, res, next) {
   data = await userHelper.cartDetails(req.session.user._id)
+
+  res.json(data)
+});
+// ajax
+/* Posr users Modal cart data. */
+router.post('/verifyCart', async function (req, res, next) {
+  req.body.userId = req.session.user._id
+  //1 the same dealer, 2 different dealer, 3 nocart
+  data = await userHelper.GetCartExistOrNot(req.body)
   res.json(data)
 });
 // ajax
 /* Post users Modal Order HIstory data. */
-router.post('/order-hostory-modal', async function (req, res, next) {
-  data = await userHelper.cartOrderHistory()
+router.post('/order-history-modal', async function (req, res, next) {
+  data = await userHelper.cartOrderHistory(req.session.user._id)
   res.json(data)
 });
 // ajax
@@ -61,16 +74,61 @@ router.post('/order-hostory-modal', async function (req, res, next) {
 router.post('/addToCart', async function (req, res, next) {
 
   req.body.userId = req.session.user._id
-  data = await productHelper.setCart(req.body)
-  res.json(data)
+  deletCart = req.body.deletCart
+
+  delete req.body.deletCart
+
+  if (deletCart == 1) {
+    await cartHelper.deleteCart(req.session.user._id)
+  }
+
+  await cartHelper.setCart(req.body).then(async (result) => {
+    cartCount = await cartHelper.getCartCount(req.session.user._id)
+    data = { result: result, cartCount: cartCount }
+    res.json(data)
+  })
+
+});
+// ajax
+/* Post check out. */
+router.post('/check-out', async function (req, res, next) {
+  userId = req.session.user._id
+  req.body.userId = userId
+
+  let data = await cartHelper.checkOut(userId)
+  let totals = await cartHelper.getTotalAmount(userId)
+  let cartCount = await cartHelper.getCartCount(userId)
+  result = { data: data, totals: totals, cartCount: cartCount }
+  res.json(result);
+
+
 });
 // ajax
 /* Post Quantity Change. */
 router.post('/quantity', async function (req, res, next) {
 
-  req.body.userId = req.session.user._id
-  data = await productHelper.setCartQuantity(req.body)
-  res.json(data)
+  userId = req.session.user._id
+  req.body.userId = userId
+
+  await cartHelper.setCartQuantity(req.body).then(async (data) => {
+    let totals = await cartHelper.getTotalAmount(userId)
+    result = { data: data, totals: totals }
+    res.json(result)
+  })
+
+});
+// ajax
+/* Post remove Item from Cart. */
+router.post('/remove-from-cart', async function (req, res, next) {
+  userId = req.session.user._id
+  req.body.userId = userId
+  await cartHelper.removeCartProduct(req.body).then(async (data) => {
+    let totals = await cartHelper.getTotalAmount(userId)
+    let cartCount = await cartHelper.getCartCount(userId)
+    result = { data: data, totals: totals, cartCount: cartCount }
+    res.json(result)
+  })
+
 });
 
 
@@ -131,7 +189,13 @@ router.post('/login', async function (req, res, next) {
           req.session.dealerloggedIn = true
           req.session.loggedIn = true
           req.session.url = '/dealer'
-          res.redirect('/dealer')
+          if (req.session.headerReferer) {
+            res.redirect(req.session.headerReferer)
+            req.session.headerReferer = null
+          } else {
+            res.redirect('/dealer')
+          }
+         
         }
       } else {
         req.session.loginError = 'You are banned by admin'
@@ -167,34 +231,34 @@ router.get('/logout', (req, res) => {
 
 //sign Up
 /* GET Login page. */
-router.get('/signup', function (req, res, next) {  
-    res.render('sign-up', { layout: false,usenameExistError:req.session.usenameExistError, title: 'Sign-Up' });
-    req.session.usenameExistError=null
+router.get('/signup', function (req, res, next) {
+  res.render('sign-up', { layout: false, usenameExistError: req.session.usenameExistError, title: 'Sign-Up' });
+  req.session.usenameExistError = null
 });
 //sign Up
 /* POST Login page. */
-router.post('/signup',  function (req, res, next) {  
-  
-  req.body.createdBy=''
-  userHelper.doInsert(req.body).then(async(result) => {
+router.post('/signup', function (req, res, next) {
+
+  req.body.createdBy = ''
+  userHelper.doInsert(req.body).then(async (result) => {
     if (result.status) {
       req.session.usenameExistError = 'Username all ready Exist...';
       res.redirect('/signup')
     } else {
-      req.session.usenameExistError=''
-      if(result){
+      req.session.usenameExistError = ''
+      if (result) {
         req.session.registrationStatus = "User added successfully..";
       }
       //login
-      body={username:req.body.username,password:req.body.password}
-  
+      body = { username: req.body.username, password: req.body.password }
+
       await commonHelpers.doLogin(body).then((response) => {
 
         if (response.status) {
           if (response.user.status == 1) {
-    
+
             req.session.user = response.user
-             if (req.session.user.state === 1) {
+            if (req.session.user.state === 1) {
               req.session.userloggedIn = true
               req.session.loggedIn = true
               req.session.url = '/'
@@ -204,19 +268,19 @@ router.post('/signup',  function (req, res, next) {
               } else {
                 res.redirect('/')
               }
-    
-            } 
-        } else {
-          req.session.loginError = 'Invalid Username or Password'
-          req.session.adminloggedIn = false
-          req.session.dealerloggedIn = false
-          req.session.userloggedIn = false
-          req.session.loggedIn = false
-          req.session.user = null
-          res.redirect('/login')
-    
+
+            }
+          } else {
+            req.session.loginError = 'Invalid Username or Password'
+            req.session.adminloggedIn = false
+            req.session.dealerloggedIn = false
+            req.session.userloggedIn = false
+            req.session.loggedIn = false
+            req.session.user = null
+            res.redirect('/login')
+
+          }
         }
-      }
       })
 
       //login

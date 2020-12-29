@@ -104,15 +104,15 @@
                             <!-- First row -->
                             <div class="row">
                                 <!-- First column -->
-                                <div class="col-md-6">
+                                <div class="col-md-3">
                                     <div class="md-form mb-0">
                                         <input type="number" id="form81" name="price" placeholder="Product Price"
-                                            class="form-control validate" required>
+                                            class="form-control validate" required >
                                         <label for="Product Price" data-error="wrong" data-success="right">Product
                                             Price</label>
                                     </div>
                                 </div>
-                                <!-- Secound column -->
+                                 <!-- Secound column -->
                                 <div class="col-md-3">
                                     <div class="md-form mb-0">
                                         <input type="number" id="form81" name="weight" placeholder="Product Weight"
@@ -125,7 +125,6 @@
                                 <!-- Thired column -->
                                 <div class="col-md-3">
                                     <div class="md-form mb-0">
-
                                         <select name="measure" class="mdb-select form-control validate" required>
                                             <option value="">Select One Measure</option>
                                             <option value="Kg" selected>Kg</option>
@@ -134,6 +133,14 @@
 
                                         <label for="Unit" data-error="wrong" data-success="right"></label>
 
+                                    </div>
+                                </div>
+                                 <div class="col-md-3">
+                                    <div class="md-form mb-0">
+                                        <input type="number" id="form81" name="stock" value="1"
+                                            placeholder="number of qty" class="form-control validate" required>
+                                        <label for="Product stock" data-error="wrong" data-success="right">Product
+                                            Stock</label>
                                     </div>
                                 </div>
 
@@ -145,10 +152,9 @@
                                 <!-- First column -->
                                 <div class="col-md-12">
                                     <div class="md-form mb-0">
-                                        <input type="number" id="form81" name="stock" placeholder="Enter Your Stock"
-                                            class="form-control validate" required>
-                                        <label for="Product stock" data-error="wrong" data-success="right">Product
-                                            Stock</label>
+                                        <textarea type="text" name="productInfo" class="md-textarea form-control"
+                                            rows="3">{{productInfo}}</textarea>
+                                        <label for="form78">Product Info</label>
                                     </div>
                                 </div>
 

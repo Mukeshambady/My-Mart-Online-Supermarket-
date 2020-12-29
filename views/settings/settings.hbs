@@ -1,88 +1,97 @@
 <div class="container-fluid py-3 z-depth-1 ">
+    {{#if datasaved}}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+         Timing Updated Successfully.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {{/if}}
     <!--Section: Main panel-->
     <!-- Section: Block Content -->
     <section>
+        <form action="/dealer/settings" method="POST">
+            <!--Grid row -->
+            <div class="row  z-depth-1 mx-1 my-3">
 
-        <!--Grid row -->
-        <div class="row  z-depth-1 mx-1 my-3">
+                <!--Grid column-->
 
-            <!--Grid column-->
-          
-
-
-            <div class="col-xs-4 col-md-4 ">
-                <div class="media  float-right">
-                    <div class="media-body py-3">
-                      Opening Time<input type="time" name="openingtime" title="Opening Time">
+                <div class="col-xs-4 col-md-4 ">
+                    <div class="media  float-right">
+                        <div class="media-body py-3">
+                            Opening Time<input type="time" name="openingtime" title="Opening Time"
+                                value="{{timing.openingTime}}" required>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col-xs-4 col-md-4 ">
-                <div class="media  ">
-                    <div class="media-body py-3">
-                          Clossing Time <input type="time" name="closingtime" title="Closing Time">
+                <div class="col-xs-4 col-md-4 ">
+                    <div class="media  ">
+                        <div class="media-body py-3">
+                            Clossing Time <input type="time" name="closingtime" title="Closing Time"
+                                value="{{timing.closingTime}}" required>
+                        </div>
                     </div>
                 </div>
-            </div>
-          
-            <div class="col-xs-4 col-md-4 ">
-                <div class="media ">
-                    <div class="media-body p-1">
-                        <a href="" class="btn btn-success btn-rounded ">Submit
-                        </a>
+
+                <div class="col-xs-4 col-md-4 ">
+                    <div class="media ">
+                        <div class="media-body p-1">
+                            <button type="submit" href="" class="btn btn-success btn-rounded ">Submit
+                            </button>
+                        </div>
                     </div>
                 </div>
+
+                <!--Grid column-->
             </div>
-       
-            <!--Grid column-->
-        </div>
-        <!--Grid row-->
+            <!--Grid row-->
+        </form>
     </section>
     {{!-- <section>
         <div class="row justify-content-between">
-              <div class="col-xs-12  col-md-8 ">
-                  <table class="table table-default">
-                      <tr>
-                          <th>Item</th>
-                          <th>Qty</th>
-                          <th>X</th>
-                          <th>Cunt</th>
-                      </tr>
-                      <tr>
-                          <td>Bell Papper red</td>
-                          <td>1kg</td>
-                          <td>X</td>
-                          <td>1</td>
-                      </tr>
-                      <tr>
-                          <td>apple</td>
-                          <td>3kg</td>
-                          <td>X</td>
-                          <td>1</td>
-                      </tr>
-                  </table>
-              </div>
-              <div class="col-xs-12  col-md-4  ">
-                  <div class="row">
-                      <div class="col-6">
-                          <p>Total Cost</p>
-                          
-                      </div>
-                      <div class="col-6">
-                         <p>Rs. 123</p>
-                      </div>
-                  </div>
-                  <div class="row">
-                      <div class="col-6">
-                          <p>Total Item</p>
-                          
-                      </div>
-                      <div class="col-6">
-                         <p>5</p>
-                      </div>
-                  </div>
-              </div>
+            <div class="col-xs-12  col-md-8 ">
+                <table class="table table-default">
+                    <tr>
+                        <th>Item</th>
+                        <th>Qty</th>
+                        <th>X</th>
+                        <th>Cunt</th>
+                    </tr>
+                    <tr>
+                        <td>Bell Papper red</td>
+                        <td>1kg</td>
+                        <td>X</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>apple</td>
+                        <td>3kg</td>
+                        <td>X</td>
+                        <td>1</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-xs-12  col-md-4  ">
+                <div class="row">
+                    <div class="col-6">
+                        <p>Total Cost</p>
+
+                    </div>
+                    <div class="col-6">
+                        <p>Rs. 123</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p>Total Item</p>
+
+                    </div>
+                    <div class="col-6">
+                        <p>5</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </section> --}}
     <!-- Section: Block Content -->

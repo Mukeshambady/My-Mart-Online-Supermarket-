@@ -1,6 +1,6 @@
 <div class="container pt-5">
     <div class="page-header mt-5 my-2">
-        <h1>Product <small>Details</small></h1>
+        <h1> <a href="/">Product</a> <small>Details</small></h1>
     </div>
     <hr>
     <div class="row">
@@ -8,7 +8,7 @@
 
         <!--Grid column-->
         {{#each products}}
-        <div class="col-lg-3 col-md-6 mb-4">
+        <div class="col-sm-6 col-lg-3 col-md-6  mb-4">
 
             <!--Card-->
             <div class="card card-ecommerce">
@@ -39,8 +39,8 @@
                     <span class="badge badge-default mb-2"> <b
                             class="qty mr-1">{{this.weight}}</b>{{this.measure}}</span>
                     <!-- Inline level -->
-                    <p> <span class="d-inline-block text-truncate" style="max-width: 150px;">
-                            Praeterea iter est quasdam res quas ex communi.
+                    <p> <span class="d-inline-block text-truncate productInfo" style="max-width: 150px;">
+                            {{this.productInfo}}
                         </span></p>
                     <!--Card footer-->
                     <div class="card-footer pb-0">
@@ -49,8 +49,9 @@
                                 <strong><span class="price">{{this.price}}</span> &nbsp;.Rs</strong>
                             </span>
                             <span class="float-right">
-                                <a class="add-to-cart" data-id="{{this._id}}" data-toggle="tooltip" title="Add to cart"
-                                    data-placement="top" data-original-title="Add to Cart">
+                                <a class="add-to-cart" data-id="{{this._id}}" data-dealerId="{{this.dealer_id}}"
+                                    data-toggle="tooltip" title="Add to cart" data-placement="top"
+                                    data-original-title="Add to Cart">
                                     <i class="fas fa-shopping-cart ml-3"></i>
                                 </a>
                             </span>
@@ -74,51 +75,7 @@
 
 <!-- Modal -->
 <!-- Quantity Style -->
-<style>
-    /* Product Quantity */
-    .quantity {
-        padding-top: 20px;
-        margin-right: 60px;
-    }
 
-    .quantity input {
-        -webkit-appearance: none;
-        border: none;
-        text-align: center;
-        width: 32px;
-        font-size: 16px;
-        color: #43484D;
-        font-weight: 300;
-    }
-
-    button[class*=btn] {
-        width: 30px;
-        height: 30px;
-        background-color: #E1E8EE;
-        border-radius: 6px;
-        border: none;
-        cursor: pointer;
-    }
-
-        {
-            {
-             !-- .minus-btn img {
-                margin-bottom: 3px;
-            }
-
-            .plus-btn img {
-                margin-top: 2px;
-            }
-
-            --
-        }
-    }
-
-    button:focus,
-    input:focus {
-        outline: 0;
-    }
-</style>
 <!-- Quantity Style -->
 <!-- Quantity Modal -->
 <div class="modal fade" id="product-view" tabindex="-1" role="dialog" aria-labelledby="product view" aria-hidden="true">
@@ -156,111 +113,150 @@
                     <div class="col-md-6">
                         <div class="d-flex justify-content-end">
                             <div>
-                                <div class="quantity">
-                                    <button class="minus-btn" type="button" name="button"><i
-                                            class="fas fa-minus"></i></button>
-                                    <input type="text" name="name" value="1">
-                                    <button class="plus-btn" type="button" name="button"><i
-                                            class="fas fa-plus"></i></button>
-                                    <h6 class="float-right pt-2 ml-2">Rs.<span id="price">00.00<span></h6>
-                                </div>
+
+                                <span class="quantity text-right">
+
+                                    <a class="minus-btn"><i class="fas fa-minus "></i></a>
+                                    <input type="text" name="name" value="1" disabled>
+                                    <a class="plus-btn"><i class="fas fa-plus "></i></a>
+                                    <h6 class="float-right pt-1 mx-2 font-weight-bold">Rs.<span id="price">00.00<span>
+                                    </h6>
+                                </span>
                             </div>
                         </div>
                     </div>
+                    <p id="warningmsg" class="d-none text-danger">An attempt to change the dealer will lose your present
+                        cart</p>
                 </div>
 
                 <!--Description-->
-                <p class="my-5 descrip"></p>
+                <p class="my-3 descrip" id="productInfo"></p>
                 <!--Description-->
 
                 <!--Footer-->
                 <div class="modal-footer justify-content-center">
-                    <a type="button" data-record-id="" class="btn btn-info btn-block btn-ok"><i
+                    <a type="button" data-record-id="" data-dealerId="" class="btn btn-info btn-block btn-ok"><i
                             class="fas fa-shopping-cart pr-2"></i>Add to cart</a>
                 </div>
             </div>
             <!--/.Content-->
         </div>
     </div>
-    <!-- Modal -->
-    <script type="text/javascript">
-        $('.minus-btn').on('click', function (e) {
-            e.preventDefault();
-            var $this = $(this);
-            var $input = $this.closest('div').find('input');
-            var value = parseInt($input.val());
-
-            if (value > 1) {
-                value = value - 1;
-            } else {
-                value = 1;
-            }
-
-            $input.val(value);
-
-        });
-
-        $('.plus-btn').on('click', function (e) {
-            e.preventDefault();
-            var $this = $(this);
-            var $input = $this.closest('div').find('input');
-            var value = parseInt($input.val());
-
-            if (value < 100) {
-                value = value + 1;
-            } else {
-                value = 100;
-            }
-
-            $input.val(value);
-        });
+</div>
+<!--Confirm modal -->
 
 
-    </script>
+<!-- Modal -->
+<script type="text/javascript">
+    $('.minus-btn').on('click', function (e) {
+        e.preventDefault();
+        var $this = $(this);
+        var $input = $this.closest('div').find('input');
+        var value = parseInt($input.val());
 
-    <script>
-        $('.add-to-cart').click(async function (e) {
-            e.preventDefault();
-            await login_check();
-            var $this = $(this);
-            var imgUrl = $this.closest('.card').find('img').attr('src')
-            var productName = $this.closest('.card').find('.product-name').text()
-            var price = $this.closest('.card').find('.price').text()
-            var category = $this.closest('.card').find('.category').text()
-            let id = $this.attr('data-id')
+        if (value > 1) {
+            value = value - 1;
+        } else {
+            value = 1;
+        }
 
-            $('.btn-ok', '#product-view').data('record-id', id);
-            $('.pro-img', '#product-view').attr('src', imgUrl)
-            $('#pro-name', '#product-view').text(productName)
-            $('#price', '#product-view').text(price)
-            $('#category', '#product-view').text(category)
-            $('input[name=name]', '#product-view').val(1)
+        $input.val(value);
 
-            $("#product-view").modal('show')
+    });
 
-        });
+    $('.plus-btn').on('click', function (e) {
+        e.preventDefault();
+        var $this = $(this);
+        var $input = $this.closest('div').find('input');
+        var value = parseInt($input.val());
 
-        
-        //Add product to cart $("input[name=nameGoesHere]").val();
-        $('.btn-ok', '#product-view').on('click', async function (e) {
-            e.preventDefault();
-             await login_check();
-            var $this = $(this);
-            var value = parseInt($('input[name=name]').val());
-            let productId = $(this).data('record-id')
+        if (value < 100) {
+            value = value + 1;
+        } else {
+            value = 100;
+        }
 
-            $.ajax({
-                type: 'post',
-                url: '/addToCart',
-                data: { productId: productId, qty: value },
-                success: function (result) {
-                    if(result){
-                        toastr.success('Item Add to cart')
-                    }
-                    $("#product-view").modal('hide')
+        $input.val(value);
+    });
+
+
+</script>
+
+<script>
+    $('.add-to-cart').click( function (e) {
+        e.preventDefault();
+        var $this = $(this);
+        var imgUrl = $this.closest('.card').find('img').attr('src')
+        var productName = $this.closest('.card').find('.product-name').text()
+        var price = $this.closest('.card').find('.price').text()
+        var category = $this.closest('.card').find('.category').text()
+        var productInfo = $this.closest('.card').find('.productInfo').text()
+        let id = $this.attr('data-id')
+        let dealerId = $this.attr('data-dealerId')
+        $.ajax({
+            type: "post",
+            url: "/verifyCart",
+            data: { dealerId: dealerId },
+            success: function (response) {
+                if (response.result == 1) {
+                    //add data to the cart
+                    $("#warningmsg").removeClass("d-block").addClass("d-none")
+                    $('.btn-ok', '#product-view').data('remove', 0);
+                } else if (response.result == 2) {
+                    $("#warningmsg").removeClass("d-none").addClass("d-block")
+                    $('.btn-ok', '#product-view').data('remove', 1);
+                } else {
+                    $("#warningmsg").removeClass("d-block").addClass("d-none")
+                    $('.btn-ok', '#product-view').data('remove', 0);
                 }
-            })
+
+            }
         });
 
 
-    </script>
+        $('.btn-ok', '#product-view').data('record-id', id);
+        $('.btn-ok', '#product-view').data('dealerId', dealerId);
+        $('.pro-img', '#product-view').attr('src', imgUrl)
+        $('#pro-name', '#product-view').text(productName)
+        $('#price', '#product-view').text(price)
+        $('#category', '#product-view').text(category)
+        $('#productInfo', '#product-view').text(productInfo)
+        $('input[name=name]', '#product-view').val(1)
+
+        $("#product-view").modal('show')
+
+    });
+    //Check same dealer products else info and delete delete cart
+
+    //Add product to cart $("input[name=nameGoesHere]").val();
+    $('.btn-ok', '#product-view').on('click', async function (e) {
+        e.preventDefault();
+        await login_check();
+        var $this = $(this);
+        var value = parseInt($('input[name=name]').val());
+        let productId = $(this).data('record-id')
+        let dealerId = $(this).data('dealerId')
+        let deletCart = $(this).data('remove')
+
+
+        $.ajax({
+            type: 'post',
+            url: '/addToCart',
+            data: { productId: productId, qty: value, dealerId: dealerId, deletCart: deletCart },
+            success: function (data) {
+                console.log('final ajax result', data)
+                if (data.result) {
+                    toastr.success('Item Add to cart')
+                    $('#cartcount').text(data.cartCount)
+                }
+                $("#product-view").modal('hide')
+            }
+        })
+
+
+        //end
+    });
+
+
+
+</script>

@@ -3,7 +3,10 @@ const commonHelpers = require("./common-helpers");
 const string_collections = require('../config/string-collections');
 
 //object id declaration to compare(string converted to object)
-var objectId = require('mongodb').ObjectID
+var objectId = require('mongodb').ObjectID;
+const { resolve, reject } = require("promise");
+const productHelper = require("./product-helper");
+const cartHelper = require("./cart-helper");
 
 let userCollectionName = string_collections.TABLE_COLLECTIONs.user
 let loginCollectionName = string_collections.TABLE_COLLECTIONs.login;
@@ -16,8 +19,8 @@ module.exports = {
 
     doInsert: (data) => {
         loginDoc.username = data.username
-        loginDoc.password = data.password       
-        loginDoc.createdBy =  (data.createdBy)? objectId(data.createdBy):data.createdBy
+        loginDoc.password = data.password
+        loginDoc.createdBy = (data.createdBy) ? objectId(data.createdBy) : data.createdBy
         loginDoc.state = string_collections.LOGIN_STATES.user
 
 
@@ -138,78 +141,111 @@ module.exports = {
     },
 
     //Ajax
+    //check cart  exist or not  
+    //based on userid and dealerId
+    GetCartExistOrNot: function (data) {
+        let findBy = { userId: objectId(data.userId) }
+        return new Promise(async (resolve, reject) => {
+            await commonHelpers.getFindOneWithId(cartCollectionName, findBy).then((details) => {
+                
+                if (details) {                   
+                    if(details.dealerId == data.dealerId){
+                        resolve({result:1})//1 the same dealer
+                    }else{
+                        resolve({result:2,cartId:details._id})//2 different dealer
+                    }
+                }
+                else {
+                    resolve({result:3})//3 nocart
+                }
+            })
+
+        }).catch((err) => {
+            console.log("GetCartExistOrNot ", err);
+        })
+    },
+
+    //Ajax
     //diplay the user cart items
     cartDetails: function (userId) {
 
         let data = '<h2>Nocart</h2>'
         return new Promise(async (resolve, reject) => {
+            let totals = await cartHelper.getTotalAmount(userId)
+
             let result = await commonHelpers.getCartProducts(cartCollectionName, { userId: objectId(userId) })
-            
-           if( result){data=''}
-            for (i in result){
-           
-                data += '<div class="media rounded alert alert-primary alert-dismissible">' +
-                    ' <button type="button" class="close" data-dismiss="alert">&times;</button>' +
-                    '<div class="media-body py-1 ">' +
-                    '<div class="row">' +
-                    '<div class="col-md-2 d-flex  align-middle ">' +
-                    '                  <img src="../products-pic/' + result[i].productImage + '" height="50px" width="50px" alt="product cart Image"' +
-                    'srcset="">' +
 
+            if (result) { data = '' }else{data='<h1>No cart Details</h1>'}
+            for (i in result) {
+                data += '  <div class="row  alert alert-info  alert-dismissible ">' +
+                    '<button type="button" class="close remove-product" data-toggle="tooltip" data-placement="top" title="Remove Product">' +
+                    '<i class="far fa-trash-alt red-text"></i></button>' +
+                    ' <div class="col-md-4 col-sm-4 col-4">' +
+                    ' <div class="md-form mb-0">' +
+                    ' <img src="../products-pic/' + result[i].productImage + '" height="50px" width="50px"' +
+                    '  alt="product cart Image" srcset="">' +
                     ' </div>' +
+                    ' </div>' +
+                    ' <div class="col-md-5 col-sm-5 col-5">' +
+                    '<div class="md-form mb-0 ">' +
+                    '<h6 class="text-capitalize"> <strong id="pro-name"> ' + result[i].name + ' </strong></h6>' +
 
-                    '<div class="col-md-10  ">' +
-                    '  <div class="row">' +
+                    ' <span class="quantity text-right">' +
+                    '<input type="hidden" name="productId" value="' + result[i]._id + '">' +
+                    ' <a class="minus-btn"><i class="fas fa-minus "></i></a>' +
+                    '<input type="text" name="name" value="'+ result[i].quantity+'" disabled>' +
+                    '<a class="plus-btn"><i class="fas fa-plus "></i></a>' +
+                    '</span>' +
+                    ' </div>' +
+                    ' </div>' +
+                    ' <div class="col-md-2 col-sm-2 col-2 d-flex justify-content-between">' +
 
-                    '<div class="col-md-6  ">' +
-                    
-                    ' <h6 class="text-capitalize"> <strong id="pro-name"> ' + result[i].name + ' </strong></h6>' +
-                    ' <div class="quantity">' +
-                    '<input type="hidden"  name="productId" value="' + result[i]._id + '"></input>'+
-                    ' <button class="minus-btn " type="button" name="button"><i class="fas fa-minus"></i></button>' +
-                    '<input type="text"  name="name" value="' + result[i].quantity + '" disabled>' +
-                    '<button class="plus-btn" type="button" name="button"><i class="fas fa-plus"></i></button>' +
+                    ' <div class="md-form mb-0 mx-auto py-3">' +
+
+                    ' <h6>Rs.<span id="price ">' + parseInt(result[i].price) + '<span></h6>' +
+
                     '  </div>' +
                     ' </div>' +
-                    '  <div class="col-md-6  ">' +
-                    '  <div class="d-flex justify-content-bottom">' +
-                    '  <h6 class="float-right ">Rs.<span id="price">'+parseInt( result[i].price)+'<span></h6>' +
-                    ' </div>' +
-                    ' </div>' +
-                    '  </div>' +
-
-                    '  </div>' +
-
-                    ' </div>' +
-
-                    '</div>' +
-                    '</div>'
+                    ' </div>'
 
             }
-
-
-            resolve(data)
+            _result = { data: data, totals: totals }
+            resolve(_result)
         })
-
-
 
 
     },
     //Ajax
     //Order History
-    cartOrderHistory: function () {
-        data = '<div class="row justify-content-between z-depth-1 mx-1 my-1">' +
-            ' <div class="col-md-6">' +
-            '  <p>1. Apple</p>' +
-            '  <p>1. Banana</p>' +
-            '  </div>' +
-            '  <div class="col-md-6 text-right">' +
-            '  <p>no1</p>' +
-            '   <p>Total: 123</p>' +
-            '   </div>' +
-            '  </div>'
+    cartOrderHistory: function (userId) {
+        
+        return new Promise(async(resolve,reject)=>{
+           let orders= await cartHelper.getCartHistory(userId)
+          
+           if (orders) { data = '' }else{data='<h1>No Order History</h1>'}
+            for (i in orders) {
+            data += '<div class="row text-grey blue-grey lighten-5  z-depth-1 mx-2 my-3 py-2  ">'+
+            ' <div class="col-12 ">'+
+              ' <div class=" mb-0 ">'+
+                ' <span class=" font-weight-bold " style="float: right;">Order Id.&nbsp; <span'+
+                   '  class=" text-truncate "'+
+                   ' >'+orders[i].id+'</span>'+
+                ' </span>'
+                for(j in orders[i].products){
+                    data +=  '<p class="text-capitalize m-0 mr-2 pr-1">'+( parseInt(j)+1)+'.<span class="font-weight-bold">'+ orders[i].products[j].name+' </span></p>'
+                }
+                
+                data += '  <hr>'+
+                 '<span class="float-right font-weight-bold m-0 " style="float: right;">Total Amount.&nbsp; <span>'+orders[i].totalPrice+'</span>'+
+                ' </span>'+
+              ' </div>'+
+             '</div>'   +  
+           '</div>'
+           }
 
-        return data
+           resolve(data)
+        })
+    
     }
 
 

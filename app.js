@@ -6,7 +6,7 @@ var logger = require('morgan');
 
 //new require
 const hbs = require('express-handlebars');
-var handlebarHelpers= require('./helpers/handlebar-helpers')
+var handlebarHelpers = require('./helpers/handlebar-helpers')
 var app = express();
 
 //new
@@ -31,6 +31,7 @@ const chbs = hbs.create({
   //create custom helper
   helpers: handlebarHelpers
 })
+
 app.engine('hbs', chbs.engine)
 app.set('view engine', '.hbs');
 
@@ -43,7 +44,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //middleware
 //new middilewares
 // app.use(function(req, res, next) {
- 
+
 //   // if (!req.user) {
 //   //     res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
 //   //     res.header('Expires', '-1');
@@ -55,13 +56,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(fileUpload())
 app.use(session({
   secret: "Key",
-  cookie: { maxAge: (60000 * 2) },
+  cookie: { maxAge: (60000 * 5) },
   resave: true,
   saveUninitialized: true
 }))//session settings
+
 //global session to all handlebars
 app.use(function (req, res, next) {
   res.locals.session = req.session;
+  
   next();
 });
 db.connect((err) => {
