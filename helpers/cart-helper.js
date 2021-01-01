@@ -2,6 +2,15 @@
 const commonHelpers = require("./common-helpers");
 const string_collections = require('../config/string-collections');
 
+//rasorpay
+const Razorpay = require('razorpay');
+//Razorpay instance
+var instance = new Razorpay({
+    key_id: 'rzp_test_KWvH4bD4JuWd8e',
+    key_secret: 'OtAd2W4oryEpXuuAOyrjSOux',
+});
+
+
 //object id declaration to compare(string converted to object)
 var objectId = require('mongodb').ObjectID;
 const { resolve, reject } = require("promise");

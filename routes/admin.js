@@ -2,6 +2,7 @@ const { response } = require('express');
 var express = require('express');
 
 const dealerHelper = require('../helpers/dealer-helper')
+const userHelper = require('../helpers/user-helper')
 var router = express.Router();
 
 
@@ -22,9 +23,10 @@ const verifyLogin = (req, res, next) => {
 
 /* GET home page. */
 router.get('/', verifyLogin, async function (req, res, next) {
+  let data= await dealerHelper.getDealerOpenCloseTotal()
+  DealerOpenCloseTotal= { allShops: data[0].allShops, open: data[0].open, close: data[0].close }
   let dealerDetails = await dealerHelper.dealersAllDetail(req.session.user._id)
-  // console.log(dealerDetails);
-  res.render('admin/all-dealers', { dealerDetails, title: 'Admin Home' });
+  res.render('admin/all-dealers', { dealerDetails,DealerOpenCloseTotal, title: 'Admin Home' });
 });
 
 
@@ -143,6 +145,110 @@ router.get('/ban-list-dealers', verifyLogin, async function (req, res, next) {
   res.render('admin/ban-list-dealers', { dealerDetails, title: 'Dealers - Ban List ' });
 });
 
+//**********Start**User****Functinality***************************************
+
+/* GET dealer/users List page. */
+router.get('/users', verifyLogin, async function (req, res, next) {
+  let userDetails = await userHelper.AllDetail(false)
+  res.render('user/all-users', { title: 'Admin | User List', userDetails });
+});
+
+
+/* GET New-USER page. */
+router.get('/add-user', verifyLogin, function (req, res, next) {
+  res.render('user/new-user', {
+    usenameExistError: req.session.usenameExistError,
+    registrationStatus: req.session.registrationStatus,
+    title: 'Add New User'
+  });
+  req.session.usenameExistError = null
+});
+
+/* POST ADD-USER page. */
+router.post('/add-user', verifyLogin, function (req, res, next) {
+
+  req.body.createdBy = req.session.user._id
+  userHelper.doInsert(req.body).then((result) => {
+    if (result.status) {
+      req.session.usenameExistError = 'Username all ready Exist...';
+      res.redirect('/admin/add-user')
+    } else {
+      req.session.usenameExistError = ''
+      if (result) {
+        req.session.registrationStatus = "User added successfully..";
+      }
+      res.redirect('/admin/add-user')
+      if (req.files) {
+        //get image file from Form
+        let image = req.files.image
+        //move image into public/profile-pic with image name as _id
+        image.mv('./public/user-profile-pic/' + result)
+      }
+    }
+  })
+});
+
+/* GET edit-user page. */
+router.get('/edit-user/:id', verifyLogin, async function (req, res, next) {
+  id = req.params.id
+  let userDetails = await userHelper.Profile(id)
+  registrationStatus = req.session.registrationStatus
+  res.render('user/edit-user', { title: 'Dealer | Edit-User', registrationStatus, userDetails });
+  req.session.registrationStatus = null
+});
+
+
+/* POST edit-user page. */
+router.post('/edit-user/:id', verifyLogin, async function (req, res, next) {
+  profilePicture = req.body.imageView
+  delete req.body.imageView
+  id = req.params.id
+  await userHelper.update(id, req.body).then((result) => {
+    if (req.files) {
+      //get image file from Form
+      let image = req.files.image
+      //move image into public/products-pic with image name as dealer_id+product name
+      image.mv('./public/user-profile-pic/' + profilePicture)
+    }
+    req.session.registrationStatus = 'User updated'
+    res.redirect('/admin/edit-user/' + id)
+  }).catch((err) => {
+    console.log('post edit-user error: ', err)
+  })
+});
+
+// ajax
+/* POST delete User . */
+router.post('/deleteUser', async function (req, res, next) {
+  await userHelper.Delete(req.body.id).then((result) => {
+    res.json(result)
+  })
+});
+// ajax
+/* POST banUser . */
+router.post('/banUser', async function (req, res, next) {
+  await userHelper.BanOrUnban(req.body.id, 0).then((result) => {
+    res.json(result)
+  })
+});
+
+/* GET User Ban List page. */
+router.get('/user-ban-list', verifyLogin, async function (req, res, next) {
+  let userDetails = await userHelper.AllBanDetail(false)
+  res.render('user/user-ban-list', { title: 'Admin | User Ban List', userDetails });
+});
+
+
+// ajax
+/* POST unbanUser . */
+router.post('/unbanUser', async function (req, res, next) {
+  await userHelper.BanOrUnban(req.body.id, 1).then((result) => {
+    res.json(result)
+  })
+});
+
+
+//**********End**User****Functinality***************************************
 
 module.exports = router;
 

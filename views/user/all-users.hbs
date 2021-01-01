@@ -18,7 +18,7 @@
                 <div class="media  text-center">
                     <!-- <i class="fas fa-download fa-lg pink z-depth-1 p-4 rounded-left text-white mr-3"></i> -->
                     <div class="media-body p-1">
-                        <a href="/dealer/add-user" class="btn btn-info btn-rounded">
+                        <a href="{{session.url}}/add-user" class="btn btn-info btn-rounded">
                             Add User
                         </a>
 
@@ -91,7 +91,7 @@
                        
 
                         <td>
-                            <a href="/dealer/edit-user/{{this._id}}" class="btn btn-sm btn-info"
+                            <a href="edit-user/{{this._id}}" class="btn btn-sm btn-info"
                                 data-toggle="tooltip" data-placement="top" title="Edit User"><i
                                     class="fas fa-user-edit"></i>
                             </a>
@@ -225,7 +225,7 @@
 
         $.ajax({
             type: "post",
-            url: "/dealer/deleteUser",
+            url: "deleteUser",
             data: { id: id },
             success: function (response) {
                 if (response.ok) {
@@ -257,7 +257,7 @@
         var id = $(this).data('recordId');
         $.ajax({
             type: "post",
-            url: "/dealer/banUser",
+            url: "banUser",
             data: { id: id },
             success: function (response) {
                 if (response) {

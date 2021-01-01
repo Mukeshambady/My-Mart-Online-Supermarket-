@@ -3,7 +3,8 @@ const commonHelpers = require("./common-helpers");
 const string_collections = require('../config/string-collections');
 
 //object id declaration to compare(string converted to object)
-var objectId = require('mongodb').ObjectID
+var objectId = require('mongodb').ObjectID;
+const { resolve, reject } = require("promise");
 
 let dealerCollectionName = string_collections.TABLE_COLLECTIONs.dealer
 let loginCollectionName = string_collections.TABLE_COLLECTIONs.login;
@@ -15,14 +16,7 @@ let userState=2
 module.exports = {
 
     doInsert: (data) => {
-        // string_collections.LOGIN_DOC = {
-        //     username: data.username,
-        //     password: data.password,
-        //     createdBy: objectId(data.createdBy),
-        //     state: string_collections.LOGIN_STATES.dealer,
-        //     status: 1,
-        //     date: new Date()
-        // }
+        
 
         loginDoc.username = data.username
         loginDoc.password = data.password
@@ -39,16 +33,7 @@ module.exports = {
                 await commonHelpers.doSignup(loginDoc).then(async (id) => {
                   
                     const userId = await objectId(id._id).toString()
-                    // string_collections.DEALER_DOC = {
-                    //     _id: objectId(id._id),
-                    //     storeName: data.storename,
-                    //     email: data.email,
-                    //     phoneNumber: data.phoneNumber,
-                    //     address: data.address,
-                    //     extraInFormation: data.extrainfo,
-                    //     profilePicture: id._id + '.jpg',
-                    //     date: new Date()
-                    // }
+                   
 
                     dealerDoc._id = objectId(userId)
                     dealerDoc.storeName = data.storename
@@ -177,8 +162,7 @@ module.exports = {
    
  //openingAndClosingtime set
  setTiming:function(data){
-    orderDoc={_id:{ _id: objectId(data.dealerId) },openingAndClosingtime:{ openingTime: data.openingtime, closingTime:data.closingtime }}
-    console.log(orderDoc);
+    orderDoc={_id:{ _id: objectId(data.dealerId) },openingAndClosingtime:{ openingTime: data.openingtime, closingTime:data.closingtime,status:data.status }}
     return new Promise((resolve,reject)=>{
         commonHelpers.doUpdateOne(dealerCollectionName,orderDoc).then((value)=>{
             resolve(value)
@@ -195,7 +179,14 @@ module.exports = {
        
     })
 },
-  
+//getDealerOpenCloseTotal
+getDealerOpenCloseTotal:function(){
+    return new Promise((resolve,reject)=>{
+        commonHelpers.getDealerOpenCloseTotal().then((result)=>{
+            resolve(result)
+        })
+    })
+}  
 //end export
 }
 

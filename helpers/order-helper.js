@@ -27,6 +27,24 @@ module.exports = {
             console.log('certHistory error ', err)
         })
     },
+    //getOrderDetailsByUser
+    getOrderDetailsByUser:function(userId){
+        return new Promise(async (resolve,reject)=>{
+            let result = await commonHelpers.getOrderHistory(orderCollectionName, { userId: objectId(userId) })            
+            resolve(result);
+        }).catch((err) => {
+            console.log('certHistory error ', err)
+        })
+    },
+    //getOrderDetailsByOrderId
+    getOrderDetailsByOrderId:function(id){
+        return new Promise(async (resolve,reject)=>{
+            let result = await commonHelpers.getOrderHistory(orderCollectionName, { _id: objectId(id) })            
+            resolve(result);
+        }).catch((err) => {
+            console.log('certHistory error ', err)
+        })
+    },
     
     //getOrder Product Details history based on order id, user id and dealer id
     getOrderProductDetails:function(searchIds){

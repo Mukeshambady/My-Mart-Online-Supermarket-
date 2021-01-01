@@ -28,6 +28,7 @@
   {{!--
   <script src="https://mdbootstrap.com/api/snippets/static/download/MDB-Pro_4.19.1/js/jquery.min.js"></script> --}}
   <script src="../../js/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
   <!-- Your custom styles (optional) -->
   <style>
     .card.card-cascade .view.gradient-card-header {
@@ -51,7 +52,10 @@
     font-weight: 300;
 
   }
-  
+  .error, .validation-error-phonenumber {
+            color: red;
+        }
+        
   </style>
   
 
@@ -61,13 +65,18 @@
   <!-- Main Navigation -->
   <header>
     {{#if session.user}}
-    {{#if (eqIf session.user.state 0)}}
-    {{>_admin-side-bar}}
-    {{/if}}
+        {{#if (eqIf session.user.state 0) }}
+                {{#if (eqIf session.url '/admin') }}
+                {{>_admin-side-bar}}
+              {{/if}}
+        {{/if}}
 
-    {{#if (eqIf session.user.state 2)}}
-    {{>_dealer-side-bar}}
-    {{/if}}
+        {{#if (eqIf session.user.state 2)}}
+               {{#if (eqIf session.url '/dealer') }}
+             {{>_dealer-side-bar}}
+              {{/if}}
+            
+        {{/if}}
     {{/if}}
     {{>_header-top}}
 
@@ -85,14 +94,48 @@
 
     </main>
     <!--Main layout-->
-
+<div class="modal fade" id="view-tracks">
+    <div class="modal-dialog modal-lg view-tracks">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Order Tracking Detailes</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+            </div>
+            {{!-- <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+            </div> --}}
+        </div>
+    </div>
+</div>
+{{!-- tracking --}}
+<div class="modal fade" id="show-tracks">
+    <div class="modal-dialog modal-lg view-tracks">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Tracking Detailes</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+            </div>
+            {{!-- <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+            </div> --}}
+        </div>
+    </div>
+</div>
 
 
     <!-- Footer -->
     <footer class="page-footer fixed-bottom font-small mdb-color lighten-3">
 
       <!-- Copyright -->
-      <div class="footer-copyright text-center py-3 ">&#xA9; 2018 Copyright:
+      <div class="footer-copyright text-center py-3 ">&#xA9; 2020 Copyright:
         <a href="https://mdbootstrap.com/bootstrap-tutorial/"> MDBootstrap.com</a>
       </div>
       <!-- Copyright -->
@@ -161,6 +204,27 @@
         $('[data-toggle="tooltip"]').tooltip()
       })
     </script>
+
+<script>
+ 
+ 
+
+$('.orderStatus').on('click', async function (e) {
+   await login_check()
+  $('#view-tracks').modal().find('.modal-body').load('/get_ordered_status');
+  $("#view-tracks").modal('show')
+});
+//track
+async function showTraking(id) {
+   await login_check()
+  $("#view-tracks").modal('hide')
+  $('#show-tracks').modal().find('.modal-body').load('/get_ordered_track/'+id);
+  $("#show-tracks").modal('show')
+};
+
+</script>
+
+
 
 </body>
 

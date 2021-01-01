@@ -9,7 +9,7 @@
             </button>
         </div>
         {{/if}}
-        <form class="form-horizontal" method="POST" id="user-form" action="/dealer/add-user"
+        <form class="form-horizontal" method="POST" id="user-form" action="add-user"
             enctype="multipart/form-data">
             <!-- First row -->
             <div class="row">
@@ -72,7 +72,7 @@
                                 <div class="col-md-6">
                                     <div class="md-form mb-0">
                                         <input type="text" class="form-control validate" value="" name="username"
-                                            required placeholder="place your user-name here">
+                                           id="username" required placeholder="place your user-name here">
                                         <label for="form1" data-error="wrong" data-success="right">User Name</label>
                                     </div>
                                     {{#if usenameExistError}}
@@ -83,11 +83,18 @@
                                     {{/if}}
                                 </div>
                                   <!-- Secound column -->
-                                <div class="col-md-6">
+                                <div class="col-md-3">
                                    <div class="md-form mb-0">
-										<input type="password" name="password" class="form-control validate" required
+										<input type="password" name="password" id="password" class="form-control validate" required
 											placeholder="Password">
 										<label for="password" data-error="wrong" data-success="right">Password</label>
+									</div>
+                                </div>
+                                <div class="col-md-3">
+                                   <div class="md-form mb-0">
+										<input type="password" name="confirmPassword" class="form-control validate" required
+											placeholder="confirm Password">
+										<label for="confirmPassword" data-error="wrong" data-success="right">Confirm Password</label>
 									</div>
                                 </div>
                             </div>
@@ -118,7 +125,8 @@
                                 <div class="col-md-6">
                                     <div class="md-form mb-0">
                                         <input type="text" name="phoneNumber" placeholder="99999999"
-                                            class="form-control validate" value="{{phoneNumber}}" >
+                                            class="form-control validate" value="{{phoneNumber}}" onblur="phonenumber(this)">
+                                            <span class="validation-error-phonenumber" ></span>
                                         <label for="phone Number" data-error="wrong" data-success="right">Phone
                                             Number</label>
                                     </div>
@@ -171,5 +179,20 @@
         document.getElementById('img-name').innerHTML = event.target.files[0].name
 
     }
+ //phonenumber
+       function phonenumber(inputtxt) {
 
+           var phoneno = /^[6-9]\d{9}$/, text;
+
+           if (inputtxt.value.match(phoneno) || inputtxt.value.length == 0) {
+               text = "";
+           }
+           else {
+               text = "Not a valid Phone Number";
+           }
+           $(".validation-error-phonenumber").html(text);
+
+       }
 </script>
+ 
+      

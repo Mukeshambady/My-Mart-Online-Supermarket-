@@ -239,7 +239,7 @@
         var id = $(this).data('recordId');
         $.ajax({
             type: "post",
-            url: "/dealer/unbanUser",
+            url: "unbanUser",
             data: { id: id },
             success: function (response) {
                 if (response) {

@@ -8,6 +8,7 @@ const { resolve, reject } = require("promise");
 const productHelper = require("./product-helper");
 const cartHelper = require("./cart-helper");
 
+
 let userCollectionName = string_collections.TABLE_COLLECTIONs.user
 let loginCollectionName = string_collections.TABLE_COLLECTIONs.login;
 let cartCollectionName = string_collections.TABLE_COLLECTIONs.cart
@@ -53,6 +54,26 @@ module.exports = {
         })
     },
     //update User
+    userNameCheck: (username) => {
+        return new Promise(async (resolve, reject) => {           
+            await commonHelpers.doUsernameCheck(username).then((user) => {
+                resolve(user)
+            }).catch((err) => {
+                console.log('userNameCheck Fail', err);
+            })
+        })
+    },
+    //changePassward
+    changePassward: (data) => {
+        return new Promise(async (resolve, reject) => {           
+            await commonHelpers.changePassward(data).then((user) => {
+                resolve(user)
+            }).catch((err) => {
+                console.log('changePassward Fail', err);
+            })
+        })
+    },
+    //update User
     update: (id, data) => {
         return new Promise(async (resolve, reject) => {
 
@@ -79,7 +100,12 @@ module.exports = {
     //All User--Active--UNBAN
     AllDetail: function (userId) {
         return new Promise(async (resolve, reject) => {
-            loginDoc = { createdBy: objectId(userId), status: 1, state: userState }
+            if(userId){
+                loginDoc = { createdBy: objectId(userId), status: 1, state: userState }
+            }else{
+                loginDoc = {  status: 1, state: userState }
+            }
+            
             await commonHelpers.getFindAllDetails(userCollectionName, loginDoc).then((data) => {
 
                 resolve(data)
@@ -92,7 +118,11 @@ module.exports = {
     //All User---BAN
     AllBanDetail: function (userId) {
         return new Promise(async (resolve, reject) => {
+            if(userId){
             loginDoc = { createdBy: objectId(userId), status: 0, state: userState }
+            }else{
+                loginDoc = {  status: 0, state: userState }
+            }
             await commonHelpers.getFindAllDetails(userCollectionName, loginDoc).then((data) => {
                 resolve(data)
             }).catch((err) => {
@@ -129,6 +159,7 @@ module.exports = {
     },
     //User BanOrUnban by _id
     BanOrUnban: function (userId, status) {
+        
         loginDoc = { _id: { _id: objectId(userId) }, status: status }
         return new Promise(async (resolve, reject) => {
             await commonHelpers.doUpdateOne(loginCollectionName, loginDoc).then((data) => {
@@ -244,6 +275,7 @@ module.exports = {
            }
 
            resolve(data)
+          
         })
     
     }

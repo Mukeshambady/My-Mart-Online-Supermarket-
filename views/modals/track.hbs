@@ -1,0 +1,32 @@
+<link rel="stylesheet" href="/css/tracking.css">
+
+<div class="container-fluid  d-sm-flex justify-content-center">
+    
+   <div class="card card1 px-2 " style="width: 100%;">
+    
+        <div class="card-header bg-white">
+            <div class="row justify-content-between">
+                <div class="col">
+                    <p class="text-muted"> Order ID <span class="font-weight-bold text-dark">{{orders.id}}</span></p>
+                    <p class="text-muted"> Place On <span class="font-weight-bold text-dark">{{orders.date}}</span> </p>
+                </div>
+                {{!-- <div class="flex-col my-auto">
+                    <h6 class="ml-auto mr-3"> <a href="#">View Details</a> </h6>
+                </div> --}}
+            </div>
+        </div>
+        <div class="card-body">
+             <div class="row px-3">
+            <div class="col">
+                <ul id="progressbar">
+                    <li class="step0 {{step1 orders.status}} " id="step1">PLACED</li>
+                    <li class="step0 {{step2 orders.status}} text-center" id="step2">SHIPPED</li>
+                    <li class="step0 {{step3 orders.status}} text-right" id="step3">DELIVERED</li>
+                </ul>
+            </div>
+        </div>
+        </div>
+      
+     
+    </div>
+    </div>

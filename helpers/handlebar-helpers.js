@@ -13,11 +13,25 @@ module.exports={
         return(str)?str:'/'
       },
 
-    //  select: function( value, options ){
-    //     var $el = $('<select />').html( options.fn(this) );
-    //     $el.find('[value="' + value + '"]').attr({'selected':'selected'});
-    //     return $el.html();
-    // },
+     step1: function( value ){
+       if(value==1 ||2||3||4||5||7){
+        return 'active'
+       }
+    },
+     step2: function( value ){
+       if(value==2||3||4||5||7){
+        return 'active'
+       }else{
+         return 'text-muted'
+       }
+    },
+     step3: function( value ){
+       if(value==7){
+        return 'active'
+       }else{
+         return 'text-muted'
+       }
+    },
 
 
 

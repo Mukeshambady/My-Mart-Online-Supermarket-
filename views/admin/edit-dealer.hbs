@@ -139,9 +139,10 @@
 								<div class="col-md-6">
 									<div class="md-form mb-0">
 										<input type="text" name="phoneNumber" placeholder="99999999"
-											class="form-control validate" value="{{this.phoneNumber}}">
+											class="form-control validate" value="{{this.phoneNumber}}" onblur="phonenumber(this)">
 										<label for="phone Number" data-error="wrong" data-success="right">Phone
 											Number</label>
+											<span class="validation-error-phonenumber"></span>
 									</div>
 								</div>
 							</div>
@@ -203,6 +204,19 @@
 	function viewImage(event) {
 		document.getElementById('imageView').src = URL.createObjectURL(event.target.files[0])
 	}
+//phonenumber
+       function phonenumber(inputtxt) {
 
+           var phoneno = /^[6-9]\d{9}$/, text;
+
+           if (inputtxt.value.match(phoneno) || inputtxt.value.length == 0) {
+               text = "";
+           }
+           else {
+               text = "Not a valid Phone Number";
+           }
+           $(".validation-error-phonenumber").html(text);
+
+       }
 
 </script>

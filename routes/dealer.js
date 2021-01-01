@@ -1,5 +1,6 @@
 const { response } = require('express');
 var express = require('express');
+const decimal128 = require('mongodb');
 const dealerHelper = require('../helpers/dealer-helper');
 const orderHelper = require('../helpers/order-helper');
 const productHelper = require('../helpers/product-helper')
@@ -254,23 +255,23 @@ router.get('/orders', verifyLogin, async function (req, res) {
     rejected: 6,
     delivered: 7
   }
- 
+
   res.render('order/orders', { orderDetails: orderDetails, orderState, title: 'Dealer | Order-Details' })
 })
 
 //Ajax
 //Order state change
 router.post('/stateChange', async function (req, res) {
- let result = await orderHelper.setOrderState(req.body.id,req.body.state)
+  let result = await orderHelper.setOrderState(req.body.id, req.body.state)
 
- res.json(result)
+  res.json(result)
 })
 
 //ajax
 //view-user-product depends on orders
 router.post('/view-user-products', async function (req, res) {
-  req.body.dealerId=req.session.user._id
-  let products = await orderHelper.getOrderProductDetails(req.body) 
+  req.body.dealerId = req.session.user._id
+  let products = await orderHelper.getOrderProductDetails(req.body)
   res.json(products)
 })
 
@@ -278,20 +279,21 @@ router.post('/view-user-products', async function (req, res) {
 //**********start**settings****Functinality***************************************
 
 //get settings
-router.get('/settings',verifyLogin, async function (req, res) {
-  let result = await dealerHelper.getTiming(req.session.user._id) 
-  
-  res.render('settings/settings', {timing:result.openingAndClosingtime,datasaved: req.session.datasaved, title: 'Dealer | Order-Details' })
-  req.session.datasaved=null
+router.get('/settings', verifyLogin, async function (req, res) {
+  let result = await dealerHelper.getTiming(req.session.user._id)
+
+  res.render('settings/settings', { timing: result.openingAndClosingtime, datasaved: req.session.datasaved, title: 'Dealer | Order-Details' })
+  req.session.datasaved = null
 })
 //POST settings
-router.post('/settings',verifyLogin, async function (req, res) {
-  req.body.dealerId=req.session.user._id
-  let result = await dealerHelper.setTiming(req.body) 
- if(result.matchedCount== 1){
-   req.session.datasaved="Timing updated..."
-   res.redirect('/dealer/settings')
- }
+router.post('/settings', verifyLogin, async function (req, res) {
+  req.body.dealerId = req.session.user._id
+  req.body.status = 1
+  let result = await dealerHelper.setTiming(req.body)
+  if (result.matchedCount == 1) {
+    req.session.datasaved = "Timing updated..."
+    res.redirect('/dealer/settings')
+  }
 })
 //**********End**settings****Functinality***************************************
 module.exports = router;

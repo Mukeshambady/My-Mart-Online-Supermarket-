@@ -3,6 +3,8 @@
     <!-- Section: Block Content -->
     <section>
 
+
+
         <!--Grid row-->
         <div class="row">
 
@@ -13,11 +15,9 @@
                     <i class="far fa-money-bill-alt fa-lg blue z-depth-1 p-4 rounded-left text-white mr-3"></i>
                     <div class="media-body p-1">
                         <p class="text-uppercase text-muted mb-1"><small>Total</small></p>
-                        <h5 class="font-weight-bold mb-0">2</h5>
+                        <h5 class="font-weight-bold mb-0">{{DealerOpenCloseTotal.allShops}}</h5>
                     </div>
                 </div>
-
-
             </div>
             <!--Grid column-->
 
@@ -28,7 +28,7 @@
                     <i class="fas fa-chart-bar fa-lg deep-purple z-depth-1 p-4 rounded-left text-white mr-3"></i>
                     <div class="media-body p-1">
                         <p class="text-uppercase text-muted mb-1"><small>Open</small></p>
-                        <h5 class="font-weight-bold mb-0">1</h5>
+                        <h5 class="font-weight-bold mb-0">{{DealerOpenCloseTotal.open}}</h5>
                     </div>
                 </div>
 
@@ -43,7 +43,7 @@
                     <i class="fas fa-chart-pie fa-lg teal z-depth-1 p-4 rounded-left text-white mr-3"></i>
                     <div class="media-body p-1">
                         <p class="text-uppercase text-muted mb-1"><small>Close</small></p>
-                        <h5 class="font-weight-bold mb-0">1</h5>
+                        <h5 class="font-weight-bold mb-0">{{DealerOpenCloseTotal.close}}</h5>
                     </div>
                 </div>
 
@@ -117,8 +117,8 @@
                         </td>
                         <td><strong>{{this.name}} </strong></td>
                         <td>
-                            <strong>Open</strong>
-                            <p class="text-muted">6:30 Am</p>
+                            <strong>{{#if (eqIf this.openingAndClosingtime.status 1)}}Open{{else}}Closed{{/if}}</strong>
+                            <p class="text-muted">{{this.openingAndClosingtime.openingTime}}</p>
                         </td>
 
                         <td>

@@ -64,7 +64,6 @@ app.use(session({
 //global session to all handlebars
 app.use(function (req, res, next) {
   res.locals.session = req.session;
-  
   next();
 });
 db.connect((err) => {
@@ -85,7 +84,7 @@ app.use(function (req, res, next) {
 
 // error handler
 app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
+  // set locals, only providing error in development production
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 

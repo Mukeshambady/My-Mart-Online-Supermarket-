@@ -5,15 +5,30 @@ const dealerHelper = require('../helpers/dealer-helper')
 const productHelper = require('../helpers/product-helper')
 const cartHelper = require('../helpers/cart-helper')
 const userHelper = require('../helpers/user-helper')
+const orderHelper = require('../helpers/order-helper')
+const messageHelper = require('../helpers/message-helper')
 var router = express.Router();
 
+//middileware useed to check lgged In or Not
 
+const verifyLogin = (req, res, next) => {
+  if (req.session.userloggedIn || req.session.url=='/'|| req.session.url==undefined    ) {
+    next()
+  } else {
+    req.session.adminloggedIn = false
+    req.session.dealerloggedIn = false
+    req.session.userloggedIn = false
+    req.session.loggedIn = false
+    req.session.user = null
+    next()
+  }
+}
 
 //POST login check by ajax
 
 router.post('/verifyLoginByAjax', (req, res, next) => {
-   
-  if (req.session.userloggedIn ||req.session.adminloggedIn||req.session.dealerloggedIn) {
+
+  if (req.session.userloggedIn || req.session.adminloggedIn || req.session.dealerloggedIn) {
     res.json(true);
   } else {
 
@@ -21,9 +36,11 @@ router.post('/verifyLoginByAjax', (req, res, next) => {
     res.json(false);
   }
 })
-/* GET users Dash Board. */
-router.get('/', async function (req, res, next) {
 
+
+/* GET users Dash Board.  */
+router.get('/',verifyLogin, async function (req, res, next) {
+  //  console.log('messageHelper',await messageHelper.otpVarification())
   alldealers = await dealerHelper.getAllDealers()
   let cart_count = ''
   if (req.session.user) {
@@ -33,8 +50,9 @@ router.get('/', async function (req, res, next) {
 
   res.render('user/dashboard', { title: 'User | Dealers', alldealers, cartCount: cart_count })
 });
+
 /* GET users Product. By Id*/
-router.get('/products/:id', async function (req, res, next) {
+router.get('/products/:id',verifyLogin, async function (req, res, next) {
   let id = req.params.id
   products = await productHelper.dealerProducts(id)
   let cart_count = ''
@@ -43,20 +61,23 @@ router.get('/products/:id', async function (req, res, next) {
   }
   res.render('user/products', { title: 'User | Products', products, cartCount: cart_count })
 });
+
 /* GET users Product. */
-router.get('/products', function (req, res, next) {
+router.get('/products',verifyLogin, function (req, res, next) {
   res.redirect('/users')
 });
 
+
+
 // ajax
-/* Posr users Modal cart data. */
+/* Post users Modal cart data. */
 router.post('/cart-modal', async function (req, res, next) {
   data = await userHelper.cartDetails(req.session.user._id)
 
   res.json(data)
 });
 // ajax
-/* Posr users Modal cart data. */
+/* Post users Modal cart data. */
 router.post('/verifyCart', async function (req, res, next) {
   req.body.userId = req.session.user._id
   //1 the same dealer, 2 different dealer, 3 nocart
@@ -67,7 +88,8 @@ router.post('/verifyCart', async function (req, res, next) {
 /* Post users Modal Order HIstory data. */
 router.post('/order-history-modal', async function (req, res, next) {
   data = await userHelper.cartOrderHistory(req.session.user._id)
-  res.json(data)
+   res.json(data)
+ // res.render('modals/cart-order-history', { orders, layout: false })
 });
 // ajax
 /* Post addToCart. */
@@ -131,7 +153,25 @@ router.post('/remove-from-cart', async function (req, res, next) {
 
 });
 
-
+//Ajax
+//username checking
+router.post('/usernameCheck', async function (req, res, next) {
+  let val = await userHelper.userNameCheck(req.body.value)
+  res.json(!val.status)
+})
+//Jquery
+//username checking
+router.get('/get_ordered_status', async function (req, res, next) {
+  let orders = await orderHelper.getOrderDetailsByUser(req.session.user._id)
+  res.render('modals/cart-order-status', { orders, layout: false })
+})
+//Jquery
+//get_ordered_track
+router.get('/get_ordered_track/:id', async function (req, res, next) {
+  let trackDetails = await orderHelper.getOrderDetailsByOrderId(req.params.id); 
+  orders=trackDetails[0]  
+  res.render('modals/track', {orders,layout: false })
+})
 
 
 
@@ -166,6 +206,7 @@ router.post('/login', async function (req, res, next) {
   await commonHelpers.doLogin(req.body).then((response) => {
 
     if (response.status) {
+      req.session.user = null
       if (response.user.status == 1) {
 
         req.session.user = response.user
@@ -195,7 +236,7 @@ router.post('/login', async function (req, res, next) {
           } else {
             res.redirect('/dealer')
           }
-         
+
         }
       } else {
         req.session.loginError = 'You are banned by admin'
@@ -292,6 +333,23 @@ router.post('/signup', function (req, res, next) {
       }
     }
   })
+});
+
+
+/* GET forgot-password. */
+router.get('/forgot-password', function (req, res, next) {
+  res.render('change-password', { title: 'User | Forgot-Passwors', layout: false, passwordChangeError: req.session.passwordChangeError })
+  req.session.passwordChangeError = null;
+});
+/* POST forgot-password. */
+router.post('/forgot-password', async function (req, res, next) {
+  result = await userHelper.changePassward(req.body)
+  if (result == 1) {
+    res.redirect('/login')
+  } else {
+    req.session.passwordChangeError = 'check your username'
+    res.redirect('/forgot-password')
+  }
 });
 /*  login------------------------------------------------------------------------------------*/
 

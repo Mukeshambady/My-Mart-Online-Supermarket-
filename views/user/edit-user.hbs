@@ -10,7 +10,7 @@
         </div>
         {{/if}}
         {{#with userDetails}}
-        <form class="form-horizontal" method="POST" id="user-form" action="/dealer/edit-user/{{_id}}"
+        <form class="form-horizontal" method="POST" id="user-form" action="../edit-user/{{_id}}"
             enctype="multipart/form-data">
             <!-- First row -->
             <div class="row">
@@ -119,9 +119,10 @@
                                 <div class="col-md-6">
                                     <div class="md-form mb-0">
                                         <input type="text" name="phoneNumber" placeholder="99999999"
-                                            class="form-control validate" value="{{phoneNumber}}">
+                                            class="form-control validate" value="{{phoneNumber}}" onblur="phonenumber(this)">
                                         <label for="phone Number" data-error="wrong" data-success="right">Phone
                                             Number</label>
+                                            <span class="validation-error-phonenumber"></span>
                                     </div>
                                 </div>
                                 <!-- Second column -->
@@ -173,5 +174,19 @@
         document.getElementById('img-name').innerHTML = event.target.files[0].name
 
     }
+     //phonenumber
+       function phonenumber(inputtxt) {
+
+           var phoneno = /^[6-9]\d{9}$/, text;
+
+           if (inputtxt.value.match(phoneno) || inputtxt.value.length == 0) {
+               text = "";
+           }
+           else {
+               text = "Not a valid Phone Number";
+           }
+           $(".validation-error-phonenumber").html(text);
+
+       }
 
 </script>

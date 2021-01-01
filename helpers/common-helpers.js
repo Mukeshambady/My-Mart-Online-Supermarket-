@@ -8,6 +8,7 @@ const { resolve, reject } = require('promise')
 
 
 module.exports = {
+    //signUp
     doSignup: (userData) => {
         // delete userData._id //remove the _id field
         return new Promise(async (resolve, reject) => {
@@ -20,6 +21,22 @@ module.exports = {
                 reject(false)
                 console.log('doSignup Error', err);
 
+            })
+        })
+    },
+    //change Password
+    changePassward: (userData) => {
+        // delete userData._id //remove the _id field
+        return new Promise(async (resolve, reject) => {
+
+            userData.password = await bcrypt.hash(userData.password, 10)
+            await db.get().collection('login').updateOne({"username" : userData.username}, { $set: {'password':userData.password} }).then((result) => {
+
+                    resolve(result.matchedCount)
+                
+            }).catch((err) => {
+                console.log('changePassward-Error', err);
+                reject(false)
             })
         })
     },
@@ -394,7 +411,7 @@ module.exports = {
                 {
                     $group: {
                         _id: {
-                            'id': '$_id', 'userId': '$userId',"name":"$user.name","address":"$user.address", 'paymentMethord': '$paymentMethord',
+                            'id': '$_id', 'userId': '$userId', "name": "$user.name", "address": "$user.address", 'paymentMethord': '$paymentMethord',
                             'totalPrice': '$totalPrice', 'status': '$status', 'date': { $dateToString: { format: "%d-%m-%Y", date: "$date" } }
                         },
                         "totalQuantity": { $sum: "$product.quantity" },
@@ -426,6 +443,28 @@ module.exports = {
             resolve(cartItems)
         })
     },
+    //To display total open total closed shopes
+    getDealerOpenCloseTotal: function () {
+        return new Promise(async (resolve, reject) => {
+            let result = await db.get().collection('login').aggregate([
+                { $match: { "state": 2, "status": 1 } },
+                {
+                    $lookup: {
+                        from: 'dealer',
+                        localField: '_id',
+                        foreignField: '_id',
+                        as: 'dealer'
+                    }
+                },
+                { $unwind: "$dealer" },
+                { $group: { _id: null, allDealers: { $sum: 1 }, open: { $sum: { $toInt: '$dealer.openingAndClosingtime.status' } } }, },
+                {
+                    $project: { _id: 0, "allShops": { $toInt: "$allDealers" }, "open": "$open", "close": { $toInt: { $subtract: ["$allDealers", "$open"] } } }
+                },
+            ]).toArray()
 
+            resolve(result)
+        })
+    }
     //end
 }
