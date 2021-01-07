@@ -207,7 +207,7 @@ module.exports = {
 
         var id = colData._id
         delete colData._id
-
+        
         return new Promise(async (resolve, reject) => {
             await db.get().collection(docName).updateOne(id, { $set: colData }, { upsert: true }).then((result) => {
 

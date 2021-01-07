@@ -79,7 +79,7 @@
               <div class="card-body card-body-cascade ">
                 <!-- first row -->
                 <section class="modal-data">
-                  <div class="row  alert alert-info  alert-dismissible ">
+                  {{!-- <div class="row  alert alert-info  alert-dismissible ">
                     <button type="button" class="close remove-product" data-toggle="tooltip" data-placement="top"
                       title="Remove Item"><i class="far fa-trash-alt red-text"></i></button>
                     <div class="col-md-4">
@@ -107,7 +107,7 @@
                         <h6>Rs.<span id="price ">00.00<span></h6>
                       </div>
                     </div>
-                  </div>
+                  </div> --}}
 
                 </section>
                 <!--End first row -->
@@ -137,7 +137,7 @@
                     <div class=" mb-0 pt-1">
                       <div class="clearfix">
                         <p class="float-left">Total</p>
-                        <p class="float-right font-weight-bold ">Rs.&nbsp; <span id="total">100</span> </p>
+                        <p class="float-right font-weight-bold ">Rs.&nbsp; <span id="total">0.00</span> </p>
                       </div>
                     </div>
                   </div>
@@ -146,7 +146,7 @@
                     <div class=" mb-0">
                       <div class="clearfix">
                         <p class="float-left">Total Item</p>
-                        <p class="float-right font-weight-bold total-item">12</p>
+                        <p class="float-right font-weight-bold total-item">0</p>
                       </div>
                     </div>
                   </div>
@@ -169,52 +169,82 @@
                     </div>
                   </div>
                 </div>
+                <form action="" id="checkout-form">
+                  <!-- third row -->
+                  <div class="row rounded bg-light pt-md-2">
+                    <!-- First column -->
+                    {{!-- <div class="col-2">
+                      <div class=" mb-0">
+                        <i class="fas fa-map-marker-alt blue-text fa-3x"></i>
+                      </div>
+                    </div> --}}
+                    <!-- Secound column -->
+                    <div class="col">
+                      {{!-- <div class=" mb-0 pt-md-3">
+                        <p class="float-left font-weight-bold text-capitalize">adoor,adoor</p>
+                      </div> --}}
+                      <div class="form-group row">
+                        <label for="address" class="col-sm-3 col-form-label">Address</label>
+                        <div class="col-sm-9">
+                          <textarea class="form-control" aria-describedby="address" required name="address"></textarea>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="Phone Number" class="col-sm-3 col-form-label">Phone Number</label>
+                        <div class="col-sm-9">
+                          <input type="text" name="phonenumber" class="form-control" aria-describedby="phone Number"
+                            placeholder="phone Number" required pattern="[7-9]{1}[0-9]{9}" title="Check Phone Number">
+                           
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="email" class="col-sm-3 col-form-label">Email</label>
+                        <div class="col-sm-9">
+                          <input type="email" class="form-control" aria-describedby="Email" placeholder="email" name="email"
+                            required >
+                            
+                        </div>
+                      </div>
 
-                <!-- third row -->
-                <div class="row rounded bg-light pt-md-2">
-                  <!-- First column -->
-                  <div class="col-2">
-                    <div class=" mb-0">
-                      <i class="fas fa-map-marker-alt blue-text fa-3x"></i>
-                    </div>
-                  </div>
-                  <!-- Secound column -->
-                  <div class="col-6">
-                    <div class=" mb-0 pt-md-3">
-                      <p class="float-left font-weight-bold text-capitalize">adoor,adoor</p>
-                    </div>
-                  </div>
-                  <!-- third column -->
-                  <div class="col-4">
-                    <div class=" mb-0 pt-md-3 text-right">
-                      <p> <a href="">Change</a> </p>
-                    </div>
-                  </div>
-                </div>
-                <!-- Forth row -->
-                <div class="row rounded bg-light   mt-1 py-2">
-                  <div class="col-12 mt-3 ">
-                    <div class="clearfix">
-                      <p class="float-left  text-capitalize h4">Mode of payment</p>
-                      <p class="float-right"> <a href="">Change</a> </p>
-                    </div>
-                  </div>
+                      <label class="radio-inline"><input type="radio" name="paymentMethod" value="COD">COD</label>
+                      <label class="radio-inline"><input type="radio" name="paymentMethod" checked value="ONLINE">Online</label>
+                      
 
-                  <!-- Secound column -->
-                  <div class="col-12 d-flex justify-content-center">
-                    <div class=" mb-0 ">
-                      <i class="fab fa-paypal blue-text fa-3x"></i>
-                    </div>
-                  </div>
-                  <div class="col-12 d-flex justify-content-center">
-                    <div class=" mb-0 ">
-                      <a href="" class="btn btn-outline-info btn-rounded waves-effect text-capitalize check-out">Check
-                        Out</a>
-                    </div>
-                  </div>
 
-                </div>
+                    </div>
+                    <!-- third column -->
+                    {{!-- <div class="col-4">
+                      <div class=" mb-0 pt-md-3 text-right">
+                        <p> <a href="">Change</a> </p>
+                      </div>
+                    </div> --}}
+                  </div>
+                  <!-- Forth row -->
+                  <div class="row rounded bg-light   mt-1 py-2">
+                    <div class="col-12 mt-3 ">
+                      <div class="clearfix">
+                        <p class="float-left  text-capitalize h4">Mode of payment</p>
+                        <p class="float-right"> <a href="">Change</a> </p>
+                      </div>
+                    </div>
 
+                    <!-- Secound column -->
+                    <div class="col-12 d-flex justify-content-center">
+
+                      <div class=" mb-0 ">
+                        <i class="fab fa-paypal blue-text fa-3x"></i>
+                      </div>
+                    </div>
+                    <div class="col-12 d-flex justify-content-center">
+                      <div class=" mb-0 ">
+                        <button type="submit"
+                          class="btn btn-outline-info btn-rounded waves-effect text-capitalize ">Check
+                          Out</button>
+                      </div>
+                    </div>
+
+                  </div>
+                </form>
 
               </div>
               <!-- Card content -->
@@ -233,11 +263,5 @@
   </div>
 </div>
 
-
-
-
-
-
-
-
-
+  {{!-- razorpay checkout --}}
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>

@@ -51,7 +51,12 @@
 
                 <!-- Table body -->
                 <tbody>
+{{#unless userDetails}}
+<tr>
+    <td colspan="6"><h1>No Data Found</h1></td>
+</tr>
 
+{{/unless}}
                     <!--  row -->
                     {{#each userDetails}}
                     <tr>

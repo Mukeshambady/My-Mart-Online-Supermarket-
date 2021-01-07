@@ -29,7 +29,12 @@
 
                 <!-- Table body -->
                 <tbody>
+{{#unless dealerDetails}}
+<tr>
+    <td colspan="4"><h1>No Data Found</h1></td>
+</tr>
 
+{{/unless}}
                     <!--  row -->
                     {{#each dealerDetails}}
                     <tr>

@@ -17,6 +17,7 @@ const { resolve, reject } = require("promise");
 
 
 
+
 let cartCollectionName = string_collections.TABLE_COLLECTIONs.cart;
 let cartDoc = string_collections.CART_DOC
 
@@ -69,28 +70,78 @@ module.exports = {
 
     //Ajax
     //Check Out Oder 
-    checkOut: (userId) => {
+    checkOut: (userId,address) => {
+       
+      let grandTotal=0
         return new Promise(async (resolve, reject) => {
             await commonHelpers.getFindOneWithId(cartCollectionName, { userId: objectId(userId) }).then(async (cart) => {
                 let totals = await commonHelpers.getTotalAmount({ userId: objectId(userId) })
+                let status = address.paymentMethod === 'COD' ? orderState.placed : orderState.pending
                 orderDoc = cart
-                orderDoc.paymentMethord = 'COD'
+                orderDoc.paymentMethod = address.paymentMethod
+        delete address.paymentMethod
+        grandTotal = totals.total
                 orderDoc.totalPrice = totals.total
-                orderDoc.status = orderState.placed
+                orderDoc.status = status
                 orderDoc.date = new Date()
+                orderDoc.deliveryAddress=address
+        
                 return orderDoc
             }).then(async (result) => {
-               return await commonHelpers.doInsertOne(orderCollectionName, result)
+             return await commonHelpers.doInsertOne(orderCollectionName, result)
 
             }).then(async(data) => {
                
                 await commonHelpers.doFindOneAndDelete(cartCollectionName,{_id:objectId(data._id)}).then((result)=>{
-                    resolve(result.ok)
+                    
+                    resolve(data)
                 })
             }).catch((err) => {
                 console.log('checkOut', err);
             })
+      
+        })
+    },
 
+    changePaymetStatus:(orderId)=>{
+      
+        return new Promise(async(resolve,reject)=>{
+            orderDoc={_id:{_id:objectId(orderId)},status:orderState.placed}
+          await  commonHelpers.doUpdateOne(orderCollectionName,orderDoc).then(()=>{
+            resolve()
+           }).catch((err)=>{
+               console.log('changePaymetStatus error ---',err);
+           })
+        })
+    },
+    verifyPayment: (details) => {
+        return new Promise((resolve, reject) => {
+            const crypto = require('crypto');
+            let hmac = crypto.createHmac('sha256', 'OtAd2W4oryEpXuuAOyrjSOux');
+            hmac.update(details['payment[razorpay_order_id]'] + '|' + details['payment[razorpay_payment_id]']);
+            hmac = hmac.digest('hex');
+            if (hmac == details['payment[razorpay_signature]']) {
+                resolve()
+            } else {
+                reject()
+            }
+        })
+    },
+    //generateRazorpay
+    generateRazorpay: (orderId, total) => {
+        return new Promise(async(resolve, reject) => {
+            var options = {
+                amount: parseInt(total)*100,  // amount in the smallest currency unit
+                currency: "INR",
+                receipt: objectId(orderId).toString()
+            };
+          await  instance.orders.create(options, function (err, order) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    resolve(order)
+                }
+            });
         })
     },
     getCartCount: (userId) => {
@@ -109,12 +160,10 @@ module.exports = {
     },
     //increment and decrement quantity
     setCartQuantity: (data) => {
-
         return new Promise(async (resolve, reject) => {
             await commonHelpers.doUpdateOneAndIncrement(cartCollectionName, objectId(data.userId), objectId(data.productId), data.quantity)
             resolve(true)
         })
-
     },
 
     //get getCartProducts

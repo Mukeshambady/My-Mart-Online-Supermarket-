@@ -73,12 +73,13 @@ router.get('/products',verifyLogin, function (req, res, next) {
 /* Post users Modal cart data. */
 router.post('/cart-modal', async function (req, res, next) {
   data = await userHelper.cartDetails(req.session.user._id)
-
+ 
   res.json(data)
 });
 // ajax
 /* Post users Modal cart data. */
 router.post('/verifyCart', async function (req, res, next) {
+ if(req.session.user)
   req.body.userId = req.session.user._id
   //1 the same dealer, 2 different dealer, 3 nocart
   data = await userHelper.GetCartExistOrNot(req.body)
@@ -115,16 +116,40 @@ router.post('/addToCart', async function (req, res, next) {
 /* Post check out. */
 router.post('/check-out', async function (req, res, next) {
   userId = req.session.user._id
-  req.body.userId = userId
-
-  let data = await cartHelper.checkOut(userId)
+  
+  paymentMethod=req.body.paymentMethod
+   let data = await cartHelper.checkOut(userId,req.body)
   let totals = await cartHelper.getTotalAmount(userId)
   let cartCount = await cartHelper.getCartCount(userId)
   result = { data: data, totals: totals, cartCount: cartCount }
-  res.json(result);
-
+  
+  if (paymentMethod=='COD') {
+    res.json(result);
+  } else {
+   
+  await   cartHelper.generateRazorpay(data._id, data. totalPrice).then((response) => {
+      result.response=response
+      res.json(result)
+    })
+  }
 
 });
+//Ajax
+///verify-payment
+router.post('/verify-payment', (req, res) => {
+
+  cartHelper.verifyPayment(req.body).then((response) => {
+    // console.log(('Payment Successful'));
+    cartHelper.changePaymetStatus(req.body['order[receipt]']).then((reslt) => {
+      
+      res.json({ status: true })
+    }).catch((err) => {
+      console.log('verify-payment error1',err)
+    })
+  }).catch((err) => {
+        res.json({ status: false, errMsg: '' })
+  })
+})
 // ajax
 /* Post Quantity Change. */
 router.post('/quantity', async function (req, res, next) {

@@ -244,7 +244,7 @@
             url: '/addToCart',
             data: { productId: productId, qty: value, dealerId: dealerId, deletCart: deletCart },
             success: function (data) {
-                console.log('final ajax result', data)
+                {{!-- console.log('final ajax result', data) --}}
                 if (data.result) {
                     toastr.success('Item Add to cart')
                     $('#cartcount').text(data.cartCount)

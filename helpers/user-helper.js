@@ -202,6 +202,9 @@ module.exports = {
 
         let data = '<h2>Nocart</h2>'
         return new Promise(async (resolve, reject) => {
+            user =await this.Profile(userId)
+            userdata={phoneNumber : user.phoneNumber,address : user.address,email : user.email}
+            
             let totals = await cartHelper.getTotalAmount(userId)
 
             let result = await commonHelpers.getCartProducts(cartCollectionName, { userId: objectId(userId) })
@@ -240,7 +243,7 @@ module.exports = {
                     ' </div>'
 
             }
-            _result = { data: data, totals: totals }
+            _result = { data: data, totals: totals,user:userdata }
             resolve(_result)
         })
 

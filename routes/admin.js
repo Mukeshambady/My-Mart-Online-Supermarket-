@@ -23,10 +23,16 @@ const verifyLogin = (req, res, next) => {
 
 /* GET home page. */
 router.get('/', verifyLogin, async function (req, res, next) {
-  let data= await dealerHelper.getDealerOpenCloseTotal()
-  DealerOpenCloseTotal= { allShops: data[0].allShops, open: data[0].open, close: data[0].close }
+  let data = await dealerHelper.getDealerOpenCloseTotal()
+
+  let DealerOpenCloseTotal = {}
+  if (data.lenght > 0) {
+     DealerOpenCloseTotal = { allShops: data[0].allShops, open: data[0].open, close: data[0].close }
+     }else {
+     DealerOpenCloseTotal = { allShops: 0, open: 0, close:0 }
+     }
   let dealerDetails = await dealerHelper.dealersAllDetail(req.session.user._id)
-  res.render('admin/all-dealers', { dealerDetails,DealerOpenCloseTotal, title: 'Admin Home' });
+  res.render('admin/all-dealers', { dealerDetails, DealerOpenCloseTotal, title: 'Admin Home' });
 });
 
 
@@ -45,7 +51,7 @@ router.get('/new-dealer', verifyLogin, function (req, res, next) {
     title: 'Add New Dealer'
   });
   req.session.usenameExistError = null
-  req.session.registrationStatus=null
+  req.session.registrationStatus = null
 });
 
 
@@ -56,14 +62,14 @@ router.post('/new-dealer', verifyLogin, function (req, res, next) {
     if (result.status) {
       req.session.usenameExistError = 'Username all ready Exist...';
       res.redirect('/admin/new-dealer')
-      req.session.usenameExistError=null
+      req.session.usenameExistError = null
     } else {
       req.session.usenameExistError = ''
       if (result) {
         req.session.registrationStatus = "Dealer added successfully..";
       }
       res.redirect('/admin/new-dealer')
-      req.session.registrationStatus=null
+      req.session.registrationStatus = null
       if (req.files) {
         //get image file from Form
         let image = req.files.image
@@ -125,15 +131,15 @@ router.post('/deleteDealer', async function (req, res, next) {
 // ajax
 /* POST ban-dealer . */
 router.post('/banDealer', async function (req, res, next) {
-  await dealerHelper.dealerBanOrUnban(req.body.id,0).then((result) => {
+  await dealerHelper.dealerBanOrUnban(req.body.id, 0).then((result) => {
     res.json(result)
   })
 });
 // ajax
 /* POST unban-Dealer . */
 router.post('/unbanDealer', async function (req, res, next) {
- 
-  await dealerHelper.dealerBanOrUnban(req.body.id,1).then((result) => {
+
+  await dealerHelper.dealerBanOrUnban(req.body.id, 1).then((result) => {
     res.json(result)
   })
 });
