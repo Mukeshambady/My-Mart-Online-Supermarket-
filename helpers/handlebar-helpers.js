@@ -14,12 +14,12 @@ module.exports={
       },
 
      step1: function( value ){
-       if(value==1 ||2||3||4||5||7){
+       if(value==1 ||value==2||value==3||value==4||value==5||value==7){
         return 'active'
        }
     },
      step2: function( value ){
-       if(value==2||3||4||5||7){
+       if(value==2||value==4||value==5||value==7){
         return 'active'
        }else{
          return 'text-muted'

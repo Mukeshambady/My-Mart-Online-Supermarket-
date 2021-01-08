@@ -1,3 +1,25 @@
+<link rel="stylesheet" href="/css/cropper.css">
+<style>
+    .label {
+        cursor: pointer;
+    }
+
+    .progress {
+        display: none;
+        margin-bottom: 1rem;
+    }
+
+    .alert {
+        display: none;
+    }
+
+    .img-container img {
+        /* max-width: 100%; */
+        width: 100%;
+        height: 100%;
+    }
+</style>
+
 <div class="container-fluid">
     <!-- Section: Edit Account -->
     <section class="section">
@@ -9,8 +31,7 @@
             </button>
         </div>
         {{/if}}
-        <form class="form-horizontal" method="POST" id="user-form" action="add-user"
-            enctype="multipart/form-data">
+        <form class="form-horizontal" method="POST" id="user-form" action="add-user" enctype="multipart/form-data">
             <!-- First row -->
             <div class="row">
                 {{!-- Form start --}}
@@ -29,14 +50,15 @@
 
                         <!-- Card content -->
                         <div class="card-body card-body-cascade text-center">
-                            <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg" alt="User Photo"
-                                class="z-depth-1 mb-3 mx-auto img-fluid" alt="User Photo" id="imageView">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfO2uBQZ2-m7MkBvge4dwsLxEt6hztJtg1kA&usqp=CAU"
+                                alt="User Photo" class="z-depth-1 mb-3 mx-auto img-fluid" alt="User Photo"
+                                id="imageView" name="image1" onclick='$("#FileUpload").click()'>
 
                             <p id="img-name" class="text-muted "><small>Click to add your Profile Picture</small></p>
                             <div class="row flex-center">
-                                <input type="file" id="FileUpload" name="image" onchange="viewImage(event)"
-                                    style="display: none;">
-                                {{!-- <input id="uploadButton" type="button" value="Upload" onclick='$("#FileUpload").click()'> --}}
+                                <input type="hidden" name="image" id="newimage">
+                                <input type="file" id="FileUpload" style="display: none;">
+
                                 <a class="btn btn-info btn-rounded btn-sm waves-effect waves-light"
                                     onclick='$("#FileUpload").click()'>Upload New
                                     Product</a>
@@ -72,7 +94,7 @@
                                 <div class="col-md-6">
                                     <div class="md-form mb-0">
                                         <input type="text" class="form-control validate" value="" name="username"
-                                           id="username" required placeholder="place your user-name here">
+                                            id="username" required placeholder="place your user-name here">
                                         <label for="form1" data-error="wrong" data-success="right">User Name</label>
                                     </div>
                                     {{#if usenameExistError}}
@@ -82,23 +104,17 @@
 
                                     {{/if}}
                                 </div>
-                                  <!-- Secound column -->
-                                <div class="col-md-3">
-                                   <div class="md-form mb-0">
-										<input type="password" name="password" id="password" class="form-control validate" required
-											placeholder="Password">
-										<label for="password" data-error="wrong" data-success="right">Password</label>
-									</div>
+                                <!-- Secound column -->
+                                <div class="col-md-6">
+                                    <div class="md-form mb-0">
+                                        <input type="password" name="password" id="password"
+                                            class="form-control validate" required placeholder="Password">
+                                        <label for="password" data-error="wrong" data-success="right">Password</label>
+                                    </div>
                                 </div>
-                                <div class="col-md-3">
-                                   <div class="md-form mb-0">
-										<input type="password" name="confirmPassword" class="form-control validate" required
-											placeholder="confirm Password">
-										<label for="confirmPassword" data-error="wrong" data-success="right">Confirm Password</label>
-									</div>
-                                </div>
+
                             </div>
-                           
+
 
                             <!-- First row -->
                             <div class="row">
@@ -113,25 +129,26 @@
                                 <!-- Secound column -->
                                 <div class="col-md-6">
                                     <div class="md-form mb-0">
-                                        <input type="email" class="form-control validate" value="" name="email" 
+                                        <input type="email" class="form-control validate" value="" name="email"
                                             placeholder="abc@mymart.in">
                                         <label for="email" data-error="wrong" data-success="right">Email</label>
                                     </div>
                                 </div>
                             </div>
-                              <!-- First row -->
+                            <!-- First row -->
                             <div class="row">
                                 <!-- First column -->
                                 <div class="col-md-6">
                                     <div class="md-form mb-0">
                                         <input type="text" name="phoneNumber" placeholder="99999999"
-                                            class="form-control validate" value="{{phoneNumber}}" onblur="phonenumber(this)">
-                                            <span class="validation-error-phonenumber" ></span>
+                                            class="form-control validate" value="{{phoneNumber}}"
+                                            onblur="phonenumber(this)">
+                                        <span class="validation-error-phonenumber"></span>
                                         <label for="phone Number" data-error="wrong" data-success="right">Phone
                                             Number</label>
                                     </div>
                                 </div>
-                                 <!-- Second column -->
+                                <!-- Second column -->
                                 <div class="col-md-6">
                                     <div class="md-form mb-0">
                                         <textarea type="text" name="address" class="md-textarea form-control"
@@ -140,7 +157,7 @@
                                     </div>
                                 </div>
                             </div>
-                           
+
                             <!-- Fourth row -->
                             <div class="row">
                                 <div class="col-md-12 text-center my-4">
@@ -148,7 +165,7 @@
                                     <input type="submit" value="Save"
                                         class="btn btn-outline-info btn-rounded btn-sm btn-ok">
                                     {{!-- <button type="button" class="btn btn-outline-secondary btn-rounded btn-sm"
-                                                            data-dismiss="modal">Close</button> --}}
+                                        data-dismiss="modal">Close</button> --}}
                                 </div>
                             </div>
                             <!-- Fourth row -->
@@ -173,26 +190,114 @@
 
 </div>
 
+{{!-- Modal Image crop --}}
+<div class="modal fade " id="modal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content modal-lg">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">Crop the image</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="img-container">
+                    <img id="image" src="https://avatars0.githubusercontent.com/u/3456749">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="crop">Crop</button>
+            </div>
+        </div>
+    </div>
+</div>
+{{!-- Modal Image crop --}}
 <script>
-    function viewImage(event) {
-        document.getElementById('imageView').src = URL.createObjectURL(event.target.files[0])
-        document.getElementById('img-name').innerHTML = event.target.files[0].name
+
+    //phonenumber
+    function phonenumber(inputtxt) {
+
+        var phoneno = /^[6-9]\d{9}$/, text;
+
+        if (inputtxt.value.match(phoneno) || inputtxt.value.length == 0) {
+            text = "";
+        }
+        else {
+            text = "Not a valid Phone Number";
+        }
+        $(".validation-error-phonenumber").html(text);
 
     }
- //phonenumber
-       function phonenumber(inputtxt) {
-
-           var phoneno = /^[6-9]\d{9}$/, text;
-
-           if (inputtxt.value.match(phoneno) || inputtxt.value.length == 0) {
-               text = "";
-           }
-           else {
-               text = "Not a valid Phone Number";
-           }
-           $(".validation-error-phonenumber").html(text);
-
-       }
 </script>
- 
-      
+
+<script src="/js/cropper.js"></script>
+<script>
+    window.addEventListener('DOMContentLoaded', function () {
+
+        var avatar = document.getElementById('imageView');
+        var image = document.getElementById('image');
+        var input = document.getElementById('FileUpload');
+
+        var $modal = $('#modal');
+        var cropper;
+
+        $('[data-toggle="tooltip"]').tooltip();
+
+        input.addEventListener('change', function (e) {
+            var files = e.target.files;
+            var done = function (url) {
+                input.value = '';
+                image.src = url;
+
+                $modal.modal('show');
+            };
+            var reader;
+            var file;
+            var url;
+
+            if (files && files.length > 0) {
+                file = files[0];
+
+                if (URL) {
+                    done(URL.createObjectURL(file));
+                } else if (FileReader) {
+                    reader = new FileReader();
+                    reader.onload = function (e) {
+                        done(reader.result);
+                    };
+
+                    reader.readAsDataURL(file);
+                }
+            }
+        });
+
+        $modal.on('shown.bs.modal', function () {
+            cropper = new Cropper(image, {
+                aspectRatio: 1,
+                viewMode: 3,
+            });
+        }).on('hidden.bs.modal', function () {
+            cropper.destroy();
+            cropper = null;
+        });
+
+        document.getElementById('crop').addEventListener('click', function () {
+            var initialAvatarURL;
+            var canvas;
+
+            $modal.modal('hide');
+
+            if (cropper) {
+                canvas = cropper.getCroppedCanvas({
+                    width: 400,
+                    height: 400,
+                });
+                initialAvatarURL = avatar.src;
+                avatar.src = canvas.toDataURL();
+                $('#newimage').val(canvas.toDataURL())
+            }
+        });
+    });
+</script>

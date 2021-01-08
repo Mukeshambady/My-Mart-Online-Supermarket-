@@ -34,6 +34,9 @@ module.exports = {
                 stock: data.stock,
                 productInfo: data.productInfo
             }
+            if(data.image){
+                productDocDoc.productImage = data.image
+            }
             await commonHelpers.doUpdateOne(productCollectionName, productDocDoc).then((product) => {
                 resolve(product)
             }).catch((err) => {
@@ -55,7 +58,13 @@ module.exports = {
         productDoc.measure = productDeatils.measure.trim()
         productDoc.productInfo = productDeatils.productInfo.trim()
         productDoc.dealer_id = user_Id
-        productDoc.productImage = userId + pro_name + '.jpg'
+
+        if(productDeatils.image){
+            productDoc.productImage = productDeatils.image
+        }else{
+            productDoc.productImage ="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfO2uBQZ2-m7MkBvge4dwsLxEt6hztJtg1kA&usqp=CAU"
+        }
+       
 
         delete productDoc._id
         return new Promise(async (resolve, reject) => {

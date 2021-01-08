@@ -8,7 +8,7 @@
             <div class="col-lg-3  col-sm-6  ">
                 <div class="media text-center ">
                     <div class="media-body  p-3">
-                       <h3>User Details <i class="ml-1 far fa-user"></i></h3>
+                        <h3>User Details <i class="ml-1 far fa-user"></i></h3>
                     </div>
                 </div>
             </div>
@@ -59,7 +59,7 @@
                         <th class="font-weight-bold">
                             <strong>Number of Orders</strong>
                         </th>
-                        
+
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -67,23 +67,25 @@
 
                 <!-- Table body -->
                 <tbody>
-{{#unless userDetails}}
-<tr>
-    <td colspan="6"><h1>No Data Found</h1></td>
-</tr>
+                    {{#unless userDetails}}
+                    <tr>
+                        <td colspan="6">
+                            <h1>No Data Found</h1>
+                        </td>
+                    </tr>
 
-{{/unless}}
+                    {{/unless}}
                     <!--  row -->
                     {{#each userDetails}}
                     <tr>
                         <th class="align-middle" scope="row" id="{{this._id}}">{{numbering @index}}</th>
                         <td>
-                            <img src="/user-profile-pic/{{this.profilePicture}}" alt="Profile Picture" class="img-fluid"
+                            <img src="{{this.profilePicture}}" alt="Profile Picture" class="img-fluid"
                                 style="width: 50px;height:50px;">
 
                         </td>
                         <td><strong class="productName">{{this.name}} </strong>
-                         <p class="text-muted">{{this.phoneNuumber}}</p>
+                            <p class="text-muted">{{this.phoneNuumber}}</p>
                         </td>
                         <td>
                             <strong>{{this.address}}</strong>
@@ -93,12 +95,11 @@
                             <strong>{{this.numberOfOrders}}</strong>
 
                         </td>
-                       
+
 
                         <td>
-                            <a href="edit-user/{{this._id}}" class="btn btn-sm btn-info"
-                                data-toggle="tooltip" data-placement="top" title="Edit User"><i
-                                    class="fas fa-user-edit"></i>
+                            <a href="edit-user/{{this._id}}" class="btn btn-sm btn-info" data-toggle="tooltip"
+                                data-placement="top" title="Edit User"><i class="fas fa-user-edit"></i>
                             </a>
                             <a href="javascript:void(0)" id="{{this._id}}" class="btn btn-sm btn-danger delClass"
                                 data-toggle="tooltip" data-placement="top" title="Delete User"><i
@@ -106,8 +107,7 @@
                             </a>
 
                             <a href="javascript:void(0)" id="{{this._id}}" class="btn btn-sm btn-warning banClass"
-                               data-toggle="tooltip" data-placement="top" title="Block User"><i
-                                    class="fas fa-ban"></i>
+                                data-toggle="tooltip" data-placement="top" title="Block User"><i class="fas fa-ban"></i>
                             </a>
                         </td>
                     </tr>

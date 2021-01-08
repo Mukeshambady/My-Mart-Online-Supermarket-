@@ -116,11 +116,11 @@
                         <th scope="row" id="{{this._id}}">{{numbering @index}}</th>
                         <td>
                             <h5 class="mt-1 storeName">
-                                <strong>{{this.storeName}}</strong>
+                                <strong class="text-capitalize">{{this.storeName}}</strong>
                             </h5>
                             <p class="text-muted">{{this.address}}</p>
                         </td>
-                        <td><strong>{{this.name}} </strong></td>
+                        <td><strong class="text-capitalize">{{this.name}} </strong></td>
                         <td>
                             <strong>{{#if (eqIf this.openingAndClosingtime.status 1)}}Open{{else}}Closed{{/if}}</strong>
                             <p class="text-muted">{{this.openingAndClosingtime.openingTime}}</p>

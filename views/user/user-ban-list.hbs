@@ -8,12 +8,12 @@
             <div class="col ">
                 <div class="media text-center ">
                     <div class="media-body  p-3">
-                       <h3>User Ban List <i class="ml-1 far fa-user"></i></h3>
+                        <h3>User Ban List <i class="ml-1 far fa-user"></i></h3>
                     </div>
                 </div>
             </div>
             <!--Grid column-->
-            
+
         </div>
         <!--Grid row-->
     </section>
@@ -43,7 +43,7 @@
                         </th>
                         <th class="font-weight-bold">
                             <strong>Address</strong>
-                        </th>                        
+                        </th>
                         <th class="font-weight-bold">Action</th>
                     </tr>
                 </thead>
@@ -51,33 +51,35 @@
 
                 <!-- Table body -->
                 <tbody>
-{{#unless userDetails}}
-<tr>
-    <td colspan="6"><h1>No Data Found</h1></td>
-</tr>
+                    {{#unless userDetails}}
+                    <tr>
+                        <td colspan="6">
+                            <h1>No Data Found</h1>
+                        </td>
+                    </tr>
 
-{{/unless}}
+                    {{/unless}}
                     <!--  row -->
                     {{#each userDetails}}
                     <tr>
                         <th class="align-middle" scope="row" id="{{this._id}}">{{numbering @index}}</th>
                         <td>
-                            <img src="/user-profile-pic/{{this.profilePicture}}" alt="Profile Picture" class="img-fluid"
+                            <img src="{{this.profilePicture}}" alt="Profile Picture" class="img-fluid"
                                 style="width: 50px;height:50px;">
 
                         </td>
                         <td><strong class="productName">{{this.name}} </strong>
-                         <p class="text-muted">{{this.phoneNuumber}}</p>
+                            <p class="text-muted">{{this.phoneNuumber}}</p>
                         </td>
                         <td>
                             <strong>{{this.address}}</strong>
 
-                        </td>             
+                        </td>
 
                         <td>
-                               <a href="javascript:void(0)" id="{{this._id}}" class="btn btn-sm btn-success banClass"
-                                data-toggle="tooltip" data-placement="top" 
-                                title="Unban User"><i class="fas fa-check"></i>
+                            <a href="javascript:void(0)" id="{{this._id}}" class="btn btn-sm btn-success banClass"
+                                data-toggle="tooltip" data-placement="top" title="Unban User"><i
+                                    class="fas fa-check"></i>
                             </a>
                         </td>
                     </tr>
@@ -184,7 +186,7 @@
 <section>
     <!-- Ban deaer Modal -->
     <div class="modal fade" id="unBanUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-        aria-hidden="true" data-backdrop="static" >
+        aria-hidden="true" data-backdrop="static">
         <div class="modal-dialog modal-notify modal-success" role="document">
             <!--Content-->
             <div class="modal-content">
@@ -203,7 +205,7 @@
                         <i class="fas fa-check fa-4x mb-3 animated rotateIn"></i>
                         <p>Click Active to Unban</p>
                         <p>
-                        <strong class="text-success" id="banName"></strong>
+                            <strong class="text-success" id="banName"></strong>
                         </p>
                     </div>
                 </div>
@@ -248,7 +250,7 @@
             data: { id: id },
             success: function (response) {
                 if (response) {
-                    
+
                     $('#' + id).parents("tr").remove();
                     toastr.success('User Unbanned');
                 }
@@ -258,6 +260,3 @@
     });
 
 </script>
-
-
-

@@ -221,7 +221,8 @@
 
 
 {{!-- Modal Image crop --}}
-<div class="modal fade " id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+<div class="modal fade " id="modal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
+	aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content modal-lg">
 			<div class="modal-header">
@@ -265,7 +266,7 @@
 <script src="/js/cropper.js"></script>
 <script>
 	window.addEventListener('DOMContentLoaded', function () {
-		
+
 		var avatar = document.getElementById('imageView');
 		var image = document.getElementById('image');
 		var input = document.getElementById('FileUpload');

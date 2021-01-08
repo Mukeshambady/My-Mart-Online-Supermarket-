@@ -38,7 +38,8 @@ module.exports = {
                     userDoc.email = data.email.trim()
                     userDoc.phoneNumber = data.phoneNumber.trim()
                     userDoc.address = data.address.trim()
-                    userDoc.profilePicture = userId + '.jpg'
+                    if (data.image) { userDoc.profilePicture = data.image }
+
                     await commonHelpers.doInsertOne(userCollectionName, userDoc).then((user) => {
                         if (user)
                             result = user.profilePicture
@@ -55,7 +56,7 @@ module.exports = {
     },
     //update User
     userNameCheck: (username) => {
-        return new Promise(async (resolve, reject) => {           
+        return new Promise(async (resolve, reject) => {
             await commonHelpers.doUsernameCheck(username).then((user) => {
                 resolve(user)
             }).catch((err) => {
@@ -65,7 +66,7 @@ module.exports = {
     },
     //changePassward
     changePassward: (data) => {
-        return new Promise(async (resolve, reject) => {           
+        return new Promise(async (resolve, reject) => {
             await commonHelpers.changePassward(data).then((user) => {
                 resolve(user)
             }).catch((err) => {
@@ -84,10 +85,11 @@ module.exports = {
                 email: data.email.trim(),
                 phoneNumber: data.phoneNumber.trim(),
                 address: data.address.trim(),
-                profilePicture: userId + '.jpg',
+
                 date: new Date()
 
             }
+            if (data.image) { userDoc.profilePicture = data.image }
             await commonHelpers.doUpdateOne(userCollectionName, userDoc).then((user) => {
                 resolve(user)
             }).catch((err) => {
@@ -100,12 +102,12 @@ module.exports = {
     //All User--Active--UNBAN
     AllDetail: function (userId) {
         return new Promise(async (resolve, reject) => {
-            if(userId){
+            if (userId) {
                 loginDoc = { createdBy: objectId(userId), status: 1, state: userState }
-            }else{
-                loginDoc = {  status: 1, state: userState }
+            } else {
+                loginDoc = { status: 1, state: userState }
             }
-            
+
             await commonHelpers.getFindAllDetails(userCollectionName, loginDoc).then((data) => {
 
                 resolve(data)
@@ -118,10 +120,10 @@ module.exports = {
     //All User---BAN
     AllBanDetail: function (userId) {
         return new Promise(async (resolve, reject) => {
-            if(userId){
-            loginDoc = { createdBy: objectId(userId), status: 0, state: userState }
-            }else{
-                loginDoc = {  status: 0, state: userState }
+            if (userId) {
+                loginDoc = { createdBy: objectId(userId), status: 0, state: userState }
+            } else {
+                loginDoc = { status: 0, state: userState }
             }
             await commonHelpers.getFindAllDetails(userCollectionName, loginDoc).then((data) => {
                 resolve(data)
@@ -159,7 +161,7 @@ module.exports = {
     },
     //User BanOrUnban by _id
     BanOrUnban: function (userId, status) {
-        
+
         loginDoc = { _id: { _id: objectId(userId) }, status: status }
         return new Promise(async (resolve, reject) => {
             await commonHelpers.doUpdateOne(loginCollectionName, loginDoc).then((data) => {
@@ -178,16 +180,16 @@ module.exports = {
         let findBy = { userId: objectId(data.userId) }
         return new Promise(async (resolve, reject) => {
             await commonHelpers.getFindOneWithId(cartCollectionName, findBy).then((details) => {
-                
-                if (details) {                   
-                    if(details.dealerId == data.dealerId){
-                        resolve({result:1})//1 the same dealer
-                    }else{
-                        resolve({result:2,cartId:details._id})//2 different dealer
+
+                if (details) {
+                    if (details.dealerId == data.dealerId) {
+                        resolve({ result: 1 })//1 the same dealer
+                    } else {
+                        resolve({ result: 2, cartId: details._id })//2 different dealer
                     }
                 }
                 else {
-                    resolve({result:3})//3 nocart
+                    resolve({ result: 3 })//3 nocart
                 }
             })
 
@@ -202,21 +204,21 @@ module.exports = {
 
         let data = '<h2>Nocart</h2>'
         return new Promise(async (resolve, reject) => {
-            user =await this.Profile(userId)
-            userdata={phoneNumber : user.phoneNumber,address : user.address,email : user.email}
-            
+            user = await this.Profile(userId)
+            userdata = { phoneNumber: user.phoneNumber, address: user.address, email: user.email }
+
             let totals = await cartHelper.getTotalAmount(userId)
 
             let result = await commonHelpers.getCartProducts(cartCollectionName, { userId: objectId(userId) })
 
-            if (result) { data = '' }else{data='<h1>No cart Details</h1>'}
+            if (result) { data = '' } else { data = '<h1>No cart Details</h1>' }
             for (i in result) {
                 data += '  <div class="row  alert alert-info  alert-dismissible ">' +
                     '<button type="button" class="close remove-product" data-toggle="tooltip" data-placement="top" title="Remove Product">' +
                     '<i class="far fa-trash-alt red-text"></i></button>' +
                     ' <div class="col-md-4 col-sm-4 col-4">' +
                     ' <div class="md-form mb-0">' +
-                    ' <img src="../products-pic/' + result[i].productImage + '" height="50px" width="50px"' +
+                    ' <img src="' + result[i].productImage + '" height="50px" width="50px"' +
                     '  alt="product cart Image" srcset="">' +
                     ' </div>' +
                     ' </div>' +
@@ -227,7 +229,7 @@ module.exports = {
                     ' <span class="quantity text-right">' +
                     '<input type="hidden" name="productId" value="' + result[i]._id + '">' +
                     ' <a class="minus-btn"><i class="fas fa-minus "></i></a>' +
-                    '<input type="text" name="name" value="'+ result[i].quantity+'" disabled>' +
+                    '<input type="text" name="name" value="' + result[i].quantity + '" disabled>' +
                     '<a class="plus-btn"><i class="fas fa-plus "></i></a>' +
                     '</span>' +
                     ' </div>' +
@@ -243,7 +245,7 @@ module.exports = {
                     ' </div>'
 
             }
-            _result = { data: data, totals: totals,user:userdata }
+            _result = { data: data, totals: totals, user: userdata }
             resolve(_result)
         })
 
@@ -252,35 +254,35 @@ module.exports = {
     //Ajax
     //Order History
     cartOrderHistory: function (userId) {
-        
-        return new Promise(async(resolve,reject)=>{
-           let orders= await cartHelper.getCartHistory(userId)
-          
-           if (orders) { data = '' }else{data='<h1>No Order History</h1>'}
-            for (i in orders) {
-            data += '<div class="row text-grey blue-grey lighten-5  z-depth-1 mx-2 my-3 py-2  ">'+
-            ' <div class="col-12 ">'+
-              ' <div class=" mb-0 ">'+
-                ' <span class=" font-weight-bold " style="float: right;">Order Id.&nbsp; <span'+
-                   '  class=" text-truncate "'+
-                   ' >'+orders[i].id+'</span>'+
-                ' </span>'
-                for(j in orders[i].products){
-                    data +=  '<p class="text-capitalize m-0 mr-2 pr-1">'+( parseInt(j)+1)+'.<span class="font-weight-bold">'+ orders[i].products[j].name+' </span></p>'
-                }
-                
-                data += '  <hr>'+
-                 '<span class="float-right font-weight-bold m-0 " style="float: right;">Total Amount.&nbsp; <span>'+orders[i].totalPrice+'</span>'+
-                ' </span>'+
-              ' </div>'+
-             '</div>'   +  
-           '</div>'
-           }
 
-           resolve(data)
-          
+        return new Promise(async (resolve, reject) => {
+            let orders = await cartHelper.getCartHistory(userId)
+
+            if (orders) { data = '' } else { data = '<h1>No Order History</h1>' }
+            for (i in orders) {
+                data += '<div class="row text-grey blue-grey lighten-5  z-depth-1 mx-2 my-3 py-2  ">' +
+                    ' <div class="col-12 ">' +
+                    ' <div class=" mb-0 ">' +
+                    ' <span class=" font-weight-bold " style="float: right;">Order Id.&nbsp; <span' +
+                    '  class=" text-truncate "' +
+                    ' >' + orders[i].id + '</span>' +
+                    ' </span>'
+                for (j in orders[i].products) {
+                    data += '<p class="text-capitalize m-0 mr-2 pr-1">' + (parseInt(j) + 1) + '.<span class="font-weight-bold">' + orders[i].products[j].name + ' </span></p>'
+                }
+
+                data += '  <hr>' +
+                    '<span class="float-right font-weight-bold m-0 " style="float: right;">Total Amount.&nbsp; <span>' + orders[i].totalPrice + '</span>' +
+                    ' </span>' +
+                    ' </div>' +
+                    '</div>' +
+                    '</div>'
+            }
+
+            resolve(data)
+
         })
-    
+
     }
 
 

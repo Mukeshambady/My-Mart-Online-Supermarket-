@@ -26,11 +26,11 @@ router.get('/', verifyLogin, async function (req, res, next) {
   let data = await dealerHelper.getDealerOpenCloseTotal()
 
   let DealerOpenCloseTotal = {}
-  if (data.lenght > 0) {
-     DealerOpenCloseTotal = { allShops: data[0].allShops, open: data[0].open, close: data[0].close }
-     }else {
-     DealerOpenCloseTotal = { allShops: 0, open: 0, close:0 }
-     }
+  if (data) {
+    DealerOpenCloseTotal = { allShops: data[0].allShops, open: data[0].open, close: data[0].close }
+  } else {
+    DealerOpenCloseTotal = { allShops: 0, open: 0, close: 0 }
+  }
   let dealerDetails = await dealerHelper.dealersAllDetail(req.session.user._id)
   res.render('admin/all-dealers', { dealerDetails, DealerOpenCloseTotal, title: 'Admin Home' });
 });
@@ -68,7 +68,7 @@ router.post('/new-dealer', verifyLogin, function (req, res, next) {
       if (result) {
         req.session.registrationStatus = "Dealer added successfully..";
       }
-      res.redirect('/admin/new-dealer')
+      res.redirect('/admin')
       req.session.registrationStatus = null
       // if (req.image) {
       //   //get image file from Form
@@ -112,7 +112,7 @@ router.post('/edit-dealer/:id', verifyLogin, async function (req, res, next) {
   // }
   if (result) {
     req.session.dealerUpdate = true
-    res.redirect('/admin/edit-dealer/' + id)
+    res.redirect('/admin')
   } else {
 
   }
@@ -183,13 +183,13 @@ router.post('/add-user', verifyLogin, function (req, res, next) {
       if (result) {
         req.session.registrationStatus = "User added successfully..";
       }
-      res.redirect('/admin/add-user')
-      if (req.files) {
-        //get image file from Form
-        let image = req.files.image
-        //move image into public/profile-pic with image name as _id
-        image.mv('./public/user-profile-pic/' + result)
-      }
+      res.redirect('/admin/users')
+      // if (req.files) {
+      //   //get image file from Form
+      //   let image = req.files.image
+      //   //move image into public/profile-pic with image name as _id
+      //   image.mv('./public/user-profile-pic/' + result)
+      // }
     }
   })
 });
@@ -210,14 +210,14 @@ router.post('/edit-user/:id', verifyLogin, async function (req, res, next) {
   delete req.body.imageView
   id = req.params.id
   await userHelper.update(id, req.body).then((result) => {
-    if (req.files) {
-      //get image file from Form
-      let image = req.files.image
-      //move image into public/products-pic with image name as dealer_id+product name
-      image.mv('./public/user-profile-pic/' + profilePicture)
-    }
+    // if (req.files) {
+    //   //get image file from Form
+    //   let image = req.files.image
+    //   //move image into public/products-pic with image name as dealer_id+product name
+    //   image.mv('./public/user-profile-pic/' + profilePicture)
+    // }
     req.session.registrationStatus = 'User updated'
-    res.redirect('/admin/edit-user/' + id)
+    res.redirect('/admin/users')
   }).catch((err) => {
     console.log('post edit-user error: ', err)
   })

@@ -44,19 +44,18 @@
 
 						<!-- Card content -->
 						<div class="card-body card-body-cascade text-center">
-							<img src="{{profilePicture}}" alt="User Photo"
-								class="z-depth-1 mb-3 mx-auto img-fluid" alt="User Photo" id="imageView" name="image1" onclick='$("#FileUpload").click()'>
+							<img src="{{profilePicture}}" alt="User Photo" class="z-depth-1 mb-3 mx-auto img-fluid"
+								alt="User Photo" id="imageView" name="image1" onclick='$("#FileUpload").click()'>
 
 							<p class="text-muted"><small>Change Your Image</small></p>
 							<div class="row flex-center">
 								<input type="hidden" name="image" id="newimage">
-								<input type="file" id="FileUpload" 
-									style="display: none;">
-								
+								<input type="file" id="FileUpload" style="display: none;">
+
 								<a class="btn btn-info btn-rounded btn-sm waves-effect waves-light"
 									onclick='$("#FileUpload").click()'>Change
 									Photo</a>
-								
+
 							</div>
 						</div>
 						<!-- Card content -->
@@ -161,10 +160,11 @@
 								<div class="col-md-6">
 									<div class="md-form mb-0">
 										<input type="text" name="phoneNumber" placeholder="99999999"
-											class="form-control validate" value="{{this.phoneNumber}}" onblur="phonenumber(this)">
+											class="form-control validate" value="{{this.phoneNumber}}"
+											onblur="phonenumber(this)">
 										<label for="phone Number" data-error="wrong" data-success="right">Phone
 											Number</label>
-											<span class="validation-error-phonenumber"></span>
+										<span class="validation-error-phonenumber"></span>
 									</div>
 								</div>
 							</div>
@@ -224,7 +224,8 @@
 
 
 {{!-- Modal Image crop --}}
-<div class="modal fade " id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+<div class="modal fade " id="modal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
+	aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content modal-lg">
 			<div class="modal-header">
@@ -248,29 +249,32 @@
 {{!-- Modal Image crop --}}
 
 <script>
-	{{!-- function viewImage(event) {
-		document.getElementById('imageView').src = URL.createObjectURL(event.target.files[0])
-	} --}}
-//phonenumber
-       function phonenumber(inputtxt) {
+	{
+		{
+			!-- function viewImage(event) {
+				document.getElementById('imageView').src = URL.createObjectURL(event.target.files[0])
+			} --}
+	}
+	//phonenumber
+	function phonenumber(inputtxt) {
 
-           var phoneno = /^[6-9]\d{9}$/, text;
+		var phoneno = /^[6-9]\d{9}$/, text;
 
-           if (inputtxt.value.match(phoneno) || inputtxt.value.length == 0) {
-               text = "";
-           }
-           else {
-               text = "Not a valid Phone Number";
-           }
-           $(".validation-error-phonenumber").html(text);
+		if (inputtxt.value.match(phoneno) || inputtxt.value.length == 0) {
+			text = "";
+		}
+		else {
+			text = "Not a valid Phone Number";
+		}
+		$(".validation-error-phonenumber").html(text);
 
-       }
+	}
 
 </script>
 <script src="/js/cropper.js"></script>
 <script>
 	window.addEventListener('DOMContentLoaded', function () {
-		
+
 		var avatar = document.getElementById('imageView');
 		var image = document.getElementById('image');
 		var input = document.getElementById('FileUpload');

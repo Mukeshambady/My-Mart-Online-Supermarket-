@@ -62,14 +62,14 @@ router.get('/product', verifyLogin, async function (req, res, next) {
 router.post('/product', verifyLogin, async function (req, res, next) {
 
   await productHelper.AddDealerProduct(req.session.user._id, req.body).then((result) => {
-    if (req.files) {
-      //get image file from Form
-      let image = req.files.image
-      //move image into public/products-pic with image name as dealer_id+product name
-      image.mv('./public/products-pic/' + result)
-    }
+    // if (req.files) {
+    //   //get image file from Form
+    //   let image = req.files.image
+    //   //move image into public/products-pic with image name as dealer_id+product name
+    //   image.mv('./public/products-pic/' + result)
+    // }
     req.session.productSuccess = 'Product added'
-    res.redirect('/dealer/product')
+    res.redirect('/dealer/view-product')
   }).catch((err) => {
     console.log('post product error: ', err)
   })
@@ -92,14 +92,14 @@ router.post('/edit-product/:id', verifyLogin, async function (req, res, next) {
   delete req.body.imageView
   id = req.params.id
   await productHelper.updateDealerProduct(id, req.body).then((result) => {
-    if (req.files) {
-      //get image file from Form
-      let image = req.files.image
-      //move image into public/products-pic with image name as dealer_id+product name
-      image.mv('./public/products-pic/' + productImage)
-    }
+    // if (req.files) {
+    //   //get image file from Form
+    //   let image = req.files.image
+    //   //move image into public/products-pic with image name as dealer_id+product name
+    //   image.mv('./public/products-pic/' + productImage)
+    // }
     req.session.productSuccess = 'Product updated'
-    res.redirect('/dealer/edit-product/' + id)
+    res.redirect('/dealer/view-product')
   }).catch((err) => {
     console.log('post product error: ', err)
   })
@@ -168,13 +168,13 @@ router.post('/add-user', verifyLogin, function (req, res, next) {
       if (result) {
         req.session.registrationStatus = "User added successfully..";
       }
-      res.redirect('/dealer/add-user')
-      if (req.files) {
-        //get image file from Form
-        let image = req.files.image
-        //move image into public/profile-pic with image name as _id
-        image.mv('./public/user-profile-pic/' + result)
-      }
+      res.redirect('/dealer/users')
+      // if (req.files) {
+      //   //get image file from Form
+      //   let image = req.files.image
+      //   //move image into public/profile-pic with image name as _id
+      //   image.mv('./public/user-profile-pic/' + result)
+      // }
     }
   })
 });
@@ -195,14 +195,14 @@ router.post('/edit-user/:id', verifyLogin, async function (req, res, next) {
   delete req.body.imageView
   id = req.params.id
   await userHelper.update(id, req.body).then((result) => {
-    if (req.files) {
-      //get image file from Form
-      let image = req.files.image
-      //move image into public/products-pic with image name as dealer_id+product name
-      image.mv('./public/user-profile-pic/' + profilePicture)
-    }
+    // if (req.files) {
+    //   //get image file from Form
+    //   let image = req.files.image
+    //   //move image into public/products-pic with image name as dealer_id+product name
+    //   image.mv('./public/user-profile-pic/' + profilePicture)
+    // }
     req.session.registrationStatus = 'User updated'
-    res.redirect('/dealer/edit-user/' + id)
+    res.redirect('/dealer/users')
   }).catch((err) => {
     console.log('post edit-user error: ', err)
   })
@@ -287,8 +287,9 @@ router.get('/settings', verifyLogin, async function (req, res) {
 })
 //POST settings
 router.post('/settings', verifyLogin, async function (req, res) {
+  
   req.body.dealerId = req.session.user._id
-  req.body.status = 1
+  req.body.status =  (req.body.status==1)?1:0
   let result = await dealerHelper.setTiming(req.body)
   if (result.matchedCount == 1) {
     req.session.datasaved = "Timing updated..."
