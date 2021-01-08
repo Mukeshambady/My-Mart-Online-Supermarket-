@@ -59,7 +59,7 @@ module.exports = {
                 data+=' <tr >'+
                 '<td  class="align-middl p-1 m-1">'+(parseInt( i) + 1)+'</td>'+
                 '<td  class="align-middl p-1 m-1"><img'+
-                       ' src="../products-pic/' + result[0].products[i].productImage + '"'+
+                       ' src="' + result[0].products[i].productImage + '"'+
                         'height="50px" width="50px" alt="product cart Image"'+
                        ' srcset=""></td>'+
                 '<td  class="align-middl p-1 m-1">' + result[0].products[i].name + 
