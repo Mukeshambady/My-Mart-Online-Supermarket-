@@ -7,6 +7,7 @@ module.exports.connect = function(done){
     const url ="mongodb+srv://mukesh:FfeoIqhFFjSvggq7@mymart.au7ts.mongodb.net/mymart?retryWrites=true&w=majority" //"mongodb://localhost:27017"
     const dbname= "mymart"
     mongoClient.connect(url,{useNewUrlParser:true,useUnifiedTopology:true},(err,data)=>{
+        console.log('data---',data);
         if(err){
             console.log(err);
             return done(err)
