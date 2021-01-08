@@ -30,10 +30,10 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
 
             userData.password = await bcrypt.hash(userData.password, 10)
-            await db.get().collection('login').updateOne({"username" : userData.username}, { $set: {'password':userData.password} }).then((result) => {
+            await db.get().collection('login').updateOne({ "username": userData.username }, { $set: { 'password': userData.password } }).then((result) => {
 
-                    resolve(result.matchedCount)
-                
+                resolve(result.matchedCount)
+
             }).catch((err) => {
                 console.log('changePassward-Error', err);
                 reject(false)
@@ -207,7 +207,7 @@ module.exports = {
 
         var id = colData._id
         delete colData._id
-        
+
         return new Promise(async (resolve, reject) => {
             await db.get().collection(docName).updateOne(id, { $set: colData }, { upsert: true }).then((result) => {
 
@@ -368,7 +368,20 @@ module.exports = {
                     })
         })
     },
+    searchItems: (searchItem) => {
+        return new Promise(async (resolve, reject) => {
+            let products = await db.get().collection(COLLECTION_DATA.TABLE_COLLECTIONs.dealer).aggregate([
+                {
+                    $match: {storeName:searchItem}
+                },
+                
+            ]).toArray()
+             resolve(products);
 
+        }).catch((rer)={
+
+        })
+    },
     //get cart prodect depends up on a user
     //select prodect from cart 
     getOrderHistory: (collection, matchIds) => {

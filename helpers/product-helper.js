@@ -145,7 +145,44 @@ module.exports = {
         })
     },
    
-    
+    //searchProduct
+    searchProduct:function(searchItem){
+        return new Promise(async (resolve,reject)=>{
+            data=''
+           await commonHelpers.searchItems(searchItem).then((result)=>{
+            for (i in result) {
+                console.log(result[i].name);
+                data +='<div class="row row-cols-1 row-cols-md-3 ">'               
+                        +'<div class="col mb-4">'
+                            +'<div class="card">'
+                
+                            +'<div class="view overlay">'
+                
+                            +'<img class="card-img-top" src="'+result[i].profilePicture+'" height="250px" alt="Card image cap">'
+                           +' <a href="">'
+                               +' <div class="mask rgba-white-slight"></div>'
+                           +' </a>'
+                           +' </div>'                       
+                            +'<div class="card-body">'
+                            +'<h4 class="card-title">'+result[i].storeName+'</h4>'
+                            
+                            +'<p class="card-text">'+result[i].extraInFormation+'</p>'
+                
+                            +'<a href="'+result[i]._id+'" class="btn btn-light-blue btn-md">See More</a>'
+                
+                            +'</div>'
+                
+                        +'</div>'
+                        
+                        +'</div>'
+                    
+                
+                    +'</div>'
+            }
+           })
+            resolve(data)
+        })
+    }
 
 
     //end export

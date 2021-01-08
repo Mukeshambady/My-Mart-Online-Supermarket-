@@ -43,22 +43,25 @@
     /* Product Quantity */
 
 
-  .quantity input {
-    -webkit-appearance: none;
-    border: none;
-    text-align: center;
-    width: 32px;
-    font-size: 16px;
-    color: #43484D;
-    font-weight: 300;
+    .quantity input {
+      -webkit-appearance: none;
+      border: none;
+      text-align: center;
+      width: 32px;
+      font-size: 16px;
+      color: #43484D;
+      font-weight: 300;
 
-  }
-  .error, .validation-error-phonenumber {
-            color: red;
-        }
-        
+    }
+
+    .error,
+    .validation-error-phonenumber {
+      color: red;
+    }
+
+
   </style>
-  
+
 
 </head>
 
@@ -66,18 +69,18 @@
   <!-- Main Navigation -->
   <header>
     {{#if session.user}}
-        {{#if (eqIf session.user.state 0) }}
-                {{#if (eqIf session.url '/admin') }}
-                {{>_admin-side-bar}}
-              {{/if}}
-        {{/if}}
+    {{#if (eqIf session.user.state 0) }}
+    {{#if (eqIf session.url '/admin') }}
+    {{>_admin-side-bar}}
+    {{/if}}
+    {{/if}}
 
-        {{#if (eqIf session.user.state 2)}}
-               {{#if (eqIf session.url '/dealer') }}
-             {{>_dealer-side-bar}}
-              {{/if}}
-            
-        {{/if}}
+    {{#if (eqIf session.user.state 2)}}
+    {{#if (eqIf session.url '/dealer') }}
+    {{>_dealer-side-bar}}
+    {{/if}}
+
+    {{/if}}
     {{/if}}
     {{>_header-top}}
 
@@ -95,41 +98,41 @@
 
     </main>
     <!--Main layout-->
-<div class="modal fade" id="view-tracks">
-    <div class="modal-dialog modal-lg view-tracks">
+    <div class="modal fade" id="view-tracks">
+      <div class="modal-dialog modal-lg view-tracks">
         <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Order Tracking Detailes</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-            </div>
-            {{!-- <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
-            </div> --}}
+          <div class="modal-header">
+            <h4 class="modal-title">Order Tracking Detailes</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+          </div>
+          {{!-- <div class="modal-footer justify-content-between">
+            <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+          </div> --}}
         </div>
+      </div>
     </div>
-</div>
-{{!-- tracking --}}
-<div class="modal fade" id="show-tracks">
-    <div class="modal-dialog modal-lg view-tracks">
+    {{!-- tracking --}}
+    <div class="modal fade" id="show-tracks">
+      <div class="modal-dialog modal-lg view-tracks">
         <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Tracking Detailes</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-            </div>
-            {{!-- <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
-            </div> --}}
+          <div class="modal-header">
+            <h4 class="modal-title">Tracking Detailes</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+          </div>
+          {{!-- <div class="modal-footer justify-content-between">
+            <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+          </div> --}}
         </div>
+      </div>
     </div>
-</div>
 
 
     <!-- Footer -->
@@ -161,12 +164,12 @@
       src="https://mdbootstrap.com/previews/templates/admin-dashboard/js/mdb.min.js"></script> --}}
     <script type="text/javascript" src="../../js/mdb.min.js"></script>
     {{!-- jquery validate --}}
- <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/jquery.validate.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/jquery.validate.js"></script>
 
     <!-- Custom scripts -->
-   
+
     <script>
-      
+
 
 
       var container = document.querySelector('.custom-scrollbar');
@@ -185,18 +188,18 @@
       }
     </script>
     {{#if session.user}}
-      {{#if (eqIf session.user.state 0)}}
-        <script type="text/javascript" src="../../js/adminjs.js">   </script>
-      {{/if}}
+    {{#if (eqIf session.user.state 0)}}
+    <script type="text/javascript" src="../../js/adminjs.js">   </script>
+    {{/if}}
 
-      {{#if (eqIf session.user.state 1)}}
-       <script type="text/javascript" src="../../js/userjs.js">   </script>
-      {{/if}}
-      {{#if (eqIf session.user.state 2)}}
-       <script type="text/javascript" src="../../js/dealerjs.js">   </script>
-      {{/if}}
+    {{#if (eqIf session.user.state 1)}}
+    <script type="text/javascript" src="../../js/userjs.js">   </script>
+    {{/if}}
+    {{#if (eqIf session.user.state 2)}}
+    <script type="text/javascript" src="../../js/dealerjs.js">   </script>
+    {{/if}}
     {{else}}
-      <script type="text/javascript" src="../../js/dealerjs.js">   </script>
+    <script type="text/javascript" src="../../js/dealerjs.js">   </script>
     {{/if}}
 
 
@@ -206,24 +209,26 @@
       })
     </script>
 
-<script>
- 
+    <script>
+
+
+
+      $('.orderStatus').on('click', async function (e) {
+        await login_check()
+        $('#view-tracks').modal().find('.modal-body').load('/get_ordered_status');
+        $("#view-tracks").modal('show')
+      });
+      //track
+      async function showTraking(id) {
+        await login_check()
+        $("#view-tracks").modal('hide')
+        $('#show-tracks').modal().find('.modal-body').load('/get_ordered_track/' + id);
+        $("#show-tracks").modal('show')
+      };
+
  
 
-$('.orderStatus').on('click', async function (e) {
-   await login_check()
-  $('#view-tracks').modal().find('.modal-body').load('/get_ordered_status');
-  $("#view-tracks").modal('show')
-});
-//track
-async function showTraking(id) {
-   await login_check()
-  $("#view-tracks").modal('hide')
-  $('#show-tracks').modal().find('.modal-body').load('/get_ordered_track/'+id);
-  $("#show-tracks").modal('show')
-};
-
-</script>
+    </script>
 
 
 

@@ -1,55 +1,84 @@
 <div class="container pt-5">
-  <div class="jumbotron card card-image blue-grey lighten-5 mt-5 d-none d-lg-block " >
+  <div class="jumbotron card card-image blue-grey lighten-5 mt-5 d-none d-lg-block ">
     <div class="text-gray text-center py-5 px-4">
       <div>
         <h2 class="card-title h1-responsive pt-3 mb-3 font-bold"><strong>Order From Nearest
             Suppermarket</strong></h2>
-        <p class="mx-5 mb-5">Find the best Supermarkets near you on Mymart - see all Supermarkets open now. Explore other popular stores near you from!
+        <p class="mx-5 mb-5">Find the best Supermarkets near you on Mymart - see all Supermarkets open now. Explore
+          other popular stores near you from!
         </p>
-       
+
       </div>
     </div>
   </div>
 
-
-  <div class="row my-4 "> <center>location  name:{{localname}}</center> </div>
-
-
-  <div class="row row-cols-1 row-cols-md-3 ">
+  <div class="row align-items-center justify-content-center py-3">
+    Shop Name: <select id="search-item" required>
+      <option value="">Show all shops</option>
       {{#each alldealers}}
-    <div class="col mb-4  " >
-      <!-- Card -->
-      <div class="card">
+      <option value="{{this.storeName}}" class="capitalize">{{this.storeName}}</option>
+      {{/each}}
+    </select>
 
-        <!--Card image-->
-        <div class="view overlay">
-          {{!-- <img class="card-img-top" src="../../profile-pic/{{this.profilePicture}}" height="350px" alt="Card image cap"> --}}
-          <img class="card-img-top" src="{{this.profilePicture}}" height="250px" alt="Card image cap">
-          <a href="#!">
-            <div class="mask rgba-white-slight"></div>
-          </a>
+    <input type="button" class="btn btn-info btn-sm" id="search" value="Search">
+  </div>
+
+  <span id="product">
+    <div class="row row-cols-1 row-cols-md-3 ">
+
+      {{#each alldealers}}
+      <div class="col mb-4">
+        <!-- Card -->
+        <div class="card">
+
+          <!--Card image-->
+          <div class="view overlay">
+
+            <img class="card-img-top" src="{{this.profilePicture}}" height="250px" alt="Card image cap">
+            <a href="#!">
+              <div class="mask rgba-white-slight"></div>
+            </a>
+          </div>
+
+          <!--Card content-->
+          <div class="card-body">
+
+            <!--Title-->
+            <h4 class="card-title">{{this.storeName}}</h4>
+            <!--Text-->
+            <p class="card-text">{{this.extraInFormation}}</p>
+
+            <a href="/products/{{this._id}}" class="btn btn-light-blue btn-md">See More</a>
+
+          </div>
+
         </div>
- 
-        <!--Card content-->
-        <div class="card-body">
-
-          <!--Title-->
-          <h4 class="card-title">{{this.storeName}}</h4>
-          <!--Text-->
-          <p class="card-text">{{this.extraInFormation}}</p>
-          <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
-          <a href="/products/{{this._id}}" class="btn btn-light-blue btn-md">See More</a>
-
-        </div>
-
+        <!-- Card -->
       </div>
-      <!-- Card -->
-    </div>
       {{/each}}
 
-  </div>
-
-
-
-
+    </div>
+  </span>
 </div>
+
+<script>
+  $('#search').on('click', function (e) {
+    var val = $('#search-item').val().trim()
+    if (val && val.length > 0) {
+      $.ajax({
+        type: "post",
+        url: "/search-product",//user-router
+        data: {
+          val: val
+        },
+        success: function (response) {
+          if (response) {
+            $('#product').html(response)
+          }
+        }
+      });
+    }else{
+      location.reload();
+    }
+  })
+</script>
