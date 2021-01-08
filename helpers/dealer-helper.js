@@ -42,7 +42,7 @@ module.exports = {
                     dealerDoc.phoneNumber = data.phoneNumber
                     dealerDoc.address = data.address
                     dealerDoc.extraInFormation = data.extrainfo
-                    dealerDoc.profilePicture = userId + '.jpg'
+                    dealerDoc.profilePicture =data.image //userId + '.jpg'
 
                     await commonHelpers.doInsertOne(dealerCollectionName, dealerDoc).then((dealer) => {
                         if (dealer)
@@ -71,9 +71,10 @@ module.exports = {
                 , phoneNumber: data.phoneNumber
                 , address: data.address
                 , extraInFormation: data.extrainfo
-                , profilePicture: userId + '.jpg'
+                
                 , date: new Date()
             }
+            if( data.image.length>1) { dealerDoc.profilePicture= data.image}
             await commonHelpers.doUpdateOne(dealerCollectionName, dealerDoc).then((dealer) => {
                 resolve(dealer)
             }).catch((err) => {

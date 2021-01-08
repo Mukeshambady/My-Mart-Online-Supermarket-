@@ -70,12 +70,12 @@ router.post('/new-dealer', verifyLogin, function (req, res, next) {
       }
       res.redirect('/admin/new-dealer')
       req.session.registrationStatus = null
-      if (req.files) {
-        //get image file from Form
-        let image = req.files.image
-        //move image into public/profile-pic with image name as _id
-        image.mv('./public/profile-pic/' + result)
-      }
+      // if (req.image) {
+      //   //get image file from Form
+      //   let image = req.image
+      //   //move image into public/profile-pic with image name as _id
+      //   image.mv('./public/profile-pic/' + 'result')
+      // }
     }
   })
 });
@@ -104,12 +104,12 @@ router.post('/edit-dealer/:id', verifyLogin, async function (req, res, next) {
   delete req.body.username
   id = req.params.id
   let result = await dealerHelper.updateDealer(id, req.body)
-  if (req.files) {
-    //get image file from Form
-    let image = req.files.image
-    //move image into public/profile-pic with image name as _id
-    image.mv('./public/profile-pic/' + id + '.jpg')
-  }
+  // if (req.files) {
+  //   //get image file from Form
+  //   let image = req.files.image
+  //   //move image into public/profile-pic with image name as _id
+  //   image.mv('./public/profile-pic/' + id + '.jpg')
+  // }
   if (result) {
     req.session.dealerUpdate = true
     res.redirect('/admin/edit-dealer/' + id)
