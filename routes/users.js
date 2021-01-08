@@ -195,7 +195,8 @@ router.get('/get_ordered_status', async function (req, res, next) {
 router.get('/get_ordered_track/:id', async function (req, res, next) {
   let trackDetails = await orderHelper.getOrderDetailsByOrderId(req.params.id); 
   
-  console.log(orders); 
+   orders=trackDetails[0] 
+  
   res.render('modals/track', {orders,layout: false })
 })
 

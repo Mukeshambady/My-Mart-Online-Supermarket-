@@ -26,7 +26,8 @@ router.get('/', verifyLogin, async function (req, res, next) {
   let data = await dealerHelper.getDealerOpenCloseTotal()
 
   let DealerOpenCloseTotal = {}
-  if (data) {
+  
+  if (typeof data !== 'undefined' && data.length > 0) {
     DealerOpenCloseTotal = { allShops: data[0].allShops, open: data[0].open, close: data[0].close }
   } else {
     DealerOpenCloseTotal = { allShops: 0, open: 0, close: 0 }
