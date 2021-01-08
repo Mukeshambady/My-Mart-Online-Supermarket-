@@ -74,7 +74,7 @@ module.exports = {
                 
                 , date: new Date()
             }
-            if( data.image.length>1) { dealerDoc.profilePicture= data.image}
+            if( data.image) { dealerDoc.profilePicture= data.image}
             await commonHelpers.doUpdateOne(dealerCollectionName, dealerDoc).then((dealer) => {
                 resolve(dealer)
             }).catch((err) => {
