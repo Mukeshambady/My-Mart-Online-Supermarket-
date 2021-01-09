@@ -6,7 +6,7 @@ $('.modalCart').on('click', async function (e) {
         url: "/cart-modal",//user-router
 
         success: function (response) {
-        
+
             if (response) {
 
                 $('#total', '#modalCartDetails').html(response.totals.total)
@@ -37,14 +37,16 @@ $("#checkout-form").submit(async (e) => {
 
                 //response.data.grandTotal $this.closest('div').find('input[ name=name]');
                 if (response.data) {
-                    response.response.email = $('#checkout-form').find('input[ name=email]').val();
-                    response.response.phonenumber = $('#checkout-form').find('input[ name=phonenumber]').val();
+                  
                     $('#total', '#modalCartDetails').html(response.totals.total)
                     $('.total-item', '#modalCartDetails').html(response.totals.total_qty)
                     $('#cartcount').html(response.cartCount)
-
                     if (response.data.paymentMethod == 'ONLINE') {
+                        response.response.email = $('#checkout-form').find('#email').val();
+                        response.response.phonenumber = $('#checkout-form').find('#phone-number').val();
+                        alert('online')
                         $("#modalCartDetails").modal('hide')
+                        alert('cod')
                         razorpayPayment(response.response)
                     } else {
                         done()
@@ -65,8 +67,7 @@ function done() {
 
 //razorpay 
 function razorpayPayment(order) {
-    console.log('order------------', order);
-
+    
     var options = {
         "key": "rzp_test_KWvH4bD4JuWd8e", // Enter the Key ID generated from the Dashboard
         "amount": (parseInt(order.amount)), // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise

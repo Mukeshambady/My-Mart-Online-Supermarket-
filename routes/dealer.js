@@ -88,16 +88,9 @@ router.get('/edit-product/:id', verifyLogin, async function (req, res, next) {
 
 /* POST edit-Products page. */
 router.post('/edit-product/:id', verifyLogin, async function (req, res, next) {
-  productImage = req.body.imageView
-  delete req.body.imageView
   id = req.params.id
   await productHelper.updateDealerProduct(id, req.body).then((result) => {
-    // if (req.files) {
-    //   //get image file from Form
-    //   let image = req.files.image
-    //   //move image into public/products-pic with image name as dealer_id+product name
-    //   image.mv('./public/products-pic/' + productImage)
-    // }
+   
     req.session.productSuccess = 'Product updated'
     res.redirect('/dealer/view-product')
   }).catch((err) => {

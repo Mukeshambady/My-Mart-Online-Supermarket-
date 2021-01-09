@@ -234,16 +234,36 @@ module.exports = {
             })
         })
     },
+   
+    //doUpdateOneAndIncrementProduct 
+    doUpdateOneAndIncrementProduct: (docName,colData, increment) => {
+        var id = colData._id
+        delete colData._id
+        return new Promise((resolve, reject) => {
+            db.get().collection(docName)
+                .updateOne(id, {
+                    $set: { colData },
+                    $inc: { 'stock':  parseInt(increment) }
+                }).then((response) => {
+                    resolve()
+                }).catch((err)=>{
+                    console.log('doUpdateOneAndIncrementProduct err',err);
+                })
+        }).catch((err)=>{
+            console.log('doUpdateOneAndIncrementProduct err2',err);
+        })
+    },
     //doUpdateOneAndIncrement 
     doUpdateOneAndIncrement: (docName, userId, productId, increment) => {
         return new Promise((resolve, reject) => {
             db.get().collection(docName)
                 .updateOne({ userId: userId, 'products.product_id': productId }, {
+                    $set: { datas },
                     $inc: { 'products.$.quantity': parseInt(increment) }
                 }).then((response) => {
                     resolve()
-                })
-        })
+                }).catch((err)=>{})
+        }).catch((err)=>{})
     },
     //do   find one and delete
     doFindOneAndDelete: (colName, docData) => {
@@ -254,8 +274,8 @@ module.exports = {
             }).catch((err) => {
                 console.log('doFindOneAndDelete-Error ', err);
                 reject(false)
-            })
-        })
+            }).catch((err)=>{})
+        }).catch((err)=>{})
     },
     //get cart prodect depends up on a user
     //select prodect from cart 
@@ -352,7 +372,7 @@ module.exports = {
                 resolve({ total: 0, total_qty: 0 })
             }
 
-        })
+        }).catch((err)=>{})
     },
     ///remove cart Item
     removeCartProduct: (userId, proId) => {
@@ -366,7 +386,7 @@ module.exports = {
                     }).catch(() => {
                         reject({ removeProduct: false })
                     })
-        })
+        }).catch((err)=>{})
     },
     searchItems: (searchItem) => {
         return new Promise(async (resolve, reject) => {
@@ -454,7 +474,7 @@ module.exports = {
 
             ]).toArray()
             resolve(cartItems)
-        })
+        }).catch((err)=>{})
     },
     //To display total open total closed shopes
     getDealerOpenCloseTotal: function () {
@@ -477,7 +497,7 @@ module.exports = {
             ]).toArray()
 
             resolve(result)
-        })
+        }).catch((err)=>{})
     }
     //end
 }

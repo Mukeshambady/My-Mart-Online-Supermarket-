@@ -20,30 +20,34 @@ let orderDoc = string_collections.ORDER_DOC
 module.exports = {
 
     //update updateDealerProduct
-    updateDealerProduct: (id, data) => {
-        return new Promise(async (resolve, reject) => {
+    
+  
+updateDealerProduct: (id, data) => {
+    return new Promise(async (resolve, reject) => {
 
-            const userId = objectId(id).toString()
-            productDocDoc = {
-                _id: { _id: objectId(userId) },
-                name: data.name,
-                category: data.category,
-                price: data.price,
-                weight: data.weight,
-                measure: data.measure,
-                stock: data.stock,
-                productInfo: data.productInfo
-            }
-            if(data.image){
-                productDocDoc.productImage = data.image
-            }
-            await commonHelpers.doUpdateOne(productCollectionName, productDocDoc).then((product) => {
-                resolve(product)
-            }).catch((err) => {
-                console.log('updateDealerProduct Fail', err);
-            })
+        const userId = objectId(id).toString()
+        productDocDoc = {
+            _id: { _id: objectId(userId) },
+            name: data.name,
+            category: data.category,
+            price: parseInt( data.price),
+            weight: parseInt( data.weight),
+            measure: data.measure,
+           
+            productInfo: data.productInfo
+        }
+        let  stock= ( data.stock)? parseInt( data.stock):parseInt(0)
+        if(data.image){
+            productDocDoc.productImage = data.image
+        }//doUpdateOneAndIncrementProduct
+        
+        await commonHelpers.doUpdateOneAndIncrementProduct(productCollectionName, productDocDoc,stock).then((product) => {
+            resolve(product)
+        }).catch((err) => {
+            console.log('updateDealerProduct Fail', err);
         })
-    },
+    })
+},
 
 
     //AdddealerProduct by dealer _id
@@ -52,10 +56,10 @@ module.exports = {
         pro_name = productDeatils.name.trim()
         productDoc.name = pro_name
         productDoc.category = productDeatils.category.trim()
-        productDoc.stock = productDeatils.stock.trim()
-        productDoc.price = productDeatils.price.trim()
-        productDoc.weight = productDeatils.weight.trim()
-        productDoc.measure = productDeatils.measure.trim()
+        productDoc.stock = parseInt( productDeatils.stock.trim())
+        productDoc.price = parseInt( productDeatils.price.trim())
+        productDoc.weight =parseInt( productDeatils.weight.trim())
+        productDoc.measure =  productDeatils.measure.trim()
         productDoc.productInfo = productDeatils.productInfo.trim()
         productDoc.dealer_id = user_Id
 
