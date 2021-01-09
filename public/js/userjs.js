@@ -44,9 +44,7 @@ $("#checkout-form").submit(async (e) => {
                     if (response.data.paymentMethod == 'ONLINE') {
                         response.response.email = $('#checkout-form').find('#email').val();
                         response.response.phonenumber = $('#checkout-form').find('#phone-number').val();
-                        alert('online')
                         $("#modalCartDetails").modal('hide')
-                        alert('cod')
                         razorpayPayment(response.response)
                     } else {
                         done()
