@@ -299,7 +299,7 @@ router.get('/logout', (req, res) => {
 
   req.session.loggedIn = false
   req.session.destroy()
-  res.redirect('/login')
+  res.redirect('/')
 })
 
 //sign Up
